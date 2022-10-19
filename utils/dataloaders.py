@@ -39,3 +39,16 @@ def load_and_encode_images():
                 images.append(f"data:image/jpeg;base64, {encoded}")
                 
     return images, cell_images
+
+@st.cache
+def litcov_search(search):
+    lines = []
+        
+    with open(f'/ihome/hosmanbeyoglu/kor11/tools/spartan_webapp/litcovid/tsv?text={search}', 'r') as f:
+        lines = f.readlines()[33:]
+    
+    if lines:
+        litcovdf = pd.DataFrame([x.split('\t') for x in lines[1:]], 
+                columns=['pmid', 'title', 'journal']).applymap(lambda x: x.replace('\n', ''))
+
+    return litcovdf
