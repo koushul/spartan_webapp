@@ -1,7 +1,9 @@
+import base64
+from pathlib import Path
+
 import pandas as pd
 import streamlit as st
-from pathlib import Path
-import base64
+
 
 @st.cache
 def load_data():
