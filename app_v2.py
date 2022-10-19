@@ -48,7 +48,6 @@ def litcov_search(search):
                 columns=['pmid', 'title', 'journal']).applymap(lambda x: x.replace('\n', ''))
     return litcovdf
 
-
 @st.cache
 def load_and_encode_images():
     images = []
@@ -59,7 +58,6 @@ def load_and_encode_images():
                 images.append(f"data:image/jpeg;base64, {encoded}")
                 
     return images, cell_images
-
 
 def home_page():
     images, cell_images = load_and_encode_images()
@@ -88,10 +86,6 @@ def home_page():
     
     st.write("[Github](https://github.com/Koushul/spartan_webapp)")
 
-    
-    
-
-
 def download_button(desc, data, left_col, right_col, label='Download as CSV'):
     right_col.download_button(
         label=label,
@@ -102,9 +96,6 @@ def download_button(desc, data, left_col, right_col, label='Download as CSV'):
     )
         
     left_col.write(desc)
-
-
-
 
 tabs = [
     "Home",
@@ -122,15 +113,10 @@ chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0])
 projD, P, tf_severity = load_data()
 dff = load_references()
 
-
-
 if chosen_tab == 'Home':
     home_page()
     st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
     
-
-    
-
 elif chosen_tab == 'TF':
     ref = 'Literature References'
     default_idx = list(projD.index).index('IRF4')
@@ -178,7 +164,6 @@ elif chosen_tab == 'TF':
     else:
         st.image('./assets/images/under_construction.png')
         
-
 elif chosen_tab == 'Protein':
     option = st.selectbox(
         "Choose your Surface Protein of interest",
@@ -217,11 +202,10 @@ elif chosen_tab == 'Protein':
 elif chosen_tab == 'Statistics':
     st.map() 
     
-    
 elif chosen_tab == 'Documentation':
     page = st.sidebar.radio('Content', ['Introduction', 'Data Processing', 'Dataset Summary', 'Usage', 'FAQ'])
+    st.header(page)
     st.image('./assets/images/under_construction.png')
-    
     
 else:
     st.image('./assets/images/under_construction.png')
