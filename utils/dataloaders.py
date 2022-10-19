@@ -12,20 +12,12 @@ def load_data():
     P = pd.read_csv('P_1-1.csv').set_index('Unnamed: 0')
     P.index.name='Cell'
     
-    tf_severity = pd.read_excel('/ihome/hosmanbeyoglu/kor11/tools/spartan_webapp/CD16_Mono_projD_median_group_100_1500.xlsx', 
+    tf_severity = pd.read_excel('CD16_Mono_projD_median_group_100_1500.xlsx', 
         engine='openpyxl').set_index('Unnamed: 0')
     tf_severity.index.name = 'TF'
     tf_severity.columns = ['Healthy', 'Mild', 'Moderate', 'Severe', 'pvalues']
         
     return projD, P, tf_severity
-
-
-@st.cache
-def load_references():
-    dff = pd.read_csv('/ihome/hosmanbeyoglu/kor11/tools/spartan_webapp/litcovid.export.all.tsv', sep='\t', header=None)
-    dff.columns = ['pmid', 'title', 'journal']
-    
-    return dff
 
 
 @st.cache

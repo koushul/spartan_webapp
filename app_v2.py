@@ -12,7 +12,7 @@ from st_clickable_images import clickable_images
 
 from texts.references import cell_desc
 from utils.components import create_st_button, make_tab
-from utils.dataloaders import load_data, load_references
+from utils.dataloaders import load_data
 
 st.set_page_config(
     page_title="Covid19-Database Demo",
@@ -111,7 +111,6 @@ st.title('Covid19-Database Demo')
 ## create navigation tabs
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
 projD, P, tf_severity = load_data()
-dff = load_references()
 
 if chosen_tab == 'Home':
     home_page()
