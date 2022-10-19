@@ -36,7 +36,7 @@ def load_and_encode_images():
 def litcov_search(search):
     lines = []
         
-    with open(f'/ihome/hosmanbeyoglu/kor11/tools/spartan_webapp/litcovid/tsv?text={search}', 'r') as f:
+    with open(f'./litcovid/tsv?text={search}', 'r') as f:
         lines = f.readlines()[33:]
     
     if lines:
