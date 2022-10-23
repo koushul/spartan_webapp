@@ -1,4 +1,5 @@
 extra_streamlit_components==0.1.56
 st_clickable_images
+pyvis
 openpyxl==3.0.10
 stringdb==0.1.5
