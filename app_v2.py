@@ -11,7 +11,7 @@ from navigation.home import home_page
 from navigation.stats import stats_page
 from utils.components import make_tab
 from utils.dataloaders import load_data
-from navigation.protein import get_ppi_edge_list
+from navigation.protein import generate_color, get_ppi_edge_list
 
 import streamlit.components.v1 as components
 from pyvis.network import Network
@@ -159,19 +159,6 @@ elif chosen_tab == 'Protein':
         
     subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[2]) 
-
-    import stringdb
-
-    def get_ppi_edge_list(gene, neighbors, size):
-        
-        genes = [gene]
-        string_ids = stringdb.get_string_ids(genes)
-        enrichment_df = stringdb.get_interaction_partners(string_ids.queryItem, limit=size)
-        extras = list(enrichment_df['preferredName_B'].values[:neighbors])
-        string_ids = stringdb.get_string_ids(extras+genes)
-        enrichment_df = stringdb.get_interaction_partners(string_ids.queryItem, limit=size)
-        
-        return string_ids, enrichment_df[['preferredName_A',	'preferredName_B', 'score']].values
     
     if chosen_subtab == 'PPI':
         st.subheader(f'Protein-Protein Interactions for {option}')
@@ -181,16 +168,8 @@ elif chosen_tab == 'Protein':
 
         net = Network()
         caption, pairs = get_ppi_edge_list(option, neighbors, size)
-        st.caption(caption.preferredName.values[0])
-        st.caption(caption.annotation.values[0])
-        # st.write(caption.preferredName.values[0])
-        
-        import random
-        def generate_color():
-            random_number = random.randint(0,16777215)
-            hex_number = str(hex(random_number))
-            hex_number ='#'+ hex_number[2:]
-            return hex_number
+        # st.caption(caption.preferredName.values[0])
+        # st.caption(caption.annotation.values[0])
     
         for i, j, v in pairs:
             net.add_node(j, label=j, color=generate_color())
