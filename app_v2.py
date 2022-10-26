@@ -8,13 +8,15 @@ from navigation.home import home_page
 from navigation.stats import stats_page
 from utils.components import make_tab
 from utils.dataloaders import load_data, litcov_search
-
+from st_aggrid import AgGrid, GridUpdateMode
+from st_aggrid.grid_options_builder import GridOptionsBuilder
+from st_aggrid.shared import JsCode
 
 from utils.components import ppi
 from texts.descriptions import Desc
 
 st.set_page_config(
-    page_title="Covid19-Database Demo",
+    page_title="SPaRTAN COVID-19db",
     page_icon="",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -22,19 +24,19 @@ st.set_page_config(
 )
 
 hide_streamlit_style = """
-<style>
-    MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    footer:after {
-        content:'Created by Koushul using Streamlit and BioRender'; 
-        visibility: visible;
-        display: block;
-        position: relative;
-        #background-color: red;
-        padding: 5px;
-        top: 2px;
-    }
-</style>
+    <style>
+        MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        footer:after {
+            content:'Created by Koushul using Streamlit and BioRender'; 
+            visibility: visible;
+            display: block;
+            position: relative;
+            #background-color: red;
+            padding: 5px;
+            top: 2px;
+        }
+    </style>
 """
 
 # st.markdown("""<img src="file:///ihome/hosmanbeyoglu/kor11/tools/spartan_webapp/assets/cells/Monocytes.png"></img>
@@ -86,18 +88,52 @@ P, tf_severity = load_data()
 
 if chosen_tab == 'Home':
     st.title('Welcome to SPaRTAN COVID-19db') ## Title
-    st.markdown('#### ' + Desc.home)
+    st.write(Desc.home)
     home_page()
     
 elif chosen_tab == 'Dataset':
     st.header('Dataset Browser')
-    st.markdown('##### ' + Desc.ds)
+    st.info(Desc.ds)
+    data = {
+        'name': ['E-MTAB-9357', 'GSE155673', '', 'GSE167118'],
+        'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
+        'patients': ['270', '12', '143', '93'],
+        'platform': ['10X Genomics Chromium', 'Illumina HiSeq 4000', '', 'Illumina NovaSeq 6000'],
+        'url': [
+            'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357',
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', 
+            'https://www.covid19cellatlas.org/index.patient.html', 
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118'
+        ]
+    }
+    df = pd.DataFrame(data)
+    gd = GridOptionsBuilder.from_dataframe(df)
+    # cell_renderer =  JsCode("""
+    #     function(params) {return `<a href=${params.value} target="_blank">${params.value}</a>`}
+    #     """)
+
+    # gd.configure_column("url", cellRenderer=cell_renderer, allow_unsafe_jscode=True)
+    gd.configure_selection(selection_mode='multiple', use_checkbox=True)
+    gridoptions = gd.build()
+
+    grid_table = AgGrid(df, 
+        gridOptions=gridoptions,
+        update_mode=GridUpdateMode.SELECTION_CHANGED, 
+        fit_columns_on_grid_load=True,
+        height=150,
+        width='100%',
+        theme="streamlit"
+    )
+
+    st.write('## Selected')
+    selected_row = grid_table["selected_rows"]
+    st.write(selected_row)
     
     
     
 elif chosen_tab == 'Transcription Factors':
     st.header('TF Exploration')
-    st.markdown('##### ' + Desc.tf)
+    st.info(Desc.tf)
     
     ref = 'Literature References'
     default_idx = list(tf_severity.index).index('IRF4')
