@@ -18,6 +18,7 @@ from pyvis.network import Network
 import numpy as np
 
 from utils.components import ppi
+from texts.descriptions import Desc
 
 st.set_page_config(
     page_title="Covid19-Database Demo",
@@ -100,18 +101,18 @@ projD, P, tf_severity = load_data()
 
 if chosen_tab == 'Home':
     st.title('Welcome to SPaRTAN COVID-19db') ## Title
-    st.markdown('#### a comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection')
+    st.markdown('#### ' + Desc.home)
     home_page()
     
 elif chosen_tab == 'Dataset':
     st.header('Dataset Browser')
-    st.markdown('##### For a single dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein interaction results.')
+    st.markdown('##### ' + Desc.ds)
     
     
     
 elif chosen_tab == 'Transcription Factors':
     st.header('TF Exploration')
-    st.markdown('##### Search activity of a TF across COVID-19 patients and health individuals. For a single TF, SPaRTAN COVID-19db supports exploring its activity for each cell type, correlated surface proteins, and relevant literature.')
+    st.markdown('##### ' + Desc.tf)
     
     ref = 'Literature References'
     default_idx = list(projD.index).index('IRF4')
@@ -134,7 +135,7 @@ elif chosen_tab == 'Transcription Factors':
     
     
     if chosen_subtab == f'Literature References ({len(litcovdf)})':
-        st.caption("LitCovid is a literature hub for tracking up-to-date scientific information about the 2019 novel Coronavirus. It is the most comprehensive resource on the subject, providing a central access to 298,429 (and growing) relevant articles in PubMed. The articles are updated daily and are further categorized by different research topics (e.g. transmission) and geographic locations. https://www.ncbi.nlm.nih.gov/research/coronavirus/")
+        st.caption(Desc.litcovid)
 
         if len(litcovdf) > 0:  
             st.dataframe(litcovdf)
@@ -188,7 +189,7 @@ elif chosen_tab == 'Surface Protein':
         ppi(option)
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':
-        st.caption("LitCovid is a literature hub for tracking up-to-date scientific information about the 2019 novel Coronavirus. It is the most comprehensive resource on the subject, providing a central access to 298,429 (and growing) relevant articles in PubMed. The articles are updated daily and are further categorized by different research topics (e.g. transmission) and geographic locations. https://www.ncbi.nlm.nih.gov/research/coronavirus/")
+        st.caption(Desc.litcovid)
 
         if len(litcovdf) > 0:  
             st.dataframe(litcovdf)
@@ -202,9 +203,6 @@ elif chosen_tab == 'Surface Protein':
                 
         else:
             st.markdown('No literature references found')
-        
-    
-        
     else:
         st.image('./assets/images/under_construction.png')
         
