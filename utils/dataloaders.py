@@ -8,19 +8,20 @@ import streamlit as st
 @st.cache
 def load_data():
     
-    projD = pd.read_csv('projD_ori.csv').set_index('Unnamed: 0')
-    projD.index.name = 'TF'
-    
-    P = pd.read_csv('P_1-1.csv').set_index('Unnamed: 0')
-    P.index.name='Cell'
-    
-    tf_severity = pd.read_excel('CD16_Mono_projD_median_group_100_1500.xlsx', 
-        engine='openpyxl').set_index('Unnamed: 0')
-    tf_severity.index.name = 'TF'
-    tf_severity.columns = ['Healthy', 'Mild', 'Moderate', 'Severe', 'pvalues']
+    tf_severity = pd.read_parquet('./data/tf_activity.parquet')
+    P = pd.read_parquet('./data/surface_protein.parquet')
         
-    return projD, P, tf_severity
+    return P, tf_severity
 
+@st.cache
+def litcov_search(search):
+    lines = []
+    with open(f'./litcovid/tsv?text={search}', 'r') as f:
+        lines = f.readlines()[33:]
+    if lines:
+        litcovdf = pd.DataFrame([x.split('\t') for x in lines[1:]], 
+                columns=['pmid', 'title', 'journal']).applymap(lambda x: x.replace('\n', ''))
+    return litcovdf
 
 @st.cache
 def load_and_encode_images():
@@ -33,16 +34,3 @@ def load_and_encode_images():
                 images.append(f"data:image/jpeg;base64, {encoded}")
                 
     return images, cell_images
-
-@st.cache
-def litcov_search(search):
-    lines = []
-        
-    with open(f'./litcovid/tsv?text={search}', 'r') as f:
-        lines = f.readlines()[33:]
-    
-    if lines:
-        litcovdf = pd.DataFrame([x.split('\t') for x in lines[1:]], 
-                columns=['pmid', 'title', 'journal']).applymap(lambda x: x.replace('\n', ''))
-
-    return litcovdf

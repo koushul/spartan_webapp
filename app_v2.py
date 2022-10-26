@@ -1,7 +1,4 @@
-import base64
-from fileinput import filename
 import uuid
-from pathlib import Path
 
 import extra_streamlit_components as stx
 import pandas as pd
@@ -10,12 +7,8 @@ import streamlit as st
 from navigation.home import home_page
 from navigation.stats import stats_page
 from utils.components import make_tab
-from utils.dataloaders import load_data
-from navigation.protein import generate_color, get_ppi_edge_list
+from utils.dataloaders import load_data, litcov_search
 
-import streamlit.components.v1 as components
-from pyvis.network import Network
-import numpy as np
 
 from utils.components import ppi
 from texts.descriptions import Desc
@@ -52,26 +45,18 @@ hide_streamlit_style = """
 # </style>
 # """, unsafe_allow_html=True)
 
-@st.cache
-def litcov_search(search):
-    lines = []
-    with open(f'./litcovid/tsv?text={search}', 'r') as f:
-        lines = f.readlines()[33:]
-    if lines:
-        litcovdf = pd.DataFrame([x.split('\t') for x in lines[1:]], 
-                columns=['pmid', 'title', 'journal']).applymap(lambda x: x.replace('\n', ''))
-    return litcovdf
 
-@st.cache
-def load_and_encode_images():
-    images = []
-    cell_images = list(Path('./assets/cells/').glob('*.png'))
-    for image_file in cell_images:
-            with open(image_file, "rb") as image:
-                encoded = base64.b64encode(image.read()).decode()
-                images.append(f"data:image/jpeg;base64, {encoded}")
+
+# @st.cache
+# def load_and_encode_images():
+#     images = []
+#     cell_images = list(Path('./assets/cells/').glob('*.png'))
+#     for image_file in cell_images:
+#             with open(image_file, "rb") as image:
+#                 encoded = base64.b64encode(image.read()).decode()
+#                 images.append(f"data:image/jpeg;base64, {encoded}")
                 
-    return images, cell_images
+#     return images, cell_images
 
 def download_button(desc, data, left_col, right_col, label='Download as CSV'):
     right_col.download_button(
@@ -97,7 +82,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
 ## create navigation tabs
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
-projD, P, tf_severity = load_data()
+P, tf_severity = load_data()
 
 if chosen_tab == 'Home':
     st.title('Welcome to SPaRTAN COVID-19db') ## Title
@@ -115,13 +100,13 @@ elif chosen_tab == 'Transcription Factors':
     st.markdown('##### ' + Desc.tf)
     
     ref = 'Literature References'
-    default_idx = list(projD.index).index('IRF4')
+    default_idx = list(tf_severity.index).index('IRF4')
 
     
     aa, ba, ca = st.columns(3)
     option = aa.selectbox(
         "Choose your Transcription Factor of interest",
-        projD.index, default_idx)
+        tf_severity.index, default_idx)
     cell_type = ba.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
     tf_ds = ca.multiselect('Dataset', ('A', 'B', 'C', 'D'), ['A'])
     
@@ -155,14 +140,14 @@ elif chosen_tab == 'Transcription Factors':
 
     elif chosen_subtab == 'Download':
         left_col, right_col = st.columns(2)        
-        download_button('Transcription factors activity distributions\n', 
-                projD.to_csv(), left_col, right_col)
-        download_button('Transcription factors and surface protein correlation\n', 
-                projD.to_csv(), left_col, right_col)
-        download_button(f'Density Plot for {option}\n', 
-                projD.to_csv(), left_col, right_col, label='Download as PNG')
-        download_button('Heatmap\n', 
-                projD.to_csv(), left_col, right_col, label='Download as PNG')
+        # download_button('Transcription factors activity distributions\n', 
+        #         tf_severity.to_csv(), left_col, right_col)
+        # download_button('Transcription factors and surface protein correlation\n', 
+        #         tf_severity.to_csv(), left_col, right_col)
+        # download_button(f'Density Plot for {option}\n', 
+        #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
+        # download_button('Heatmap\n', 
+        #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
         
     else:
         st.image('./assets/images/under_construction.png')
@@ -171,7 +156,7 @@ elif chosen_tab == 'Surface Protein':
     a, b, c = st.columns(3)
     option = a.selectbox(
         "Choose your Surface Protein of interest",
-        P.columns)
+        P.index)
     cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
     p_ds = c.multiselect('Dataset', ('A', 'B', 'C', 'D'), ['A'])
     

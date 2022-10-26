@@ -1,10 +1,5 @@
 import streamlit as st
 from PIL import Image
-from st_clickable_images import clickable_images
-
-from texts.references import cell_desc
-from utils.dataloaders import load_and_encode_images
-
 
 # def home_page():
 #     images, cell_images = load_and_encode_images()
