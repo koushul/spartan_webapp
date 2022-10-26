@@ -7,6 +7,21 @@ from navigation.protein import generate_color, get_ppi_edge_list
 from pyvis.network import Network
 import streamlit.components.v1 as components
 
+hide_streamlit_style = """
+    <style>
+        MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+        footer:after {
+            content:'Created by Koushul using Streamlit and BioRender'; 
+            visibility: visible;
+            display: block;
+            position: relative;
+            #background-color: red;
+            padding: 5px;
+            top: 2px;
+        }
+    </style>
+"""
 
 def create_st_button(link_text, link_url, hover_color="#e78ac3", st_col=None):    
     button_uuid = uuid.uuid1()

@@ -1,6 +1,8 @@
 import streamlit as st
 from PIL import Image
 
+from texts.descriptions import Desc
+
 # def home_page():
 #     images, cell_images = load_and_encode_images()
 #     left_col, right_col = st.columns(2)
@@ -30,6 +32,9 @@ from PIL import Image
 
 
 def home_page():
+    # Creating a title for the page.
+    st.title('Welcome to SPaRTAN COVID-19db') ## Title
+    st.write(Desc.home)
     img = Image.open('./assets/images/home.png')
     st.image(img, output_format="SVG")        
     

@@ -10,7 +10,6 @@ from texts.descriptions import DatasetDesc
 def load_data():
     
     tf_severity = pd.read_parquet('./data/tf_activity.parquet')
-    P = pd.read_parquet('./data/surface_protein.parquet')
     
     data = {
         'name': ['E-MTAB-9357', 'GSE155673', 'meyer21_pbmc', 'GSE167118'],
@@ -32,6 +31,9 @@ def load_data():
         ]
     }
     
+    
+    P = pd.read_csv("./data/data_created/P_1-1.csv", index_col=0)
+        
     ds = pd.DataFrame(data)
         
     return P, tf_severity, ds

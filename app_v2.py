@@ -10,10 +10,16 @@ from utils.components import make_tab
 from utils.dataloaders import load_data, litcov_search
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-from st_aggrid.shared import JsCode
 
-from utils.components import ppi, download_button, local_css
+from utils.components import ppi, download_button, local_css, hide_streamlit_style
 from texts.descriptions import DatasetDesc, Desc
+
+from pathlib import Path
+import seaborn as sns
+import matplotlib.pyplot as plt
+import altair as alt
+
+### Housekeeping ###
 
 st.set_page_config(
     page_title="SPaRTAN COVID-19db",
@@ -30,31 +36,6 @@ def totags(tags):
     t += '</div>'
     return t
 
-hide_streamlit_style = """
-    <style>
-        MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        footer:after {
-            content:'Created by Koushul using Streamlit and BioRender'; 
-            visibility: visible;
-            display: block;
-            position: relative;
-            #background-color: red;
-            padding: 5px;
-            top: 2px;
-        }
-    </style>
-"""
-
-# st.markdown("""<img src="file:///ihome/hosmanbeyoglu/kor11/tools/spartan_webapp/assets/cells/Monocytes.png"></img>
-# <style>
-# body {background:midnightblue;}
-# img {width:100%;}
-# img:hover {-webkit-filter: brightness(150%); }
-# </style>
-# """, unsafe_allow_html=True)
-
-
 tabs = [
     "Home",
     "Dataset",
@@ -65,24 +46,24 @@ tabs = [
 ]
 
 P, tf_severity, ds = load_data()
-# if 'dataset' not in st.session_state:
-#     st.session_state['datasets'] = []
+default_idx = list(tf_severity.index).index('IRF4')
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
+@st.cache
+def high_corr():
+    return list(i.name.split('-TFs')[0] for i in Path('./data/data_created/protein-TFs_higCorr/').glob('*.csv'))
 
 
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
 
 if chosen_tab == 'Home':
-    st.title('Welcome to SPaRTAN COVID-19db') ## Title
-    st.write(Desc.home)
     home_page()
     
 elif chosen_tab == 'Dataset':
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
-    ds2 = ds[['name', 'title', 'organism', 'patients', 'cell count', 'platform', ]]
+    ds2 = ds[['name', 'title', 'organism', 'patients', 'cell count', 'platform']]
     gd = GridOptionsBuilder.from_dataframe(ds2)
     
     if 'datasets' in st.session_state:
@@ -111,11 +92,10 @@ elif chosen_tab == 'Dataset':
     st.session_state['datasets'] = [x['name'] for x in selected_row]
     
     for idx, row_json in enumerate(selected_row):
-        # st.header(row_json['name'])
         st.header(row_json['name'] + ': ' + row_json['title'])
         st.markdown(DatasetDesc[row_json['name']])
-        # cols = st.columns(3)
-        # cols[0].info(row_json['patients'])  
+        st.markdown(ds[ds.name==row_json['name']].url.values[0])
+
         local_css()
         st.markdown(
             totags([
@@ -124,6 +104,7 @@ elif chosen_tab == 'Dataset':
                 row_json['cell count'], 
                 row_json['patients']]), 
             unsafe_allow_html=True)
+        
         st.markdown('---')
         
       
@@ -135,7 +116,6 @@ elif chosen_tab == 'Transcription Factors':
     st.info(Desc.tf)
     
     ref = 'Literature References'
-    default_idx = list(tf_severity.index).index('IRF4')
 
     
     aa, ba, ca = st.columns(3)
@@ -150,7 +130,7 @@ elif chosen_tab == 'Transcription Factors':
     else:
         tf_ds = ca.multiselect('Dataset', ds.name)
             
-    st.session_state['datasets'] = tf_ds
+    # st.session_state['datasets'] = tf_ds
    
     
     try:
@@ -161,6 +141,8 @@ elif chosen_tab == 'Transcription Factors':
     subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[2]) 
     
+    
+
     
     if chosen_subtab == f'Literature References ({len(litcovdf)})':
         st.caption(Desc.litcovid)
@@ -197,16 +179,19 @@ elif chosen_tab == 'Transcription Factors':
         
 elif chosen_tab == 'Surface Protein':
     a, b, c = st.columns(3)
+    
     option = a.selectbox(
         "Choose your Surface Protein of interest",
-        P.index)
+        P.columns)
+    
     cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
+    
     if 'grid' in st.session_state and st.session_state['datasets']:
         p_ds = c.multiselect('Dataset', ds.name, st.session_state['datasets'])
     else:
         p_ds = c.multiselect('Dataset', ds.name)
             
-    st.session_state['datasets'] = p_ds
+    # st.session_state['datasets'] = p_ds
 
     try:    
         litcovdf = litcov_search(option)
@@ -214,10 +199,22 @@ elif chosen_tab == 'Surface Protein':
         litcovdf = pd.DataFrame([])
         
     subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
-    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[2]) 
+    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[1]) 
     
     if chosen_subtab == 'PPI':
         ppi(option)
+        
+    elif chosen_subtab == 'Protein-TF Correlation':
+        if option in high_corr():
+            st.header(f'🔎 {option}')
+            expander = st.expander("See raw data")
+            data = pd.read_csv(f'./data/data_created/protein-TFs_higCorr/{option}-TFs_highCorr.csv')
+            expander.dataframe(data)
+            
+            st.image(f'./data/data_created/protein-TFs_higCorr/Figure/{option}-TFs_highCorr.csv.png')
+            
+                
+    
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':
         st.caption(Desc.litcovid)
