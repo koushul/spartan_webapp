@@ -144,10 +144,14 @@ elif chosen_tab == 'Transcription Factors':
         tf_severity.index, default_idx)
     cell_type = ba.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
 
-    if 'grid' in st.session_state:
+    
+    if 'grid' in st.session_state and st.session_state['datasets']:
         tf_ds = ca.multiselect('Dataset', ds.name, st.session_state['datasets'])
     else:
-        tf_ds = ca.multiselect('Dataset', ds.name)        
+        tf_ds = ca.multiselect('Dataset', ds.name)
+            
+    st.session_state['datasets'] = tf_ds
+   
     
     try:
         litcovdf = litcov_search(option)
@@ -197,7 +201,12 @@ elif chosen_tab == 'Surface Protein':
         "Choose your Surface Protein of interest",
         P.index)
     cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
-    p_ds = c.multiselect('Dataset', ds.name, st.session_state['datasets'])
+    if 'grid' in st.session_state and st.session_state['datasets']:
+        p_ds = c.multiselect('Dataset', ds.name, st.session_state['datasets'])
+    else:
+        p_ds = c.multiselect('Dataset', ds.name)
+            
+    st.session_state['datasets'] = p_ds
 
     try:    
         litcovdf = litcov_search(option)
