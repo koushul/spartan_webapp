@@ -15,9 +15,7 @@ from utils.components import ppi, download_button, local_css, hide_streamlit_sty
 from texts.descriptions import DatasetDesc, Desc
 
 from pathlib import Path
-import seaborn as sns
-import matplotlib.pyplot as plt
-import altair as alt
+
 
 ### Housekeeping ###
 
