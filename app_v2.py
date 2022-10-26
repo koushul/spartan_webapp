@@ -17,6 +17,8 @@ import streamlit.components.v1 as components
 from pyvis.network import Network
 import numpy as np
 
+from utils.components import ppi
+
 st.set_page_config(
     page_title="Covid19-Database Demo",
     page_icon="",
@@ -103,7 +105,7 @@ if chosen_tab == 'Home':
     
 elif chosen_tab == 'Dataset':
     st.header('Dataset Browser')
-    st.markdown('##### For a single dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein intercation results.')
+    st.markdown('##### For a single dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein interaction results.')
     
     
     
@@ -113,16 +115,21 @@ elif chosen_tab == 'Transcription Factors':
     
     ref = 'Literature References'
     default_idx = list(projD.index).index('IRF4')
-    option = st.selectbox(
+
+    
+    aa, ba, ca = st.columns(3)
+    option = aa.selectbox(
         "Choose your Transcription Factor of interest",
         projD.index, default_idx)
+    cell_type = ba.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
+    tf_ds = ca.multiselect('Dataset', ('A', 'B', 'C', 'D'), ['A'])
     
     try:
         litcovdf = litcov_search(option)
     except:
         litcovdf = pd.DataFrame([])
         
-    subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'Download']
+    subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[2]) 
     
     
@@ -141,7 +148,9 @@ elif chosen_tab == 'Transcription Factors':
                 
         else:
             st.markdown('No literature references found')
-            
+    
+    elif chosen_subtab == 'PPI':
+        ppi(option)
 
     elif chosen_subtab == 'Download':
         left_col, right_col = st.columns(2)        
@@ -149,7 +158,7 @@ elif chosen_tab == 'Transcription Factors':
                 projD.to_csv(), left_col, right_col)
         download_button('Transcription factors and surface protein correlation\n', 
                 projD.to_csv(), left_col, right_col)
-        download_button(f'KDE Plot for {option}\n', 
+        download_button(f'Density Plot for {option}\n', 
                 projD.to_csv(), left_col, right_col, label='Download as PNG')
         download_button('Heatmap\n', 
                 projD.to_csv(), left_col, right_col, label='Download as PNG')
@@ -158,55 +167,26 @@ elif chosen_tab == 'Transcription Factors':
         st.image('./assets/images/under_construction.png')
         
 elif chosen_tab == 'Surface Protein':
-    option = st.selectbox(
+    a, b, c = st.columns(3)
+    option = a.selectbox(
         "Choose your Surface Protein of interest",
         P.columns)
+    cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
+    p_ds = c.multiselect('Dataset', ('A', 'B', 'C', 'D'), ['A'])
     
-    try:
+    
+
+    try:    
         litcovdf = litcov_search(option)
     except:
         litcovdf = pd.DataFrame([])
         
-    subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
+    subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[2]) 
     
     if chosen_subtab == 'PPI':
-        st.subheader(f'Protein-Protein Interactions for {option}')
-        left_col, right_col = st.columns(2)
-        size = left_col.slider('Interactors', 2, 100, 10)
-        neighbors = right_col.slider('Neighbors', 1, 10, 3)
-
-        net = Network()
-        caption, pairs = get_ppi_edge_list(option, neighbors, size)
-        # st.caption(caption.preferredName.values[0])
-        # st.caption(caption.annotation.values[0])
-    
-        for i, j, v in pairs:
-            net.add_node(j, label=j, color=generate_color())
-            
-        # for n in net.nodes:
-        #     if n['label'] == caption.preferredName.values[0]:
-        #         n['color'] = 'red'
-                
-            
-            
-        for pair in pairs:
-           net.add_edge(pair[0], pair[1], value=pair[2]/10)
+        ppi(option)
         
-        # net.show_buttons(filter_=['physics'])
-
-
-        net.show('test.html')
-        HtmlFile = open("test.html", 'r', encoding='utf-8')
-        source_code = HtmlFile.read()
-        components.html(source_code, height = 600, width=900)
-        
-        st.download_button(
-            label='Download Graph',
-            data=source_code,
-            file_name = 'ppi.html'
-        )
-    
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':
         st.caption("LitCovid is a literature hub for tracking up-to-date scientific information about the 2019 novel Coronavirus. It is the most comprehensive resource on the subject, providing a central access to 298,429 (and growing) relevant articles in PubMed. The articles are updated daily and are further categorized by different research topics (e.g. transmission) and geographic locations. https://www.ncbi.nlm.nih.gov/research/coronavirus/")
 
