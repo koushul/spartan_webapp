@@ -84,13 +84,12 @@ def download_button(desc, data, left_col, right_col, label='Download as CSV'):
 tabs = [
     "Home",
     "Dataset",
-    "TF",
-    "Protein",
+    "Transcription Factors",
+    "Surface Protein",
     "Documentation",
     "Statistics"
 ]
 
-st.title('Covid19-Database Demo') ## Title
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
 ## create navigation tabs
@@ -98,9 +97,20 @@ chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0])
 projD, P, tf_severity = load_data()
 
 if chosen_tab == 'Home':
+    st.title('Welcome to SPaRTAN COVID-19db') ## Title
+    st.markdown('#### a comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection')
     home_page()
     
-elif chosen_tab == 'TF':
+elif chosen_tab == 'Dataset':
+    st.header('Dataset Browser')
+    st.markdown('##### For a single dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein intercation results.')
+    
+    
+    
+elif chosen_tab == 'Transcription Factors':
+    st.header('TF Exploration')
+    st.markdown('##### Search activity of a TF across COVID-19 patients and health individuals. For a single TF, SPaRTAN COVID-19db supports exploring its activity for each cell type, correlated surface proteins, and relevant literature.')
+    
     ref = 'Literature References'
     default_idx = list(projD.index).index('IRF4')
     option = st.selectbox(
@@ -132,7 +142,7 @@ elif chosen_tab == 'TF':
         else:
             st.markdown('No literature references found')
             
-        
+
     elif chosen_subtab == 'Download':
         left_col, right_col = st.columns(2)        
         download_button('Transcription factors activity distributions\n', 
@@ -147,7 +157,7 @@ elif chosen_tab == 'TF':
     else:
         st.image('./assets/images/under_construction.png')
         
-elif chosen_tab == 'Protein':
+elif chosen_tab == 'Surface Protein':
     option = st.selectbox(
         "Choose your Surface Protein of interest",
         P.columns)
