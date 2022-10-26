@@ -85,3 +85,19 @@ def ppi(option):
         data=source_code,
         file_name = 'ppi.html'
     )
+    
+def download_button(desc, data, left_col, right_col, label='Download as CSV'):
+    right_col.download_button(
+        label=label,
+        data=data,
+        file_name='projD.csv',
+        mime='text/csv',
+        key=uuid.uuid1()
+    )
+        
+    left_col.write(desc)
+    
+    
+def local_css(file_name='./assets/style.css'):
+    with open(file_name) as f:
+        st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)

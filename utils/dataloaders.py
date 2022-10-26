@@ -4,14 +4,37 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
+from texts.descriptions import DatasetDesc
 
 @st.cache
 def load_data():
     
     tf_severity = pd.read_parquet('./data/tf_activity.parquet')
     P = pd.read_parquet('./data/surface_protein.parquet')
+    
+    data = {
+        'name': ['E-MTAB-9357', 'GSE155673', 'meyer21_pbmc', 'GSE167118'],
+        'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
+        'patients': [270, 12, 143, 93],
+        'cell count': ['559,517', '59,664', '691,683', ''],
+        'platform': ['10X Genomics Chromium', 'Illumina HiSeq 4000', '', 'Illumina NovaSeq 6000'],
+        'url': [
+            'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357',
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', 
+            'https://www.covid19cellatlas.org/index.patient.html', 
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118'
+        ],
+        'title': [
+            'Multiomic Immunophenotyping Of COVID-19 Patients Reveals Early Infection Trajectories',
+            'Systems Biological Assessment Of Immunity To Mild Versus Severe COVID-19 Infection In Humans',
+            'The Cellular Immune Response To COVID-19 Deciphered By Single Cell Multi-Omics Across 2 Three UK Centres',
+            'Clonal expansion and activation of tissue-resident memory-like Th17 cells expressing GM-CSF in the lung of severe COVID-19 patients'
+        ]
+    }
+    
+    ds = pd.DataFrame(data)
         
-    return P, tf_severity
+    return P, tf_severity, ds
 
 @st.cache
 def litcov_search(search):

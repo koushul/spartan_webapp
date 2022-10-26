@@ -12,8 +12,8 @@ from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from st_aggrid.shared import JsCode
 
-from utils.components import ppi
-from texts.descriptions import Desc
+from utils.components import ppi, download_button, local_css
+from texts.descriptions import DatasetDesc, Desc
 
 st.set_page_config(
     page_title="SPaRTAN COVID-19db",
@@ -22,6 +22,13 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     menu_items={}
 )
+
+def totags(tags):
+    t = '<div>'
+    for tag, color in zip(tags, ['red', 'blue', 'green', 'orange']):
+        t += f"<span class='highlight {color}'>{tag}</span>\t"
+    t += '</div>'
+    return t
 
 hide_streamlit_style = """
     <style>
@@ -48,29 +55,6 @@ hide_streamlit_style = """
 # """, unsafe_allow_html=True)
 
 
-
-# @st.cache
-# def load_and_encode_images():
-#     images = []
-#     cell_images = list(Path('./assets/cells/').glob('*.png'))
-#     for image_file in cell_images:
-#             with open(image_file, "rb") as image:
-#                 encoded = base64.b64encode(image.read()).decode()
-#                 images.append(f"data:image/jpeg;base64, {encoded}")
-                
-#     return images, cell_images
-
-def download_button(desc, data, left_col, right_col, label='Download as CSV'):
-    right_col.download_button(
-        label=label,
-        data=data,
-        file_name='projD.csv',
-        mime='text/csv',
-        key=uuid.uuid1()
-    )
-        
-    left_col.write(desc)
-
 tabs = [
     "Home",
     "Dataset",
@@ -80,11 +64,15 @@ tabs = [
     "Statistics"
 ]
 
+P, tf_severity, ds = load_data()
+# if 'dataset' not in st.session_state:
+#     st.session_state['datasets'] = []
+
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
-## create navigation tabs
+
+
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
-P, tf_severity = load_data()
 
 if chosen_tab == 'Home':
     st.title('Welcome to SPaRTAN COVID-19db') ## Title
@@ -92,42 +80,53 @@ if chosen_tab == 'Home':
     home_page()
     
 elif chosen_tab == 'Dataset':
-    st.header('Dataset Browser')
+    st.header(f'Dataset Browser')
     st.info(Desc.ds)
-    data = {
-        'name': ['E-MTAB-9357', 'GSE155673', '', 'GSE167118'],
-        'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
-        'patients': ['270', '12', '143', '93'],
-        'platform': ['10X Genomics Chromium', 'Illumina HiSeq 4000', '', 'Illumina NovaSeq 6000'],
-        'url': [
-            'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357',
-            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', 
-            'https://www.covid19cellatlas.org/index.patient.html', 
-            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118'
-        ]
-    }
-    df = pd.DataFrame(data)
-    gd = GridOptionsBuilder.from_dataframe(df)
-    # cell_renderer =  JsCode("""
-    #     function(params) {return `<a href=${params.value} target="_blank">${params.value}</a>`}
-    #     """)
-
-    # gd.configure_column("url", cellRenderer=cell_renderer, allow_unsafe_jscode=True)
-    gd.configure_selection(selection_mode='multiple', use_checkbox=True)
+    ds2 = ds[['name', 'title', 'organism', 'patients', 'cell count', 'platform', ]]
+    gd = GridOptionsBuilder.from_dataframe(ds2)
+    
+    if 'datasets' in st.session_state:
+        pre_selected_rows = [list(ds.name).index(i) for i in st.session_state['datasets']]
+    else:
+        pre_selected_rows = []
+                
+                
+    gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     gridoptions = gd.build()
 
-    grid_table = AgGrid(df, 
+    grid_table = AgGrid(ds2, 
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED, 
         fit_columns_on_grid_load=True,
-        height=150,
+        height=149,
         width='100%',
-        theme="streamlit"
+        theme="streamlit",
+        key='grid'
     )
 
-    st.write('## Selected')
+
+        
     selected_row = grid_table["selected_rows"]
-    st.write(selected_row)
+    
+    st.session_state['datasets'] = [x['name'] for x in selected_row]
+    
+    for idx, row_json in enumerate(selected_row):
+        # st.header(row_json['name'])
+        st.header(row_json['name'] + ': ' + row_json['title'])
+        st.markdown(DatasetDesc[row_json['name']])
+        # cols = st.columns(3)
+        # cols[0].info(row_json['patients'])  
+        local_css()
+        st.markdown(
+            totags([
+                row_json['organism'], 
+                row_json['platform'], 
+                row_json['cell count'], 
+                row_json['patients']]), 
+            unsafe_allow_html=True)
+        st.markdown('---')
+        
+      
     
     
     
@@ -144,7 +143,11 @@ elif chosen_tab == 'Transcription Factors':
         "Choose your Transcription Factor of interest",
         tf_severity.index, default_idx)
     cell_type = ba.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
-    tf_ds = ca.multiselect('Dataset', ('A', 'B', 'C', 'D'), ['A'])
+
+    if 'grid' in st.session_state:
+        tf_ds = ca.multiselect('Dataset', ds.name, st.session_state['datasets'])
+    else:
+        tf_ds = ca.multiselect('Dataset', ds.name)        
     
     try:
         litcovdf = litcov_search(option)
@@ -194,9 +197,7 @@ elif chosen_tab == 'Surface Protein':
         "Choose your Surface Protein of interest",
         P.index)
     cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
-    p_ds = c.multiselect('Dataset', ('A', 'B', 'C', 'D'), ['A'])
-    
-    
+    p_ds = c.multiselect('Dataset', ds.name, st.session_state['datasets'])
 
     try:    
         litcovdf = litcov_search(option)
