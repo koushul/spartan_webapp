@@ -75,8 +75,8 @@ def ppi(option):
     # net.show_buttons(filter_=['physics'])
 
 
-    net.show('test.html')
-    HtmlFile = open("test.html", 'r', encoding='utf-8')
+    net.show('./utils/ppi.html')
+    HtmlFile = open("./utils/ppi.html", 'r', encoding='utf-8')
     source_code = HtmlFile.read()
     components.html(source_code, height = 700, width=1000)
     
