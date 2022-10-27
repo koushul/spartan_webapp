@@ -29,13 +29,16 @@ from texts.descriptions import Desc
 #     right_col.markdown(f"{cell_desc[cell_type]}")
     
 #     st.write("[Github](https://github.com/Koushul/spartan_webapp)")
+@st.experimental_memo
+def load_overview_image():
+    return Image.open('./assets/images/home.png')
 
 
 def home_page():
     # Creating a title for the page.
     st.title('Welcome to SPaRTAN COVID-19db') ## Title
     st.write(Desc.home)
-    img = Image.open('./assets/images/home.png')
+    img = load_overview_image()
     st.image(img, output_format="SVG")        
     
     

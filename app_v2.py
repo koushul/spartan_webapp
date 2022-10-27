@@ -137,10 +137,13 @@ elif chosen_tab == 'Transcription Factors':
         litcovdf = pd.DataFrame([])
         
     subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
-    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[2]) 
-    
-    
-
+    if 'current_tab_tf' in st.session_state:
+        current_tab_tf = st.session_state['current_tab_tf']
+    else:
+        current_tab_tf = subtabs[2]
+        
+    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
+    st.session_state['current_tab_tf'] = chosen_subtab
     
     if chosen_subtab == f'Literature References ({len(litcovdf)})':
         st.caption(Desc.litcovid)
@@ -180,7 +183,7 @@ elif chosen_tab == 'Surface Protein':
     
     option = a.selectbox(
         "Choose your Surface Protein of interest",
-        P.columns)
+        P.columns, list(P.columns).index('CD49F'))
     
     cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
     
@@ -197,7 +200,12 @@ elif chosen_tab == 'Surface Protein':
         litcovdf = pd.DataFrame([])
         
     subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
-    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=subtabs[1]) 
+    if 'current_tab' in st.session_state:
+        current_tab = st.session_state['current_tab']
+    else:
+        current_tab = subtabs[1]
+    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab) 
+    st.session_state['current_tab'] = chosen_subtab
     
     if chosen_subtab == 'PPI':
         ppi(option)

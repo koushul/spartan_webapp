@@ -15,7 +15,7 @@ def load_data():
         'name': ['E-MTAB-9357', 'GSE155673', 'meyer21_pbmc', 'GSE167118'],
         'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
         'patients': [270, 12, 143, 93],
-        'cell count': ['559,517', '59,664', '691,683', ''],
+        'cell count': ['559,517', '59,664', '691,683', '86,935'],
         'platform': ['10X Genomics Chromium', 'Illumina HiSeq 4000', '', 'Illumina NovaSeq 6000'],
         'url': [
             'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357',
