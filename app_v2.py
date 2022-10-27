@@ -16,7 +16,6 @@ from texts.descriptions import DatasetDesc, Desc
 
 from pathlib import Path
 from navigation.protein import load_pairs
-import plotly.figure_factory as ff
 import seaborn as sns
 import matplotlib.pyplot as plt
 ### Housekeeping ###
