@@ -22,9 +22,9 @@ import matplotlib.pyplot as plt
 
 st.set_page_config(
     page_title="SPaRTAN COVID-19db",
-    page_icon="",
+    page_icon="./assets/logos/spartan.png",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
     menu_items={}
 )
 

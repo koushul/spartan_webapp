@@ -9,10 +9,9 @@ def load_overview_image():
 
 
 def home_page():
-    # Creating a title for the page.
-    st.title('Welcome to SPaRTAN COVID-19db') ## Title
-    st.write(Desc.home)
     img = load_overview_image()
+    st.title('Welcome to SPaRTAN COVID-19db') 
+    st.write(Desc.home)
     st.image(img, output_format="png")        
     
     
