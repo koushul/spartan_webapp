@@ -7,6 +7,7 @@ from st_aggrid.grid_options_builder import GridOptionsBuilder
 from utils.components import local_css
 from texts.descriptions import DatasetDesc, Desc
 
+@st.cache
 def totags(tags):
     t = '<div>'
     for tag, color in zip(tags, ['red', 'blue', 'green', 'orange']):

@@ -15,8 +15,10 @@ from utils.components import ppi, download_button, local_css, hide_streamlit_sty
 from texts.descriptions import DatasetDesc, Desc
 
 from pathlib import Path
-
-
+from navigation.protein import load_pairs
+import plotly.figure_factory as ff
+import seaborn as sns
+import matplotlib.pyplot as plt
 ### Housekeeping ###
 
 st.set_page_config(
@@ -183,8 +185,8 @@ elif chosen_tab == 'Surface Protein':
     
     option = a.selectbox(
         "Choose your Surface Protein of interest",
-        P.columns, list(P.columns).index('CD49F'))
-    
+        P.columns, list(P.columns).index('CD11C'))
+        
     cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
     
     if 'grid' in st.session_state and st.session_state['datasets']:
@@ -199,6 +201,9 @@ elif chosen_tab == 'Surface Protein':
     except:
         litcovdf = pd.DataFrame([])
         
+    
+        
+        
     subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     if 'current_tab' in st.session_state:
         current_tab = st.session_state['current_tab']
@@ -209,6 +214,18 @@ elif chosen_tab == 'Surface Protein':
     
     if chosen_subtab == 'PPI':
         ppi(option)
+        
+    elif chosen_subtab == 'Protein Expression':
+        _df = load_pairs().drop('pval_sel', axis=1)
+        _df = _df[_df['Unnamed: 0'].str.contains(f'{option}_')]
+        _df = _df.set_index('Unnamed: 0')
+        _df.index.name = None
+        
+        st.table(_df)
+        
+        fig = plt.figure(figsize=(10, 5), dpi=120)
+        sns.kdeplot(data=_df.drop(['pval_adj'], axis=1), shade=True)
+        st.pyplot(fig)
         
     elif chosen_subtab == 'Protein-TF Correlation':
         if option in high_corr():

@@ -1,5 +1,7 @@
 import stringdb
 import random
+import pandas as pd
+import streamlit as st
 
 def generate_color():
     random_number = random.randint(0,16777215)
@@ -16,3 +18,14 @@ def get_ppi_edge_list(gene, neighbors, size):
     enrichment_df = stringdb.get_interaction_partners(string_ids.queryItem, limit=size)
 
     return string_ids, enrichment_df[['preferredName_A',	'preferredName_B', 'score']].values
+
+
+@st.cache
+def load_pairs():
+    df = pd.read_csv('./data/CD14_Mono_pair_pvalues_withData_healthy2severe_trend_decreasing_50~1000_ks.csv')
+    # df = df.set_index('Unnamed: 0')[['pval_adj']]
+    # df.columns = ['P-Value']
+    
+
+    
+    return df
