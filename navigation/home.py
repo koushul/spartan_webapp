@@ -13,5 +13,7 @@ def home_page():
     st.title('Welcome to SPaRTAN COVID-19db') 
     st.write(Desc.home)
     st.image(img, output_format="png")        
+    st.write(Desc.intro)
+    
     
     

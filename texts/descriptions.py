@@ -5,8 +5,47 @@ class Desc:
     
     ds = "For a single dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein interaction results."
     
-    home = "a comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection"
+    home = "A comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection"
     
+    intro = """COVID-19 requires a permissive cellular environment and host cellular factors for induction 
+        of viral transcription. A variety of factors provide a favourable environment for COVID-19 
+        infection. The most notable are the set of transcription factors (TFs) as COVID-19 does not 
+        have its own transcription machinery and is fully dependent on host TFs to complete its viral 
+        life cycle. Further, COVID-19 infection of host cells causes dramatic changes in the immune 
+        response. A better understanding of altered cell-type specific TFs downstream of signalling 
+        pathways may allow us to develop accurate prognostic markers that can predict the effect of 
+        COVID-19 infection on immune responses and identify novel targets for developing more 
+        effective therapies for COVID-19.\n\nSingle-cell muti-omics offers a high-resolution view into the cell and cellular environment. 
+        Recent breakthroughs have coupled the relatively sparse scRNA-seq signal with robust 
+        detection of highly abundant and well-characterized surface proteins using index sorting 
+        and barcoded antibodies such as cellular indexing of transcriptomes and epitopes by 
+        sequencing (CITE-seq) thereby permitting better cell type discrimination.  One unique 
+        feature of CITE-seq is its capacity to analyze the transcriptomic and proteomic (surface-
+        protein) changes of different cell types in response to COVID-19 infection. 
+        Connecting upstream signal transduction to downstream TFs at a single-cell level would help
+        decode context-specific cell states both in normal physiology and disease including COVID-
+        19 infection. We developed the first computational framework, SPaRTAN (Single-cell 
+        Proteomic and RNA based Transcription factor Activity Network), for exploiting single-cell 
+        proteomic (scADT-seq) and corresponding scRNA-seq datasets, both obtained using CITE-
+        seq, to link expression of surface proteins with inferred TF activitie. The cell surface 
+        phenotype is well-known to immunologists through flow cytometry but signaling downstream 
+        of cell surface receptors/co-receptors drives transcriptional and chromatin state changes. It 
+        is important to connect the “cell surface phenotype” to downstream transcriptional programs 
+        and resulting transcriptomic phenotypes. SPaRTAN models this flow of information with 
+        single cell resolution.\n\nMany COVID-19 related CITE-seq data have been generated for public research. Most 
+        CITE-seq datasets are generated using peripheral blood mononuclear cells (PBMCs) from 
+        subjects. We applied SPaRTAN to blood (PBMC) COVID-19 CITE-seq datasets to predict 
+        the coupling of signaling receptors with context-specific TFs. Application of SPaRTAN to 
+        healthy individuals and patients with varying severity of COVID-19 help to decipher critical 
+        TFs downstream of surface receptors driving different cellular identities for each PBMC cell 
+        type and determine commonalities as well as differences of cell context-specific TF and 
+        surface receptor across healthy individuals and those manifesting COVID-19. We identify 
+        regulators that could assist as predictors for patient survivability of serious COVID-19 
+        infection.
+        As a resource to enable the research community to investigate different aspects of our 
+        analysis, we create a webpage for each study supplying the predicted TF activities of each 
+        cell studied in this work.
+    """
     
 DatasetDesc = {
     'E-MTAB-9357' : 'Abstract: Host immune responses play central roles in controlling SARS-CoV2 infection, yet remain incompletely characterized and understood. Here, we present a comprehensive immune response map spanning 454 proteins and 847 metabolites in plasma integrated with single-cell multi-omic assays of PBMCs in which whole transcriptome, 192 surface proteins, and T and B cell receptor sequence were co-analyzed within the context of clinical measures from 50 COVID19 patient samples. Our study reveals novel cellular subpopulations, such as proliferative exhausted CD8+ and CD4+ T cells, and cytotoxic CD4+ T cells, that may be features of severe COVID-19 infection. \n\nWe condensed over 1 million immune features into a single immune response axis that independently aligns with many clinical features and is also strongly associated with disease severity. Our study represents an important resource towards understanding the heterogeneous immune responses of COVID-19 patients and may provide key information for informing therapeutic development.',
