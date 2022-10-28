@@ -78,7 +78,7 @@ elif chosen_tab == 'Dataset':
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED, 
         fit_columns_on_grid_load=True,
-        height=149,
+        height=155,
         width='100%',
         theme="streamlit",
         key='grid'
@@ -94,6 +94,9 @@ elif chosen_tab == 'Dataset':
         st.header(row_json['name'] + ': ' + row_json['title'])
         st.markdown(DatasetDesc[row_json['name']])
         st.markdown(ds[ds.name==row_json['name']].url.values[0])
+        
+        exp = st.expander('View UMAP')
+        exp.image('./assets/umaps/umap.png')
 
         local_css()
         st.markdown(
