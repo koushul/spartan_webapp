@@ -118,6 +118,8 @@ elif chosen_tab == 'Transcription Factors':
     
     aa, ba, ca = st.columns(3)
     
+    st.session_state['datasets'] = ["GSE155673"]
+    
     if 'grid' in st.session_state and st.session_state['datasets']:
         tf_ds = aa.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
     else:
