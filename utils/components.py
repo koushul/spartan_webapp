@@ -23,6 +23,35 @@ hide_streamlit_style = """
     </style>
 """
 
+from matplotlib import rcParams
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+rcParams['figure.figsize'] = 11.7,8.27
+
+def label(x, color, label):
+    ax = plt.gca()
+    ax.text(0, .2, label, color='black', fontsize=15,
+            ha="left", va="center", transform=ax.transAxes)
+    
+sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2, 'figure.figsize':(10, 10)})
+palette = sns.color_palette("Set2", 12)
+
+
+def ridge_plot(df_plt):
+    g = sns.FacetGrid(df_plt, palette=palette, row="patient_group", hue="patient_group", aspect=5)
+    g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
+    g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
+    g.map(label, "patient_group")
+    g.fig.subplots_adjust(hspace=-.5)
+    g.set_titles("")
+    g.set(yticks=[], xlabel="")
+    g.despine( left=True)
+    g.set(yticks=[], ylabel="")
+    g.despine(bottom=True, left=True)
+    
+    return g
+
 def create_st_button(link_text, link_url, hover_color="#e78ac3", st_col=None):    
     button_uuid = uuid.uuid1()
     button_id = re.sub("\d+", "", str(button_uuid))
@@ -71,7 +100,11 @@ def ppi(option):
     neighbors = right_col.slider('Neighbors', 1, 10, 3)
 
     net = Network()
-    caption, pairs = get_ppi_edge_list(option, neighbors, size)
+    try:
+        caption, pairs = get_ppi_edge_list(option, neighbors, size)
+    except:
+        st.warning('No PPI Information available from stringdb')
+        return
     # st.caption(caption.preferredName.values[0])
     # st.caption(caption.annotation.values[0])
 

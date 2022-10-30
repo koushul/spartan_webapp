@@ -6,19 +6,18 @@ import streamlit as st
 
 from navigation.home import home_page
 from navigation.stats import stats_page
-from utils.components import make_tab
-from utils.dataloaders import load_data, litcov_search
+from utils.components import make_tab, ridge_plot
+from utils.dataloaders import Dataset, litcov_search
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 
-from utils.components import ppi, download_button, local_css, hide_streamlit_style
+from utils.components import ppi, local_css, hide_streamlit_style
 from texts.descriptions import DatasetDesc, Desc
+from utils.dataloaders import make_datacore
 
-from pathlib import Path
-from navigation.protein import load_pairs
-import seaborn as sns
-import matplotlib.pyplot as plt
-### Housekeeping ###
+from PIL import Image
+Image.MAX_IMAGE_PIXELS = None
+
 
 st.set_page_config(
     page_title="SPaRTAN COVID-19db",
@@ -44,25 +43,24 @@ tabs = [
     "Statistics"
 ]
 
-P, tf_severity, ds = load_data()
-default_idx = list(tf_severity.index).index('IRF4')
+
+datacore =  make_datacore()()
+ds = Dataset.metadata_df()
+
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
-
-@st.cache
-def high_corr():
-    return list(i.name.split('-TFs')[0] for i in Path('./data/data_created/protein-TFs_higCorr/').glob('*.csv'))
-
 
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
 
 if chosen_tab == 'Home':
     home_page()
     
+    
 elif chosen_tab == 'Dataset':
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
-    ds2 = ds[['name', 'title', 'organism', 'patients', 'cell count', 'platform']]
+    st.caption('Select one or more datasets')
+    ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid']]
     gd = GridOptionsBuilder.from_dataframe(ds2)
     
     if 'datasets' in st.session_state:
@@ -91,46 +89,48 @@ elif chosen_tab == 'Dataset':
     st.session_state['datasets'] = [x['name'] for x in selected_row]
     
     for idx, row_json in enumerate(selected_row):
-        st.header(row_json['name'] + ': ' + row_json['title'])
+        st.header(row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
         st.markdown(DatasetDesc[row_json['name']])
         st.markdown(ds[ds.name==row_json['name']].url.values[0])
         
         exp = st.expander('View UMAP')
-        exp.image('./assets/umaps/umap.png')
+        try:
+            exp.image(datacore.name2ds[row_json['name']].umap)
+        except FileNotFoundError:
+            exp.write('No UMAP available.')
 
         local_css()
+        
         st.markdown(
             totags([
                 row_json['organism'], 
-                row_json['platform'], 
-                row_json['cell count'], 
-                row_json['patients']]), 
+                row_json['assay'], 
+                row_json['cell count'] + ' cells', 
+                str(row_json['patients']) + ' patients']), 
             unsafe_allow_html=True)
         
         st.markdown('---')
-        
-      
-    
-    
-    
+          
 elif chosen_tab == 'Transcription Factors':
     st.header('TF Exploration')
     st.info(Desc.tf)
-    
     ref = 'Literature References'
-
     
     aa, ba, ca = st.columns(3)
-    option = aa.selectbox(
-        "Choose your Transcription Factor of interest",
-        tf_severity.index, default_idx)
-    cell_type = ba.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
-
     
     if 'grid' in st.session_state and st.session_state['datasets']:
-        tf_ds = ca.multiselect('Dataset', ds.name, st.session_state['datasets'])
+        tf_ds = aa.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
     else:
-        tf_ds = ca.multiselect('Dataset', ds.name)
+        tf_ds = aa.multiselect('Dataset', datacore.name2ds.keys(), ["GSE155673"])
+        
+    cell_type = ba.selectbox('Cell Type', datacore.name2ds["GSE155673"].cell_types, 2)
+    option = ca.selectbox(
+        "Transcription Factor of interest",
+        datacore.name2ds["GSE155673"].transcription_factors(cell_type))
+    
+
+    
+
             
     # st.session_state['datasets'] = tf_ds
    
@@ -153,7 +153,7 @@ elif chosen_tab == 'Transcription Factors':
         st.caption(Desc.litcovid)
 
         if len(litcovdf) > 0:  
-            st.dataframe(litcovdf)
+            st.table(litcovdf)
             st.download_button(
                 label='Download as CSV',
                 data=litcovdf.to_csv(index=None),
@@ -167,6 +167,11 @@ elif chosen_tab == 'Transcription Factors':
     
     elif chosen_subtab == 'PPI':
         ppi(option)
+        
+    elif chosen_tab == 'TF Activities':
+        st.write(datacore.name2ds)
+        st.write(datacore.name2ds.keys())
+        
 
     elif chosen_subtab == 'Download':
         left_col, right_col = st.columns(2)        
@@ -183,29 +188,31 @@ elif chosen_tab == 'Transcription Factors':
         st.image('./assets/images/under_construction.png')
         
 elif chosen_tab == 'Surface Protein':
+    st.title('Surface Protein Exploration')
+    st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
     a, b, c = st.columns(3)
-    
-    option = a.selectbox(
-        "Choose your Surface Protein of interest",
-        P.columns, list(P.columns).index('CD11C'))
         
-    cell_type = b.selectbox('Cell Type', ('B', 'NK', 'CD4+', 'CD8+', 'CD16+', 'CD14+'), 2)
-    
     if 'grid' in st.session_state and st.session_state['datasets']:
-        p_ds = c.multiselect('Dataset', ds.name, st.session_state['datasets'])
+        p_ds = a.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
     else:
-        p_ds = c.multiselect('Dataset', ds.name)
-            
-    # st.session_state['datasets'] = p_ds
-
+        p_ds = a.multiselect('Dataset', datacore.name2ds.keys(), ["GSE155673"])
+    
+    
+    cell_type = b.selectbox('Cell Type', datacore.name2ds[p_ds[0]].cell_types, 2)
+    
+    s_proteins = list(datacore.name2ds[p_ds[0]].surface_proteins(cell_type))
+    
+    option = c.selectbox(
+        "Surface Protein of interest",
+        s_proteins)
+        
+    o = option.split('--')[0]
+    
     try:    
-        litcovdf = litcov_search(option)
+        litcovdf = litcov_search(o)
     except:
         litcovdf = pd.DataFrame([])
-        
-    
-        
-        
+         
     subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     if 'current_tab' in st.session_state:
         current_tab = st.session_state['current_tab']
@@ -215,37 +222,27 @@ elif chosen_tab == 'Surface Protein':
     st.session_state['current_tab'] = chosen_subtab
     
     if chosen_subtab == 'PPI':
-        ppi(option)
+        ppi(o)
         
-    elif chosen_subtab == 'Protein Expression':
-        _df = load_pairs().drop('pval_sel', axis=1)
-        _df = _df[_df['Unnamed: 0'].str.contains(f'{option}_')]
-        _df = _df.set_index('Unnamed: 0')
-        _df.index.name = None
-        
-        st.table(_df)
-        
-        fig = plt.figure(figsize=(10, 5), dpi=120)
-        sns.kdeplot(data=_df.drop(['pval_adj'], axis=1), shade=True)
-        st.pyplot(fig)
         
     elif chosen_subtab == 'Protein-TF Correlation':
-        if option in high_corr():
-            st.header(f'🔎 {option}')
-            expander = st.expander("See raw data")
-            data = pd.read_csv(f'./data/data_created/protein-TFs_higCorr/{option}-TFs_highCorr.csv')
-            expander.dataframe(data)
-            
-            st.image(f'./data/data_created/protein-TFs_higCorr/Figure/{option}-TFs_highCorr.csv.png')
-            
-                
-    
+        st.header(f'🔎 {o}')
+        
+        csv, img = datacore.name2ds[p_ds[0]].get_protein_tf_data(cell_type, option)
+        st.image(img)
+        exp = st.expander('Raw Data')
+        exp.dataframe(pd.read_csv(csv))
+        
+    elif chosen_subtab == 'Protein Expression':
+        df_plt = datacore.name2ds[p_ds[0]].get_protein_df(cell_type, option)
+        st.pyplot(ridge_plot(df_plt))
+        
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':
         st.caption(Desc.litcovid)
 
         if len(litcovdf) > 0:  
-            st.dataframe(litcovdf)
+            st.table(litcovdf)
             st.download_button(
                 label='Download as CSV',
                 data=litcovdf.to_csv(index=None),
@@ -261,7 +258,6 @@ elif chosen_tab == 'Surface Protein':
         
 elif chosen_tab == 'Statistics':
     stats_page()
-
     
 elif chosen_tab == 'Documentation':
     st.sidebar.header('Content')

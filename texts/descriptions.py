@@ -19,20 +19,7 @@ class Desc:
         Recent breakthroughs have coupled the relatively sparse scRNA-seq signal with robust 
         detection of highly abundant and well-characterized surface proteins using index sorting 
         and barcoded antibodies such as cellular indexing of transcriptomes and epitopes by 
-        sequencing (CITE-seq) thereby permitting better cell type discrimination.  One unique 
-        feature of CITE-seq is its capacity to analyze the transcriptomic and proteomic (surface-
-        protein) changes of different cell types in response to COVID-19 infection. 
-        Connecting upstream signal transduction to downstream TFs at a single-cell level would help
-        decode context-specific cell states both in normal physiology and disease including COVID-
-        19 infection. We developed the first computational framework, SPaRTAN (Single-cell 
-        Proteomic and RNA based Transcription factor Activity Network), for exploiting single-cell 
-        proteomic (scADT-seq) and corresponding scRNA-seq datasets, both obtained using CITE-
-        seq, to link expression of surface proteins with inferred TF activitie. The cell surface 
-        phenotype is well-known to immunologists through flow cytometry but signaling downstream 
-        of cell surface receptors/co-receptors drives transcriptional and chromatin state changes. It 
-        is important to connect the “cell surface phenotype” to downstream transcriptional programs 
-        and resulting transcriptomic phenotypes. SPaRTAN models this flow of information with 
-        single cell resolution.\n\nMany COVID-19 related CITE-seq data have been generated for public research. Most 
+        sequencing (CITE-seq) thereby permitting better cell type discrimination. Many COVID-19 related CITE-seq data have been generated for public research. Most 
         CITE-seq datasets are generated using peripheral blood mononuclear cells (PBMCs) from 
         subjects. We applied SPaRTAN to blood (PBMC) COVID-19 CITE-seq datasets to predict 
         the coupling of signaling receptors with context-specific TFs. Application of SPaRTAN to 
@@ -42,9 +29,6 @@ class Desc:
         surface receptor across healthy individuals and those manifesting COVID-19. We identify 
         regulators that could assist as predictors for patient survivability of serious COVID-19 
         infection.
-        As a resource to enable the research community to investigate different aspects of our 
-        analysis, we create a webpage for each study supplying the predicted TF activities of each 
-        cell studied in this work.
     """
     
 DatasetDesc = {
