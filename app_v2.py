@@ -131,7 +131,7 @@ elif chosen_tab == TF:
     datasets = datacore.name2ds.keys()
     tf_ds = aa.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
     cell_types = datacore.name2ds["GSE155673"].cell_types
-    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
+    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
     tfs = datacore.name2ds["GSE155673"].transcription_factors(cell_type)
     option = ca.selectbox(
         f'Transcription Factor of interest ({len(tfs)})', tfs)   
