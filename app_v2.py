@@ -95,7 +95,7 @@ elif chosen_tab == 'Dataset':
         
         exp = st.expander('View UMAP')
         try:
-            exp.image(datacore.name2ds[row_json['name']].umap)
+            exp.image(datacore.name2ds['GSE155673'].umap)
         except FileNotFoundError:
             exp.write('No UMAP available.')
 
