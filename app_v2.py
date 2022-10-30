@@ -23,7 +23,7 @@ st.set_page_config(
     page_title="SPaRTAN COVID-19db",
     page_icon="./assets/logos/spartan.png",
     layout="wide",
-    initial_sidebar_state="collapsed",
+    initial_sidebar_state="expanded",
     menu_items={}
 )
 
@@ -120,22 +120,16 @@ elif chosen_tab == 'Transcription Factors':
     
     st.session_state['datasets'] = ["GSE155673"]
     
-    if 'grid' in st.session_state and st.session_state['datasets']:
-        tf_ds = aa.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
-    else:
-        tf_ds = aa.multiselect('Dataset', datacore.name2ds.keys(), ["GSE155673"])
-        
-    cell_type = ba.selectbox('Cell Type', datacore.name2ds["GSE155673"].cell_types, 2)
+    # if 'grid' in st.session_state and st.session_state['datasets']:
+        # tf_ds = aa.multiselect(f'Dataset ({1})', datacore.name2ds.keys(), st.session_state['datasets'])
+    # else:
+    datasets = datacore.name2ds.keys()
+    tf_ds = aa.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
+    cell_types = datacore.name2ds["GSE155673"].cell_types
+    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 2)
+    tfs = datacore.name2ds["GSE155673"].transcription_factors(cell_type)
     option = ca.selectbox(
-        "Transcription Factor of interest",
-        datacore.name2ds["GSE155673"].transcription_factors(cell_type))
-    
-
-    
-
-            
-    # st.session_state['datasets'] = tf_ds
-   
+        f'Transcription Factor of interest ({len(tfs)})', tfs)   
     
     try:
         litcovdf = litcov_search(option)
@@ -194,18 +188,18 @@ elif chosen_tab == 'Surface Protein':
     st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
     a, b, c = st.columns(3)
         
-    if 'grid' in st.session_state and st.session_state['datasets']:
-        p_ds = a.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
-    else:
-        p_ds = a.multiselect('Dataset', datacore.name2ds.keys(), ["GSE155673"])
+    # if 'grid' in st.session_state and st.session_state['datasets']:
+    #     p_ds = a.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
+    # else:
     
-    
-    cell_type = b.selectbox('Cell Type', datacore.name2ds[p_ds[0]].cell_types, 2)
-    
+    datasets = datacore.name2ds.keys()
+    p_ds = a.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
+    cell_types = datacore.name2ds[p_ds[0]].cell_types
+    cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 2)
     s_proteins = list(datacore.name2ds[p_ds[0]].surface_proteins(cell_type))
     
     option = c.selectbox(
-        "Surface Protein of interest",
+        f"Surface Protein of interest ({len(s_proteins)})",
         s_proteins)
         
     o = option.split('--')[0]
@@ -263,9 +257,17 @@ elif chosen_tab == 'Statistics':
     
 elif chosen_tab == 'Documentation':
     st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Data Processing', 'Dataset Summary', 'Usage', 'FAQ'])
+    page = st.sidebar.radio('', ['Introduction', 'Dataset Summary', 'Usage', 'FAQ'])
     st.header(page)
-    st.image('./assets/images/under_construction.png')
+    if page == 'Introduction':
+        tab1, tab2 = st.tabs(["Data collection and processing", "Functions of SPaRTAN COVID-19db"])
+        with tab1:
+            st.subheader("Data collection and processing")    
+            st.image('./assets/images/documentation.png')
+            
+        with tab2:
+            st.subheader("Functions of SPaRTAN COVID-19db")
+            
     
 else:
     st.image('./assets/images/under_construction.png')
