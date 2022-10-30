@@ -17,7 +17,12 @@ from utils.dataloaders import make_datacore
 
 from PIL import Image
 Image.MAX_IMAGE_PIXELS = None
-
+HOME = "Home"
+DATASET = "Datasets"
+TF = "Transcription Factors"
+PROTEINS = "Surface Proteins"
+DOC = "Documentation"
+STATS = "Statistics"
 
 st.set_page_config(
     page_title="SPaRTAN COVID-19db",
@@ -35,12 +40,12 @@ def totags(tags):
     return t
 
 tabs = [
-    "Home",
-    "Dataset",
-    "Transcription Factors",
-    "Surface Protein",
-    "Documentation",
-    "Statistics"
+    HOME,
+    DATASET,
+    TF,
+    PROTEINS,
+    DOC, 
+    STATS
 ]
 
 
@@ -52,11 +57,11 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
 
-if chosen_tab == 'Home':
+if chosen_tab == HOME:
     home_page()
     
     
-elif chosen_tab == 'Dataset':
+elif chosen_tab == DATASET:
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
@@ -111,7 +116,7 @@ elif chosen_tab == 'Dataset':
         
         st.markdown('---')
           
-elif chosen_tab == 'Transcription Factors':
+elif chosen_tab == TF:
     st.header('TF Exploration')
     st.info(Desc.tf)
     ref = 'Literature References'
@@ -126,21 +131,18 @@ elif chosen_tab == 'Transcription Factors':
     datasets = datacore.name2ds.keys()
     tf_ds = aa.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
     cell_types = datacore.name2ds["GSE155673"].cell_types
-    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 2)
+    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
     tfs = datacore.name2ds["GSE155673"].transcription_factors(cell_type)
     option = ca.selectbox(
         f'Transcription Factor of interest ({len(tfs)})', tfs)   
     
-    try:
-        litcovdf = litcov_search(option)
-    except:
-        litcovdf = pd.DataFrame([])
-        
+    litcovdf = litcov_search(option)
+   
     subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     if 'current_tab_tf' in st.session_state:
         current_tab_tf = st.session_state['current_tab_tf']
     else:
-        current_tab_tf = subtabs[2]
+        current_tab_tf = subtabs[0]
         
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
     st.session_state['current_tab_tf'] = chosen_subtab
@@ -159,14 +161,22 @@ elif chosen_tab == 'Transcription Factors':
             )
                 
         else:
-            st.markdown('No literature references found')
+            st.warning('No literature references found')
     
     elif chosen_subtab == 'PPI':
         ppi(option)
         
-    elif chosen_tab == 'TF Activities':
-        st.write(datacore.name2ds)
-        st.write(datacore.name2ds.keys())
+    elif chosen_subtab == 'TF Activities':        
+        df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
+        st.pyplot(ridge_plot(df_plt))
+        
+    elif chosen_subtab == 'TF-Protein Correlation':
+        st.header(f'🔎 {option}')
+        
+        csv, img = datacore.name2ds["GSE155673"].get_tf_protein_data(cell_type, option)
+        st.image(img)
+        exp = st.expander('Raw Data')
+        exp.dataframe(pd.read_csv(csv))
         
 
     elif chosen_subtab == 'Download':
@@ -183,7 +193,7 @@ elif chosen_tab == 'Transcription Factors':
     else:
         st.image('./assets/images/under_construction.png')
         
-elif chosen_tab == 'Surface Protein':
+elif chosen_tab == PROTEINS:
     st.title('Surface Protein Exploration')
     st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
     a, b, c = st.columns(3)
@@ -195,7 +205,7 @@ elif chosen_tab == 'Surface Protein':
     datasets = datacore.name2ds.keys()
     p_ds = a.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
     cell_types = datacore.name2ds[p_ds[0]].cell_types
-    cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 2)
+    cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
     s_proteins = list(datacore.name2ds[p_ds[0]].surface_proteins(cell_type))
     
     option = c.selectbox(
@@ -248,16 +258,16 @@ elif chosen_tab == 'Surface Protein':
             )
                 
         else:
-            st.markdown('No literature references found')
+            st.warning('No literature references found')
     else:
         st.image('./assets/images/under_construction.png')
         
-elif chosen_tab == 'Statistics':
+elif chosen_tab == STATS:
     stats_page()
     
-elif chosen_tab == 'Documentation':
+elif chosen_tab == DOC:
     st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Dataset Summary', 'Usage', 'FAQ'])
+    page = st.sidebar.radio('', ['Introduction', 'Usage', 'FAQ'])
     st.header(page)
     if page == 'Introduction':
         tab1, tab2 = st.tabs(["Data collection and processing", "Functions of SPaRTAN COVID-19db"])
@@ -268,7 +278,9 @@ elif chosen_tab == 'Documentation':
         with tab2:
             st.subheader("Functions of SPaRTAN COVID-19db")
             
-    
+    if page == 'Usage':
+        tab1, tab2 = st.tabs(["Starting from TF", "Starting from surface protein"])
+        
 else:
     st.image('./assets/images/under_construction.png')
     
