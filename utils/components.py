@@ -7,11 +7,13 @@ from navigation.protein import generate_color, get_ppi_edge_list
 from pyvis.network import Network
 import streamlit.components.v1 as components
 
-hide_streamlit_style = """
+
+
+hide_streamlit_style = f"""
     <style>
-        MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-        footer:after {
+        MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        footer:after {{
             content:'Created by Koushul using Streamlit and BioRender'; 
             visibility: visible;
             display: block;
@@ -19,7 +21,7 @@ hide_streamlit_style = """
             #background-color: red;
             padding: 5px;
             top: 2px;
-        }
+        }}
     </style>
 """
 
