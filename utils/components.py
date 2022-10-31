@@ -29,7 +29,7 @@ from matplotlib import rcParams
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# rcParams['figure.figsize'] = 11.7,8.27
+rcParams['figure.figsize'] = 6, 4
 
 def label(x, color, label):
     ax = plt.gca()
