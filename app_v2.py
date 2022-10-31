@@ -139,10 +139,10 @@ elif chosen_tab == TF:
     litcovdf = litcov_search(option)
    
     subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
-    if 'current_tab_tf' in st.session_state:
-        current_tab_tf = st.session_state['current_tab_tf']
-    else:
-        current_tab_tf = subtabs[0]
+    # if 'current_tab_tf' in st.session_state:
+    #     current_tab_tf = st.session_state['current_tab_tf']
+    # else:
+    current_tab_tf = subtabs[0]
         
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
     st.session_state['current_tab_tf'] = chosen_subtab
@@ -166,7 +166,8 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'PPI':
         ppi(option)
         
-    elif chosen_subtab == 'TF Activities':        
+    elif chosen_subtab == 'TF Activities':  
+        st.header(f'📈 {option} activities for {cell_type}')      
         df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
         st.pyplot(ridge_plot(df_plt))
         
@@ -189,9 +190,6 @@ elif chosen_tab == TF:
         #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
         # download_button('Heatmap\n', 
         #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
-        
-    else:
-        st.image('./assets/images/under_construction.png')
         
 elif chosen_tab == PROTEINS:
     st.title('Surface Protein Exploration')
@@ -259,8 +257,6 @@ elif chosen_tab == PROTEINS:
                 
         else:
             st.warning('No literature references found')
-    else:
-        st.image('./assets/images/under_construction.png')
         
 elif chosen_tab == STATS:
     stats_page()
@@ -280,9 +276,6 @@ elif chosen_tab == DOC:
             
     if page == 'Usage':
         tab1, tab2 = st.tabs(["Starting from TF", "Starting from surface protein"])
-        
-else:
-    st.image('./assets/images/under_construction.png')
     
 
 
