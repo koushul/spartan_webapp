@@ -29,14 +29,14 @@ from matplotlib import rcParams
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-rcParams['figure.figsize'] = 6, 4
+# rcParams['figure.figsize'] = 11.7,8.27
 
 def label(x, color, label):
     ax = plt.gca()
     ax.text(0, .2, label, color='black', fontsize=15,
             ha="left", va="center", transform=ax.transAxes)
     
-sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2})
+sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2, 'figure.figsize':(10, 10)})
 palette = sns.color_palette("Set2", 12)
 
 
