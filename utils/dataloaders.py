@@ -123,6 +123,6 @@ class Datacore:
         
 
 
-# @st.experimental_singleton
+@st.experimental_singleton
 def make_datacore():
     return Datacore
