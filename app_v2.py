@@ -141,7 +141,7 @@ elif chosen_tab == TF:
     
     litcovdf = litcov_search(option)
    
-    subtabs = ['TF Activities', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
+    subtabs = ['TF Activities', 'TF-Target gene', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     # if 'current_tab_tf' in st.session_state:
     #     current_tab_tf = st.session_state['current_tab_tf']
     # else:
@@ -165,6 +165,9 @@ elif chosen_tab == TF:
                 
         else:
             st.warning('No literature references found')
+    
+    elif chosen_subtab == 'TF-Target gene':
+        st.dataframe(pd.DataFrame(columns=['Gene Name', 'Correlation with TF', 'Gene Info']))
     
     elif chosen_subtab == 'PPI':
         ppi(option)
@@ -208,11 +211,12 @@ elif chosen_tab == PROTEINS:
     p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets)
     cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
-    s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
+    s_proteins = list(datacore.name2ds[p_ds].total_surface_proteins)
     
     option = c.selectbox(
         f"Surface Protein of interest ({len(s_proteins)})",
         s_proteins)
+    
         
     o = option.split('--')[0]
     
@@ -234,12 +238,17 @@ elif chosen_tab == PROTEINS:
         
         
     elif chosen_subtab == 'Protein-TF Correlation':
-        st.header(f'🔎 {o}')
+        st.header(f'🔗 Correlation between {o} and inferred TF activities in {cell_type}')
         
         csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)
-        st.image(img)
-        exp = st.expander('Raw Data')
-        exp.dataframe(pd.read_csv(csv))
+        try:
+            st.image(img)
+            exp = st.expander('Raw Data')
+            exp.dataframe(pd.read_csv(csv))
+        except:
+            st.warning('No high correlation matches found.')
+            
+            
         
     elif chosen_subtab == 'Protein Expression':
         df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)

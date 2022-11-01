@@ -71,7 +71,12 @@ class Dataset:
     
     @property
     def total_surface_proteins(self):
-        return sum([len(self.surface_proteins(ct)) for ct in self.cell_types])
+        proteins = set()
+        for ct in self.cell_types:
+            for p in pd.read_csv(self.root / ct / 'proteins_all_30~10000_withGroup.csv').columns:
+                proteins.add(p)
+        proteins = proteins.difference({'Unnamed: 0', 'group'})
+        return proteins
     
     def transcription_factors(self, cell_type):
         tfs = (self.root / cell_type / 'TF-proteins_higCorr' / 'Figure').iterdir()
