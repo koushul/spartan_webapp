@@ -22,7 +22,7 @@ DATASET = "Datasets"
 TF = "Transcription Factors"
 PROTEINS = "Surface Proteins"
 DOC = "Documentation"
-STATS = "Statistics"
+STATS = "Usage"
 
 st.set_page_config(
     page_title="SPaRTAN COVID-19db",
@@ -42,8 +42,8 @@ def totags(tags):
 tabs = [
     HOME,
     DATASET,
-    TF,
     PROTEINS,
+    TF,
     DOC, 
     STATS
 ]
@@ -92,9 +92,11 @@ elif chosen_tab == DATASET:
         
     selected_row = grid_table["selected_rows"]
     
+    
     st.session_state['datasets'] = [x['name'] for x in selected_row]
     
     for idx, row_json in enumerate(selected_row):
+        
         st.header(row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
         st.markdown(DatasetDesc[row_json['name']])
         st.markdown(ds[ds.name==row_json['name']].url.values[0])
@@ -130,7 +132,7 @@ elif chosen_tab == TF:
         # tf_ds = aa.multiselect(f'Dataset ({1})', datacore.name2ds.keys(), st.session_state['datasets'])
     # else:
     datasets = datacore.name2ds.keys()
-    tf_ds = aa.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
+    tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 2)
     cell_types = datacore.name2ds["GSE155673"].cell_types
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
     tfs = datacore.name2ds["GSE155673"].transcription_factors(cell_type)
@@ -170,7 +172,8 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'TF Activities':  
         st.header(f'📈 {option} activities for {cell_type}')      
         df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
-        st.pyplot(ridge_plot(df_plt))
+        c, d, e = st.columns([1, 6, 1])
+        d.pyplot(ridge_plot(df_plt))
         
     elif chosen_subtab == 'TF-Protein Correlation':
         st.header(f'🔎 {option}')
@@ -202,10 +205,10 @@ elif chosen_tab == PROTEINS:
     # else:
     
     datasets = datacore.name2ds.keys()
-    p_ds = a.multiselect(f'Dataset ({len(datasets)})', datasets, ["GSE155673"])
-    cell_types = datacore.name2ds[p_ds[0]].cell_types
+    p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 2)
+    cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
-    s_proteins = list(datacore.name2ds[p_ds[0]].surface_proteins(cell_type))
+    s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
     
     option = c.selectbox(
         f"Surface Protein of interest ({len(s_proteins)})",
@@ -233,14 +236,15 @@ elif chosen_tab == PROTEINS:
     elif chosen_subtab == 'Protein-TF Correlation':
         st.header(f'🔎 {o}')
         
-        csv, img = datacore.name2ds[p_ds[0]].get_protein_tf_data(cell_type, option)
+        csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)
         st.image(img)
         exp = st.expander('Raw Data')
         exp.dataframe(pd.read_csv(csv))
         
     elif chosen_subtab == 'Protein Expression':
-        df_plt = datacore.name2ds[p_ds[0]].get_protein_df(cell_type, option)
-        st.pyplot(ridge_plot(df_plt))
+        df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
+        c, d, e = st.columns([1, 6, 1])
+        d.pyplot(ridge_plot(df_plt))
         
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':

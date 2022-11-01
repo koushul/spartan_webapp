@@ -70,7 +70,7 @@ class Dataset:
         return proteins
     
     @property
-    def total_surface_priteins(self):
+    def total_surface_proteins(self):
         return sum([len(self.surface_proteins(ct)) for ct in self.cell_types])
     
     def transcription_factors(self, cell_type):
@@ -123,6 +123,6 @@ class Datacore:
         
 
 
-@st.experimental_singleton
+# @st.experimental_singleton
 def make_datacore():
     return Datacore
