@@ -205,7 +205,7 @@ elif chosen_tab == PROTEINS:
     # else:
     
     datasets = datacore.name2ds.keys()
-    p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 2)
+    p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets)
     cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
     s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
