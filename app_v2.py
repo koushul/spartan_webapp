@@ -3,6 +3,8 @@ import uuid
 import extra_streamlit_components as stx
 import pandas as pd
 import streamlit as st
+from navigation.datasets import dataset_page
+from navigation.doc import doc_page
 
 from navigation.home import home_page
 from navigation.stats import stats_page
@@ -61,63 +63,8 @@ chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0])
 if chosen_tab == HOME:
     home_page()
     
-    
 elif chosen_tab == DATASET:
-    st.header(f'Dataset Browser')
-    st.info(Desc.ds)
-    st.caption('Select one or more datasets')
-    ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid', 'severity']]
-    gd = GridOptionsBuilder.from_dataframe(ds2)
-    
-    if 'datasets' in st.session_state:
-        pre_selected_rows = [list(ds.name).index(i) for i in st.session_state['datasets']]
-    else:
-        pre_selected_rows = []
-                
-                
-    gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
-    gridoptions = gd.build()
-
-    grid_table = AgGrid(ds2, 
-        gridOptions=gridoptions,
-        update_mode=GridUpdateMode.SELECTION_CHANGED, 
-        fit_columns_on_grid_load=True,
-        height=155,
-        width='100%',
-        theme="streamlit",
-        key='grid'
-    )
-
-
-        
-    selected_row = grid_table["selected_rows"]
-    
-    
-    st.session_state['datasets'] = [x['name'] for x in selected_row]
-    
-    for idx, row_json in enumerate(selected_row):
-        
-        st.header(row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
-        st.markdown(DatasetDesc[row_json['name']])
-        st.markdown(ds[ds.name==row_json['name']].url.values[0])
-        
-        exp = st.expander('View UMAP')
-        try:
-            exp.image(datacore.name2ds[row_json['name']].umap)
-        except:
-            exp.write('No UMAP available.')
-
-        local_css()
-        
-        st.markdown(
-            totags([
-                row_json['organism'], 
-                row_json['assay'], 
-                row_json['cell count'] + ' cells', 
-                str(row_json['patients']) + ' patients']), 
-            unsafe_allow_html=True)
-        
-        st.markdown('---')
+    dataset_page(ds, datacore)
           
 elif chosen_tab == TF:
     st.header('TF Exploration')
@@ -285,24 +232,8 @@ elif chosen_tab == PROTEINS:
         else:
             st.warning('No literature references found')
         
+elif chosen_tab == DOC:
+    doc_page()
+    
 elif chosen_tab == STATS:
     stats_page()
-    
-elif chosen_tab == DOC:
-    st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Usage', 'FAQ'])
-    st.header(page)
-    if page == 'Introduction':
-        tab1, tab2 = st.tabs(["Data collection and processing", "Functions of SPaRTAN COVID-19db"])
-        with tab1:
-            st.subheader("Data collection and processing")    
-            st.image('./assets/images/documentation.png')
-            
-        with tab2:
-            st.subheader("Functions of SPaRTAN COVID-19db")
-            
-    if page == 'Usage':
-        tab1, tab2 = st.tabs(["Starting from TF", "Starting from surface protein"])
-    
-
-

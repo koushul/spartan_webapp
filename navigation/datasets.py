@@ -15,12 +15,13 @@ def totags(tags):
     t += '</div>'
     return t
 
-def dataset_page(ds):
+def dataset_page(ds, datacore):
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
-    ds2 = ds[['name', 'title', 'organism', 'patients', 'cell count', 'platform', ]]
+    st.caption('Select one or more datasets')
+    ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid', 'severity']]
     gd = GridOptionsBuilder.from_dataframe(ds2)
-
+    
     if 'datasets' in st.session_state:
         pre_selected_rows = [list(ds.name).index(i) for i in st.session_state['datasets']]
     else:
@@ -34,30 +35,37 @@ def dataset_page(ds):
         gridOptions=gridoptions,
         update_mode=GridUpdateMode.SELECTION_CHANGED, 
         fit_columns_on_grid_load=True,
-        height=149,
+        height=155,
         width='100%',
         theme="streamlit",
         key='grid'
     )
 
-
         
     selected_row = grid_table["selected_rows"]
-
+    
     st.session_state['datasets'] = [x['name'] for x in selected_row]
-
+    
     for idx, row_json in enumerate(selected_row):
-        # st.header(row_json['name'])
-        st.header(row_json['name'] + ': ' + row_json['title'])
+        
+        st.header(row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
         st.markdown(DatasetDesc[row_json['name']])
-        # cols = st.columns(3)
-        # cols[0].info(row_json['patients'])  
+        st.markdown(ds[ds.name==row_json['name']].url.values[0])
+        
+        exp = st.expander('View UMAP')
+        try:
+            exp.image(datacore.name2ds[row_json['name']].umap)
+        except:
+            exp.write('No UMAP available.')
+
         local_css()
+        
         st.markdown(
             totags([
                 row_json['organism'], 
-                row_json['platform'], 
-                row_json['cell count'], 
-                row_json['patients']]), 
+                row_json['assay'], 
+                row_json['cell count'] + ' cells', 
+                str(row_json['patients']) + ' patients']), 
             unsafe_allow_html=True)
+        
         st.markdown('---')
