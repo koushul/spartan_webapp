@@ -66,7 +66,7 @@ elif chosen_tab == DATASET:
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
-    ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid']]
+    ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid', 'severity']]
     gd = GridOptionsBuilder.from_dataframe(ds2)
     
     if 'datasets' in st.session_state:
@@ -135,7 +135,7 @@ elif chosen_tab == TF:
     tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 2)
     cell_types = datacore.name2ds["GSE155673"].cell_types
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
-    tfs = datacore.name2ds["GSE155673"].transcription_factors(cell_type)
+    tfs = datacore.name2ds["GSE155673"].total_transcription_factors
     option = ca.selectbox(
         f'Transcription Factor of interest ({len(tfs)})', tfs)   
     
@@ -173,18 +173,27 @@ elif chosen_tab == TF:
         ppi(option)
         
     elif chosen_subtab == 'TF Activities':  
-        st.header(f'📈 {option} activities for {cell_type}')      
-        df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
-        c, d, e = st.columns([1, 6, 1])
-        d.pyplot(ridge_plot(df_plt))
+        st.header(f'📈 {option} activities for {cell_type}')  
+        try:    
+            df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
+            c, d, e = st.columns([1, 6, 1])
+            d.pyplot(ridge_plot(df_plt))
+        except:
+            st.warning('No high correlation matches found.')
         
     elif chosen_subtab == 'TF-Protein Correlation':
-        st.header(f'🔎 {option}')
+        st.header(f'🔗 Correlation between {option} and inferred surface protein expression in {cell_type}')
+
         
         csv, img = datacore.name2ds["GSE155673"].get_tf_protein_data(cell_type, option)
-        st.image(img)
-        exp = st.expander('Raw Data')
-        exp.dataframe(pd.read_csv(csv))
+        try:
+            st.image(img)
+            exp = st.expander('Raw Data')
+            exp.dataframe(pd.read_csv(csv))
+        except:
+            st.warning('No high correlation matches found.')
+            
+        
         
 
     elif chosen_subtab == 'Download':
@@ -208,7 +217,7 @@ elif chosen_tab == PROTEINS:
     # else:
     
     datasets = datacore.name2ds.keys()
-    p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets)
+    p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 1)
     cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
     s_proteins = list(datacore.name2ds[p_ds].total_surface_proteins)
@@ -216,6 +225,7 @@ elif chosen_tab == PROTEINS:
     option = c.selectbox(
         f"Surface Protein of interest ({len(s_proteins)})",
         s_proteins)
+    c.checkbox('Show high correlations only')
     
         
     o = option.split('--')[0]
@@ -251,9 +261,12 @@ elif chosen_tab == PROTEINS:
             
         
     elif chosen_subtab == 'Protein Expression':
-        df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
-        c, d, e = st.columns([1, 6, 1])
-        d.pyplot(ridge_plot(df_plt))
+        try:
+            df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
+            c, d, e = st.columns([1, 6, 1])
+            d.pyplot(ridge_plot(df_plt))
+        except:
+            st.warning('No high correlation matches found.')
         
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':

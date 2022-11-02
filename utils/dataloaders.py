@@ -38,7 +38,8 @@ class Dataset:
         'patients': [270, 12, 143, 93],
         'cell count': ['559,517', '59,664', '691,683', '86,935'],
         'assay': ['CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq'],
-        'pmid': [33171100, 32788292, 33879890, 33622974],
+        'pmid': [33171100,  54371, 33879890, 33622974],
+        'severity': ['Healthy, Mild, Moderate, Severe']*4,
         'url': [
             'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357',
             'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', 
@@ -77,6 +78,15 @@ class Dataset:
                 proteins.add(p)
         proteins = proteins.difference({'Unnamed: 0', 'group'})
         return proteins
+    
+    @property
+    def total_transcription_factors(self):
+        tfs = set()
+        for ct in self.cell_types:
+            for p in pd.read_csv(self.root / ct / 'TFs_rank_all_30~10000_withGroup.csv').columns:
+                tfs.add(p)
+        tfs = tfs.difference({'Unnamed: 0', 'group'})
+        return tfs
     
     def transcription_factors(self, cell_type):
         tfs = (self.root / cell_type / 'TF-proteins_higCorr' / 'Figure').iterdir()
