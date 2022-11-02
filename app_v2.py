@@ -1,3 +1,4 @@
+from pathlib import Path
 import uuid
 
 import extra_streamlit_components as stx
@@ -157,6 +158,11 @@ elif chosen_tab == TF:
 elif chosen_tab == PROTEINS:
     st.title('Surface Protein Exploration')
     st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
+    
+    _, _, edge = st.columns(3)
+    
+    checkbox = edge.checkbox('Show high correlations only')
+    
     a, b, c = st.columns(3)
         
     # if 'grid' in st.session_state and st.session_state['datasets']:
@@ -168,13 +174,15 @@ elif chosen_tab == PROTEINS:
     cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
-    try:
-        s_proteins = list(datacore.name2ds[p_ds].total_surface_proteins)
-        
+    try: 
+        if not checkbox:
+            s_proteins = list(datacore.name2ds[p_ds].total_surface_proteins)
+        else:
+            s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
+
         option = c.selectbox(
             f"Surface Protein of interest ({len(s_proteins)})",
             s_proteins)
-        c.checkbox('Show high correlations only')
         
             
         o = option.split('--')[0]
