@@ -164,6 +164,7 @@ elif chosen_tab == PROTEINS:
     # else:
     
     datasets = datacore.name2ds.keys()
+    st.write(datasets)
     p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 1)
     cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 1)
