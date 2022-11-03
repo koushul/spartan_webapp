@@ -227,14 +227,17 @@ elif chosen_tab == PROTEINS:
         
     elif chosen_subtab == 'Protein Expression':
         st.header(f'📈 Inferred {option} expression in {cell_type}')  
-
         
-        try:
-            df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
-            c, d, e = st.columns([1, 6, 1])
-            d.pyplot(ridge_plot(df_plt))
-        except:
-            st.warning('No high correlation matches found.')
+        # try:
+        df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
+        c, d, e = st.columns([1, 6, 1])
+        img = ridge_plot(df_plt)
+        x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
+        y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
+        d.image(img.resize((x, y)))
+
+        # except:
+        #     st.warning('No high correlation matches found.')
         
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':

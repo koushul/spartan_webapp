@@ -7,7 +7,7 @@ class Desc:
     
     home = "A comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection"
     
-    intro = """COVID-19 requires a permissive cellular environment and host cellular factors for induction 
+    intro_1 = """COVID-19 requires a permissive cellular environment and host cellular factors for induction 
         of viral transcription. A variety of factors provide a favourable environment for COVID-19 
         infection. The most notable are the set of transcription factors (TFs) as COVID-19 does not 
         have its own transcription machinery and is fully dependent on host TFs to complete its viral 
@@ -15,11 +15,13 @@ class Desc:
         response. A better understanding of altered cell-type specific TFs downstream of signalling 
         pathways may allow us to develop accurate prognostic markers that can predict the effect of 
         COVID-19 infection on immune responses and identify novel targets for developing more 
-        effective therapies for COVID-19.\n\nSingle-cell muti-omics offers a high-resolution view into the cell and cellular environment. 
+        effective therapies for COVID-19. Single-cell muti-omics offers a high-resolution view into the cell and cellular environment. 
         Recent breakthroughs have coupled the relatively sparse scRNA-seq signal with robust 
         detection of highly abundant and well-characterized surface proteins using index sorting 
         and barcoded antibodies such as cellular indexing of transcriptomes and epitopes by 
-        sequencing (CITE-seq) thereby permitting better cell type discrimination. Many COVID-19 related CITE-seq data have been generated for public research. Most 
+        sequencing (CITE-seq) thereby permitting better cell type discrimination. """
+    
+    intro_2 = """Many COVID-19 related CITE-seq data have been generated for public research. Most 
         CITE-seq datasets are generated using peripheral blood mononuclear cells (PBMCs) from 
         subjects. We applied SPaRTAN to blood (PBMC) COVID-19 CITE-seq datasets to predict 
         the coupling of signaling receptors with context-specific TFs. Application of SPaRTAN to 
@@ -28,8 +30,7 @@ class Desc:
         type and determine commonalities as well as differences of cell context-specific TF and 
         surface receptor across healthy individuals and those manifesting COVID-19. We identify 
         regulators that could assist as predictors for patient survivability of serious COVID-19 
-        infection.
-    """
+        infection."""
     
     spartan = """SPaRTAN (Single-cell Proteomic and RNA based Transcription factor Activity Network) provides a mechanistically inspired approach for integrating cell-specific transcriptomic and proteomic data with regulatory genomics resources, representing a significant advance in the modeling of cell-specific signaling and gene regulatory programs. The cell surface phenotype is well-known to immunologists through flow cytometry but signaling downstream of cell surface receptors/co-receptors drives transcriptional and chromatin state changes. It is important to connect the “cell surface phenotype” to downstream transcriptional programs and resulting transcriptomic phenotypes. SPaRTAN models this flow of information with single cell resolution. The description of the method and some usage examples are available in https://doi.org/10.1101/2020.12.22.423961. SPaRTAN greatly enhances the utility of CITE-seq datasets to uncover TF and cell-surface receptor relationships in diverse cellular states."""
     

@@ -28,6 +28,7 @@ hide_streamlit_style = f"""
 from matplotlib import rcParams
 import seaborn as sns
 import matplotlib.pyplot as plt
+from PIL import Image
 
 # rcParams['figure.figsize'] = 11.7,8.27
 
@@ -52,8 +53,9 @@ def ridge_plot(df_plt):
     g.despine( left=True)
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)
+    g.savefig('ridge.png', dpi=180)
     
-    return g
+    return Image.open('ridge.png')
 
 def create_st_button(link_text, link_url, hover_color="#e78ac3", st_col=None):    
     button_uuid = uuid.uuid1()
