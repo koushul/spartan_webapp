@@ -40,6 +40,14 @@ def label(x, color, label):
 sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2})
 palette = sns.color_palette("Set2", 12)
 
+def fig2img(fig):
+    """Convert a Matplotlib figure to a PIL Image and return it"""
+    import io
+    buf = io.BytesIO()
+    fig.savefig(buf)
+    buf.seek(0)
+    img = Image.open(buf)
+    return img
 
 def ridge_plot(df_plt):
     
@@ -53,9 +61,11 @@ def ridge_plot(df_plt):
     g.despine( left=True)
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)
-    g.savefig('ridge.png', dpi=180)
+    # g.savefig('ridge.png', dpi=180)
     
-    return Image.open('ridge.png')
+    img = fig2img(g.fig)
+    
+    return img
 
 def create_st_button(link_text, link_url, hover_color="#e78ac3", st_col=None):    
     button_uuid = uuid.uuid1()
