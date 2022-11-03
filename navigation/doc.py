@@ -4,7 +4,7 @@ from texts.descriptions import Desc
 
 def doc_page():
     st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Usage', 'FAQ'])
+    page = st.sidebar.radio('', ['Introduction', 'Usage', 'Database Implementation', 'FAQ'])
     st.header(page)
     if page == 'Introduction':
         st.header('SPaRTAN')
@@ -20,6 +20,10 @@ def doc_page():
         with st.expander("Functions of SPaRTAN COVID-19db"):
             st.write("")
             
-    if page == 'Usage':
+    elif page == 'Usage':
         tab1, tab2 = st.tabs(["Starting from TF", "Starting from surface protein"])
     
+    elif page == 'Database Implementation':
+        st.caption('Detailed implementation of the SPaRTAN COVID-19db')
+    
+        
