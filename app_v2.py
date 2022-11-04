@@ -80,7 +80,7 @@ elif chosen_tab == TF:
         # tf_ds = aa.multiselect(f'Dataset ({1})', datacore.name2ds.keys(), st.session_state['datasets'])
     # else:
     datasets = datacore.name2ds.keys()
-    tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 2)
+    tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
     cell_types = datacore.name2ds["GSE155673"].cell_types
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
     tfs = datacore.name2ds["GSE155673"].total_transcription_factors
