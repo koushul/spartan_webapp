@@ -11,11 +11,9 @@ from navigation.home import home_page
 from navigation.stats import stats_page
 from utils.components import make_tab, ridge_plot
 from utils.dataloaders import Dataset, litcov_search
-from st_aggrid import AgGrid, GridUpdateMode
-from st_aggrid.grid_options_builder import GridOptionsBuilder
 
-from utils.components import ppi, local_css, hide_streamlit_style
-from texts.descriptions import DatasetDesc, Desc
+from utils.components import ppi, hide_streamlit_style
+from texts.descriptions import Desc
 from utils.dataloaders import make_datacore
 
 from PIL import Image
@@ -72,27 +70,31 @@ elif chosen_tab == TF:
     st.info(Desc.tf)
     ref = 'Literature References'
     
+    _, _, edge = st.columns(3)
+    checkbox = edge.checkbox('Show high correlations only')
     aa, ba, ca = st.columns(3)
-    
     st.session_state['datasets'] = ["GSE155673"]
     
-    # if 'grid' in st.session_state and st.session_state['datasets']:
-        # tf_ds = aa.multiselect(f'Dataset ({1})', datacore.name2ds.keys(), st.session_state['datasets'])
-    # else:
+
     datasets = datacore.name2ds.keys()
     tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
     cell_types = datacore.name2ds["GSE155673"].cell_types
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
-    tfs = datacore.name2ds["GSE155673"].total_transcription_factors
+
+    if not checkbox:
+        tfs = datacore.name2ds["GSE155673"].total_transcription_factors            
+    else:
+        tfs = list(datacore.name2ds[tf_ds].transcription_factors(cell_type))
+    
     option = ca.selectbox(
         f'Transcription Factor of interest ({len(tfs)})', tfs)   
     
     litcovdf = litcov_search(option)
-   
+
+
+    
     subtabs = ['TF Activities', 'TF-Target gene', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
-    # if 'current_tab_tf' in st.session_state:
-    #     current_tab_tf = st.session_state['current_tab_tf']
-    # else:
+
     current_tab_tf = subtabs[0]
         
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
@@ -121,11 +123,12 @@ elif chosen_tab == TF:
         ppi(option)
         
     elif chosen_subtab == 'TF Activities':  
-        st.header(f'📈 Inferred {option} activity in {cell_type}')  
         try:    
+            st.header(f'📈 Inferred {option} activity in {cell_type}')  
+            
             df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            d.pyplot(ridge_plot(df_plt))
+            d.image(ridge_plot(df_plt))
         except:
             st.warning('No high correlation matches found.')
         
@@ -165,10 +168,6 @@ elif chosen_tab == PROTEINS:
     
     a, b, c = st.columns(3)
         
-    # if 'grid' in st.session_state and st.session_state['datasets']:
-    #     p_ds = a.multiselect('Dataset', datacore.name2ds.keys(), st.session_state['datasets'])
-    # else:
-    
     datasets = datacore.name2ds.keys()
     p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
     cell_types = datacore.name2ds[p_ds].cell_types
@@ -228,16 +227,16 @@ elif chosen_tab == PROTEINS:
     elif chosen_subtab == 'Protein Expression':
         st.header(f'📈 Inferred {option} expression in {cell_type}')  
         
-        # try:
-        df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
-        c, d, e = st.columns([1, 6, 1])
-        img = ridge_plot(df_plt)
-        x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
-        y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
-        d.image(img.resize((x, y)))
+        try:
+            df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
+            c, d, e = st.columns([1, 6, 1])
+            img = ridge_plot(df_plt)
+            x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
+            y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
+            d.image(img.resize((x, y)))
 
-        # except:
-        #     st.warning('No high correlation matches found.')
+        except:
+            st.warning('No high correlation matches found.')
         
         
     elif chosen_subtab == f'Literature References ({len(litcovdf)})':
