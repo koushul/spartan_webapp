@@ -25,7 +25,7 @@ def dataset_page(ds, datacore):
     st.caption('Select one or more datasets')
     ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid', 'severity']]
     
-    ds2.pmid = ds2.apply(lambda x: f'https://pubmed.ncbi.nlm.nih.gov/{x}/')
+    ds2.pmid = ds2.pmid.apply(lambda x: f'https://pubmed.ncbi.nlm.nih.gov/{x}/')
     
     gd = GridOptionsBuilder.from_dataframe(ds2)
     
