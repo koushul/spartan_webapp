@@ -6,6 +6,7 @@ import datetime
 def load_home_image():
     return Image.open('./assets/images/home_overview.png').resize((1000, 650))
 
+TITLE = 'COVID-19db of Immune Cell States'
 
 def home_page():
     from texts.descriptions import Desc
@@ -13,7 +14,7 @@ def home_page():
     x, y, z = st.columns([1, 6, 1])
     
     with y:
-        st.title('COVID-19db of Immune Cell States') 
+        st.title(TITLE) 
         with open('./clock.time', 'r') as f:
             last_updated_on = f.readlines()[0]
         st.caption(last_updated_on)

@@ -7,7 +7,7 @@ import streamlit as st
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
 
-from navigation.home import home_page
+from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
 from utils.components import make_tab, ridge_plot
 from utils.dataloaders import Dataset, litcov_search
@@ -26,7 +26,7 @@ DOC = "Documentation"
 STATS = "Usage"
 
 st.set_page_config(
-    page_title="SPaRTAN COVID-19db",
+    page_title=TITLE,
     page_icon="./assets/logos/spartan.png",
     layout="wide",
     initial_sidebar_state="expanded",
