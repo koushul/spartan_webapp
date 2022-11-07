@@ -15,12 +15,10 @@ def home_page():
     st.caption(last_updated_on)
     img = load_home_image()
     st.write(Desc.home)
-    x, y = st.columns([1.5, 1])
-    x.image(img)      
-    # y.markdown("<style>.element-container{opacity:1 !important}</style>", unsafe_allow_html=True)
-    y.write('')  
+    x, y, z = st.columns([1, 4, 1])
+    y.image(img)      
     y.write(Desc.intro_1)
-    st.markdown(Desc.intro_2)
+    y.markdown(Desc.intro_2)
     
     
 if __name__ == '__main__':
