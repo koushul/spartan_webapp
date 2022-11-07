@@ -36,8 +36,8 @@ def dataset_page(ds, datacore):
     
     from st_aggrid import JsCode
     
-    gd.configure_column("name",
-        headerName="name",
+    gd.configure_column("pmid",
+        headerName="pmid",
         # cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.pmid</a>'}'''),
         )
     
