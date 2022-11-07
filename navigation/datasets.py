@@ -36,6 +36,8 @@ def dataset_page(ds, datacore):
     
     js = JsCode("""function(params) {return '<a href="https://www.google.com">888</a>'}""")     
 
+    gd.configure_grid_options(onRowSelected=js) 
+    
     grid_table = AgGrid(ds2, 
         gridOptions=gd.build(),
         update_mode=GridUpdateMode.SELECTION_CHANGED, 
