@@ -1,7 +1,7 @@
 import streamlit as st
 
 from texts.descriptions import Desc
-from home import TITLE
+from .home import TITLE
 
 def doc_page():
     st.sidebar.header('Content')
