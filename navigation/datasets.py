@@ -34,10 +34,10 @@ def dataset_page(ds, datacore):
                 
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     
-    gd.configure_column("link",
-        headerName="pmid",
-        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.value</a>'}'''),
-        width=300)
+    # gd.configure_column("link",
+    #     headerName="pmid",
+    #     cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.value</a>'}'''),
+    #     width=300)
     
     gridoptions = gd.build()
     
