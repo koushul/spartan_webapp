@@ -42,7 +42,7 @@ def dataset_page(ds, datacore):
     
     gd.configure_column("pmid",
         headerName="pmid",
-        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.value</a>'}'''),
+        cellRenderer=JsCode('''function(params) {return <a href=${params.value} target="_blank">${params.value}</a>}'''),
     )
     
     grid_table = AgGrid(ds2, 
