@@ -225,7 +225,7 @@ elif chosen_tab == PROTEINS:
             
         
     elif chosen_subtab == 'Protein Expression':
-        st.header(f'📈 Inferred {option} expression in {cell_type}')  
+        st.header(f'📈 {o} expression in {cell_type}')  
         
         try:
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
