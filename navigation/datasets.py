@@ -24,6 +24,9 @@ def dataset_page(ds, datacore):
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
     ds2 = ds[['name', 'organism', 'patients', 'cell count', 'assay', 'pmid', 'severity']]
+    
+    ds2.pmid = ds2.apply(lambda x: f'https://pubmed.ncbi.nlm.nih.gov/{x}/')
+    
     gd = GridOptionsBuilder.from_dataframe(ds2)
     
     if 'datasets' in st.session_state:
@@ -34,16 +37,6 @@ def dataset_page(ds, datacore):
                 
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     
-    # js = JsCode("""function(params) {return '<a href="https://www.google.com">888</a>'}""")    
-    
-     
-
-    # gd.configure_grid_options(onRowSelected=js) 
-    
-    # gd.configure_column("pmid",
-    #     headerName="pmid",
-    #     cellRenderer=JsCode('''function(params) {return <a href=${params.value} target="_blank">${params.value}</a>}'''),
-    # )
     
     cell_renderer =  JsCode("""
             function(params) {return `<a href=${params.value} target="">${params.value}</a>`}
