@@ -40,10 +40,16 @@ def dataset_page(ds, datacore):
 
     # gd.configure_grid_options(onRowSelected=js) 
     
-    gd.configure_column("pmid",
-        headerName="pmid",
-        cellRenderer=JsCode('''function(params) {return <a href=${params.value} target="_blank">${params.value}</a>}'''),
-    )
+    # gd.configure_column("pmid",
+    #     headerName="pmid",
+    #     cellRenderer=JsCode('''function(params) {return <a href=${params.value} target="_blank">${params.value}</a>}'''),
+    # )
+    
+    cell_renderer =  JsCode("""
+            function(params) {return `<a href=${params.value} target="_blank">${params.value}</a>`}
+    """)
+
+    gd.configure_column("pmid", cellRenderer=cell_renderer)
     
     grid_table = AgGrid(ds2, 
         gridOptions=gd.build(),
