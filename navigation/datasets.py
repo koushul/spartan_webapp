@@ -34,9 +34,16 @@ def dataset_page(ds, datacore):
                 
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     
-    js = JsCode("""function(params) {return '<a href="https://www.google.com">888</a>'}""")     
+    # js = JsCode("""function(params) {return '<a href="https://www.google.com">888</a>'}""")    
+    
+     
 
-    gd.configure_grid_options(onRowSelected=js) 
+    # gd.configure_grid_options(onRowSelected=js) 
+    
+    gd.configure_column("pmid",
+        headerName="pmid",
+        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.value</a>'}'''),
+    )
     
     grid_table = AgGrid(ds2, 
         gridOptions=gd.build(),
