@@ -46,11 +46,11 @@ def dataset_page(ds, datacore):
 
     grid_table = AgGrid(ds2, 
         gridOptions=gridoptions,
-        update_mode=GridUpdateMode.SELECTION_CHANGED, 
-        fit_columns_on_grid_load=True,
-        height=155,
-        width='100%',
-        theme="streamlit",
+        # update_mode=GridUpdateMode.SELECTION_CHANGED, 
+        # fit_columns_on_grid_load=True,
+        # height=155,
+        # width='100%',
+        # theme="streamlit",
     )
 
         
