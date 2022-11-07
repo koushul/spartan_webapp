@@ -44,10 +44,7 @@ def dataset_page(ds, datacore):
         ),
         valueGetter=JsCode("""function(params) {return {a: params.data.apple, b: params.data.banana} }"""),
     )
-    
-    gd.configure_column("link",
-        headerName="pmid",
-        cellRenderer=JsCode(''),)
+
     
     gridoptions = gd.build()
     
