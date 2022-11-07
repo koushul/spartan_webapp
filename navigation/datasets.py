@@ -38,9 +38,7 @@ def dataset_page(ds, datacore):
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     
     
-    cell_renderer =  JsCode("""
-            function(params) {return `<a href='https://pubmed.ncbi.nlm.nih.gov/${params.value}/' target="_blank">${params.value}</a>`}
-    """)
+    cell_renderer =  JsCode("""function(params) {return `<a href='https://pubmed.ncbi.nlm.nih.gov/${params.value}/' target="_blank">${params.value}</a>`}""")
     
 
     gd.configure_column("pmid", cellRenderer=cell_renderer)
