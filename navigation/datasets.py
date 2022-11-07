@@ -49,7 +49,6 @@ def dataset_page(ds, datacore):
         height=155,
         width='100%',
         theme="streamlit",
-        key='grid'
     )
 
         
