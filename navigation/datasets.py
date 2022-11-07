@@ -39,6 +39,10 @@ def dataset_page(ds, datacore):
     #     cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.value</a>'}'''),
     #     width=300)
     
+    gd.configure_column("link",
+        headerName="pmid",
+        cellRenderer=JsCode(''),)
+    
     gridoptions = gd.build()
     
 
