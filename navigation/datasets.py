@@ -34,13 +34,10 @@ def dataset_page(ds, datacore):
                 
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     
-    js = JsCode("""function(params) {return '<a href="https://www.google.com">888</a>'}"""
-        
-    gridoptions = gd.build()
-        
+    js = JsCode("""function(params) {return '<a href="https://www.google.com">888</a>'}"""        
 
     grid_table = AgGrid(ds2, 
-        gridOptions=gridoptions,
+        gridOptions=gd.build(),
         update_mode=GridUpdateMode.SELECTION_CHANGED, 
         fit_columns_on_grid_load=True,
         height=155,
