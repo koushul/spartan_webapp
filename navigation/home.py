@@ -4,13 +4,12 @@ import datetime
 
 @st.cache(allow_output_mutation=True)
 def load_home_image():
-    return Image.open('./assets/images/home.png').resize((1000, 650))
+    return Image.open('./assets/images/home_overview.png').resize((1000, 650))
 
 
 def home_page():
     from texts.descriptions import Desc
     img = load_home_image()
-    st.write(Desc.home)
     x, y, z = st.columns([1, 6, 1])
     
     with y:
@@ -18,7 +17,7 @@ def home_page():
         with open('./clock.time', 'r') as f:
             last_updated_on = f.readlines()[0]
         st.caption(last_updated_on)
-        
+        st.write(Desc.home)
         st.image(img)      
         st.write(Desc.intro_1)
         st.markdown(Desc.intro_2)
