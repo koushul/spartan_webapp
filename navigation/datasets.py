@@ -34,20 +34,15 @@ def dataset_page(ds, datacore):
                 
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
     
-    gd.configure_column(
-        "pmid",
-        type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
-        precision=2,
-        aggFunc="sum",
-        cellRenderer=JsCode(
-            """function(params) { return `<a href="https://www.google.com" target="_blank">${params.value.a}  ${params.value.b}</a>`}"""
-        ),
-        valueGetter=JsCode("""function(params) {return {a: params.data.apple, b: params.data.banana} }"""),
-    )
-
+    from st_aggrid import JsCode
+    
+    gd.configure_column("link",
+        headerName="Link",
+        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.pmid</a>'}'''),
+        width=300)
     
     gridoptions = gd.build()
-    
+        
 
     grid_table = AgGrid(ds2, 
         gridOptions=gridoptions,
