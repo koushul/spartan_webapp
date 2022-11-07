@@ -13,7 +13,7 @@ def home_page():
     x, y, z = st.columns([1, 6, 1])
     
     with y:
-        st.title('Welcome to SPaRTAN COVID-19db') 
+        st.title('COVID-19db of Immune Cell States') 
         with open('./clock.time', 'r') as f:
             last_updated_on = f.readlines()[0]
         st.caption(last_updated_on)
