@@ -36,10 +36,10 @@ def dataset_page(ds, datacore):
     
     from st_aggrid import JsCode
     
-    gd.configure_column("link",
-        headerName="Link",
-        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.pmid</a>'}'''),
-        width=300)
+    gd.configure_column("name",
+        headerName="name",
+        # cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.pmid</a>'}'''),
+        )
     
     gridoptions = gd.build()
         
