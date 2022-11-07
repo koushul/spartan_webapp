@@ -15,6 +15,10 @@ def totags(tags):
     t += '</div>'
     return t
 
+
+from st_aggrid import JsCode
+
+
 def dataset_page(ds, datacore):
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
@@ -29,7 +33,14 @@ def dataset_page(ds, datacore):
                 
                 
     gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
+    
+    gd.configure_column("link",
+        headerName="Link",
+        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.value</a>'}'''),
+        width=300)
+    
     gridoptions = gd.build()
+    
 
     grid_table = AgGrid(ds2, 
         gridOptions=gridoptions,
