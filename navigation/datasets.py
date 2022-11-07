@@ -39,7 +39,7 @@ def dataset_page(ds, datacore):
     
     
     cell_renderer =  JsCode("""
-            function(params) {return `<a href=${params.value} target="_self">${params.value}</a>`}
+            function(params) {return `<a href=${params.value} target="_blank"></a>`}
     """)
 
     gd.configure_column("pmid", cellRenderer=cell_renderer)
