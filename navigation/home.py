@@ -9,16 +9,19 @@ def load_home_image():
 
 def home_page():
     from texts.descriptions import Desc
-    st.title('Welcome to SPaRTAN COVID-19db') 
-    with open('./clock.time', 'r') as f:
-        last_updated_on = f.readlines()[0]
-    st.caption(last_updated_on)
     img = load_home_image()
     st.write(Desc.home)
-    x, y, z = st.columns([1, 4, 1])
-    y.image(img)      
-    y.write(Desc.intro_1)
-    y.markdown(Desc.intro_2)
+    x, y, z = st.columns([1, 6, 1])
+    
+    with y:
+        st.title('Welcome to SPaRTAN COVID-19db') 
+        with open('./clock.time', 'r') as f:
+            last_updated_on = f.readlines()[0]
+        st.caption(last_updated_on)
+        
+        st.image(img)      
+        st.write(Desc.intro_1)
+        st.markdown(Desc.intro_2)
     
     
 if __name__ == '__main__':
