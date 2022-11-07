@@ -38,7 +38,7 @@ def dataset_page(ds, datacore):
     
     gd.configure_column("pmid",
         headerName="pmid",
-        # cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com">params.pmid</a>'}'''),
+        cellRenderer=JsCode('''function(params) {return '<a href="https://www.google.com"></a>'}'''),
         )
     
     gridoptions = gd.build()
