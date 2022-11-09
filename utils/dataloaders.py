@@ -96,13 +96,13 @@ class Dataset:
     def get_protein_tf_data(self, cell_type, protein):
         base = self.root / cell_type / 'protein-TFs_higCorr'
         img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
-        csv = base / f'{protein}~TFs_highCorr.csv'
+        csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))
         return (str(csv), str(img))
     
     def get_tf_protein_data(self, cell_type, tf):
         base = self.root / cell_type / 'TF-proteins_higCorr'
-        img =  base / 'Figure' / f'{tf}-proteins~highCorr.csv.png'
-        csv = base / f'{tf}-proteins~highCorr.csv' 
+        img =  list((base / 'Figure').glob(f'{tf}~proteins_highCorr_corrcut_*'))[0]        
+        csv = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.csv"))[0]
         return (str(csv), str(img))
     
     def get_paired_df(self, celltype, protein):        
