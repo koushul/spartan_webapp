@@ -173,28 +173,23 @@ elif chosen_tab == PROTEINS:
     cell_types = datacore.name2ds[p_ds].cell_types
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
-    try: 
-        if not checkbox:
-            s_proteins = list(datacore.name2ds[p_ds].total_surface_proteins)
-        else:
-            s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
+    if not checkbox:
+        s_proteins = list(datacore.name2ds[p_ds].total_surface_proteins)
+    else:
+        s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
 
-        option = c.selectbox(
-            f"Surface Protein of interest ({len(s_proteins)})",
-            s_proteins)
+    option = c.selectbox(
+        f"Surface Protein of interest ({len(s_proteins)})",
+        s_proteins)
+    
         
-            
-        o = option.split('--')[0]
-        
-        try:    
-            litcovdf = litcov_search(o)
-        except:
-            litcovdf = pd.DataFrame([])
-            
+    o = option
+    
+    try:    
+        litcovdf = litcov_search(o)
     except:
-        st.error('Error loading dataset', icon="🚨")
         litcovdf = pd.DataFrame([])
-        
+
         
     subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
     if 'current_tab' in st.session_state:
@@ -212,7 +207,7 @@ elif chosen_tab == PROTEINS:
         
         
     elif chosen_subtab == 'Protein-TF Correlation':
-        st.header(f'🔗 Correlation between {o} and inferred TF activities in {cell_type}')
+        st.header(f'🔗 Correlation between {option} expression and inferred TF activities in {cell_type}')
         
         csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)
         try:

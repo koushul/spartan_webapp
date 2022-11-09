@@ -1,10 +1,8 @@
-import base64
 from pathlib import Path
 
 import pandas as pd
 import streamlit as st
 
-from texts.descriptions import DatasetDesc
 from pathlib import Path
 
 
@@ -64,10 +62,12 @@ class Dataset:
     @classmethod
     def metadata_df(cls):
         return pd.DataFrame(cls.metadata)
+    
         
     def surface_proteins(self, cell_type):
         proteins = (self.root / cell_type / 'protein-TFs_higCorr' / 'Figure').iterdir()
-        proteins = [i.name[:-len('~TFs_highCorr.csv.png')] for i in proteins]
+        proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
+                
         return proteins
     
     @property
@@ -90,13 +90,13 @@ class Dataset:
     
     def transcription_factors(self, cell_type):
         tfs = (self.root / cell_type / 'TF-proteins_higCorr' / 'Figure').iterdir()
-        tfs = [i.name[:-len('-proteins~highCorr.csv.png')] for i in tfs]
+        tfs = [i.name.split('~proteins_highCorr_corrcut_')[0] for i in tfs]
         return tfs
     
     def get_protein_tf_data(self, cell_type, protein):
         base = self.root / cell_type / 'protein-TFs_higCorr'
-        img =  base / 'Figure' / f'{protein}~TFs_highCorr.csv.png'
-        csv = base / f'{protein}~TFs_highCorr.csv' 
+        img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
+        csv = base / f'{protein}~TFs_highCorr.csv'
         return (str(csv), str(img))
     
     def get_tf_protein_data(self, cell_type, tf):
