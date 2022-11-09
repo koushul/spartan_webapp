@@ -56,7 +56,7 @@ class Dataset:
         self.root = root
         self.name = self.root.name
         self.cell_types = [i.name for i in self.root.iterdir()]
-        self.umap = str(Path('./data/For_Koushul/umaps/') / f'{self.name} dataset UMAP.png')
+        self.umap = str(Path('./data/umaps/') / f'{self.name} dataset UMAP.png')
         self.meta = pd.DataFrame(self.metadata)
     
     @classmethod
@@ -128,7 +128,7 @@ class Dataset:
 class Datacore:
     
     def __init__(self):
-        self.root_path = Path('./data/For_Koushul/')
+        self.root_path = Path('./data/')
         self.datasets = [Dataset(i) for i in (self.root_path / 'data').iterdir()]
         self.name2ds = dict(zip([ds.name for ds in self.datasets], self.datasets))
         
