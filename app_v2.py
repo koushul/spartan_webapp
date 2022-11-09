@@ -78,11 +78,11 @@ elif chosen_tab == TF:
 
     datasets = datacore.name2ds.keys()
     tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
-    cell_types = datacore.name2ds["GSE155673"].cell_types
+    cell_types = datacore.name2ds[tf_ds].cell_types
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
 
     if not checkbox:
-        tfs = datacore.name2ds["GSE155673"].total_transcription_factors            
+        tfs = datacore.name2ds[tf_ds].total_transcription_factors            
     else:
         tfs = list(datacore.name2ds[tf_ds].transcription_factors(cell_type))
     
@@ -126,7 +126,7 @@ elif chosen_tab == TF:
         try:    
             st.header(f'📈 Inferred {option} activity in {cell_type}')  
             
-            df_plt = datacore.name2ds["GSE155673"].get_tf_df(cell_type, option)
+            df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
             d.image(ridge_plot(df_plt))
         except:
@@ -136,7 +136,7 @@ elif chosen_tab == TF:
         st.header(f'🔗 Correlation between {option} and inferred surface protein expression in {cell_type}')
 
         
-        csv, img = datacore.name2ds["GSE155673"].get_tf_protein_data(cell_type, option)
+        csv, img = datacore.name2ds[tf_ds].get_tf_protein_data(cell_type, option)
         try:
             st.image(img)
             exp = st.expander('Raw Data')
@@ -167,6 +167,9 @@ elif chosen_tab == PROTEINS:
     checkbox = edge.checkbox('Show high correlations only')
     
     a, b, c = st.columns(3)
+    
+    st.session_state['datasets'] = ["GSE155673"]
+    
         
     datasets = datacore.name2ds.keys()
     p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
