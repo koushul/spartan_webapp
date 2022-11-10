@@ -4,7 +4,7 @@ import datetime
 
 @st.cache(allow_output_mutation=True)
 def load_home_image():
-    return Image.open('./assets/images/home_overview.png')
+    return Image.open('./assets/images/home.png')
 
 TITLE = 'COVID-19db of Immune Cell States'
 
