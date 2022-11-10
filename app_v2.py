@@ -142,7 +142,7 @@ elif chosen_tab == TF:
             st.warning('No high correlation matches found.')
         
     elif chosen_subtab == 'TF-Protein Correlation':
-        st.header(f'🔗 Correlation between {option} and inferred surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
+        st.header(f'🔗 Correlation between {option} and surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
 
         
         csv, img = datacore.name2ds[tf_ds].get_tf_protein_data(cell_type, option)
