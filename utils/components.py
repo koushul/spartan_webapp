@@ -38,7 +38,7 @@ def label(x, color, label):
             ha="left", va="center", transform=ax.transAxes)
     
 sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2})
-palette = sns.color_palette("Set2", 12)
+# palette = sns.color_palette("Set2", 12)
 
 def fig2img(fig):
     """Convert a Matplotlib figure to a PIL Image and return it"""
@@ -49,15 +49,15 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
-def ridge_plot(df_plt):
+def ridge_plot(df_plt, xlabel=''):
     
-    g = sns.FacetGrid(df_plt, palette=palette, row="patient_group", hue="patient_group", aspect=5)
+    g = sns.FacetGrid(df_plt, palette=['lime', 'salmon', 'lightskyblue'], row="patient_group", hue="patient_group", aspect=5)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     g.map(label, "patient_group")
     g.fig.subplots_adjust(hspace=-.5)
     g.set_titles("")
-    g.set(yticks=[], xlabel="")
+    g.set(yticks=[], xlabel=xlabel)
     g.despine( left=True)
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)

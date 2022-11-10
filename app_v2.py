@@ -40,6 +40,15 @@ def totags(tags):
     t += '</div>'
     return t
 
+CELL_NAMES = {
+    'Mono': 'Monocytes',
+    'CD4_T': 'CD4+ T Cells',
+    'CD8_T': 'CD8+ T Cells',
+    'DC': 'Dendritic Cells',
+    'B': 'B Cells',
+    'NK': 'Natural Killer Cells'
+}
+
 tabs = [
     HOME,
     DATASET,
@@ -124,23 +133,23 @@ elif chosen_tab == TF:
         
     elif chosen_subtab == 'TF Activities':  
         try:    
-            st.header(f'📈 Inferred {option} activity in {cell_type}')  
+            st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            d.image(ridge_plot(df_plt))
+            d.image(ridge_plot(df_plt, 'TF Activities'))
         except:
             st.warning('No high correlation matches found.')
         
     elif chosen_subtab == 'TF-Protein Correlation':
-        st.header(f'🔗 Correlation between {option} and inferred surface protein expression in {cell_type}')
+        st.header(f'🔗 Correlation between {option} and inferred surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
 
         
         csv, img = datacore.name2ds[tf_ds].get_tf_protein_data(cell_type, option)
         try:
             st.image(img)
             exp = st.expander('Raw Data')
-            exp.dataframe(pd.read_csv(csv))
+            exp.dataframe(pd.read_parquet(csv))
         except:
             st.warning('No high correlation matches found.')
             
@@ -210,25 +219,25 @@ elif chosen_tab == PROTEINS:
         
         
     elif chosen_subtab == 'Protein-TF Correlation':
-        st.header(f'🔗 Correlation between {option} expression and inferred TF activities in {cell_type}')
+        st.header(f'🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
         
         try:
             csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)            
             st.image(img)
-            exp = st.expander('Raw Data')
-            exp.dataframe(pd.read_csv(csv))
+            exp = st.expander('Raw Data')            
+            exp.dataframe(pd.read_parquet(csv))
         except:
             st.warning('No high correlation matches found.')
             
             
         
     elif chosen_subtab == 'Protein Expression':
-        st.header(f'📈 {o} expression in {cell_type}')  
+        st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
         
         try:
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            img = ridge_plot(df_plt)
+            img = ridge_plot(df_plt, 'Protein Expression')
             x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             d.image(img.resize((x, y)))

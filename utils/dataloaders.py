@@ -4,7 +4,7 @@ import pandas as pd
 import streamlit as st
 
 from pathlib import Path
-
+import random
 
 cutsize_from = 30
 cutsize_to = 10000
@@ -36,6 +36,8 @@ class Dataset:
         'patients': [270, 12, 143, 93],
         'cell count': ['559,517', '59,664', '691,683', '86,935'],
         'assay': ['CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq'],
+        'surface proteins': [random.randint(10, 100), 34, random.randint(10, 100), random.randint(10, 100)],
+        'transcription factors': [random.randint(10, 100), 206, random.randint(10, 100), random.randint(10, 100)],
         'pmid': [33171100,  54371, 33879890, 33622974],
         'severity': ['Healthy, Mild, Moderate, Severe']*4,
         'url': [
@@ -96,7 +98,7 @@ class Dataset:
     def get_protein_tf_data(self, cell_type, protein):
         base = self.root / cell_type / 'protein-TFs_higCorr'
         img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
-        parquet = list((base).glob(f'{protein}~TFs_highCorr*.parquet'))
+        parquet = list((base).glob(f'{protein}~TFs_highCorr*.parquet'))[0]
         return (str(parquet), str(img))
     
     def get_tf_protein_data(self, cell_type, tf):
