@@ -10,7 +10,7 @@ from texts.descriptions import DatasetDesc, Desc
 @st.cache
 def totags(tags):
     t = '<div>'
-    for tag, color in zip(tags, ['red', 'blue', 'green', 'orange']):
+    for tag, color in zip(tags, ['red', 'blue', 'green', 'orange', 'purple', 'yellow']):
         t += f"<span class='highlight {color}'>{tag}</span>\t"
     t += '</div>'
     return t
@@ -74,10 +74,14 @@ def dataset_page(ds, datacore):
         
         st.markdown(
             totags([
-                row_json['organism'], 
                 row_json['assay'], 
                 row_json['cell count'] + ' cells', 
-                str(row_json['patients']) + ' patients']), 
+                str(row_json['patients']) + ' patients',
+                str(row_json['surface proteins']) + ' surface proteins',
+                str(row_json['transcription factors']) + ' transcription factors',
+                
+                ],
+            ), 
             unsafe_allow_html=True)
         
         st.markdown('---')
