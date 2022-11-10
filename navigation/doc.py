@@ -22,7 +22,10 @@ def doc_page():
             st.write("")
             
     elif page == 'Usage':
-        tab1, tab2 = st.tabs(["Starting from TF", "Starting from surface protein"])
+        video_file = open('./assets/video/video.webm', 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
+        
     
     elif page == 'Database Implementation':
         st.caption(f'Detailed implementation of the {TITLE}')
