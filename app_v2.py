@@ -149,7 +149,7 @@ elif chosen_tab == TF:
         try:
             st.image(img)
             exp = st.expander('Raw Data')
-            exp.dataframe(pd.read_parquet(csv))
+            exp.dataframe(pd.read_csv(csv))
         except:
             st.warning('No high correlation matches found.')
             
@@ -225,7 +225,7 @@ elif chosen_tab == PROTEINS:
             csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)            
             st.image(img)
             exp = st.expander('Raw Data')            
-            exp.dataframe(pd.read_parquet(csv))
+            exp.dataframe(pd.read_csv(csv))
         except:
             st.warning('No high correlation matches found.')
             
