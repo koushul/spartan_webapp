@@ -51,7 +51,7 @@ def fig2img(fig):
 
 def ridge_plot(df_plt, xlabel=''):
     
-    g = sns.FacetGrid(df_plt, palette=['lime', 'salmon', 'lightskyblue'], row="patient_group", hue="patient_group", aspect=5)
+    g = sns.FacetGrid(df_plt, palette=['lime', 'salmon', 'lightskyblue', 'orchid'], row="patient_group", hue="patient_group", aspect=5)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     g.map(label, "patient_group")

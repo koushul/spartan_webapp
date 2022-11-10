@@ -88,7 +88,7 @@ elif chosen_tab == TF:
     datasets = datacore.name2ds.keys()
     tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
     cell_types = datacore.name2ds[tf_ds].cell_types
-    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 3)
+    cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
 
     if not checkbox:
         tfs = datacore.name2ds[tf_ds].total_transcription_factors            
@@ -132,12 +132,13 @@ elif chosen_tab == TF:
         ppi(option)
         
     elif chosen_subtab == 'TF Activities':  
+        st.write(datacore.name2ds[tf_ds].get_tf_df(cell_type, option))
         try:    
             st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            d.image(ridge_plot(df_plt, 'TF Activities'))
+            d.image(ridge_plot(df_plt, f'{option} Activity'))
         except:
             st.warning('No high correlation matches found.')
         
@@ -237,7 +238,7 @@ elif chosen_tab == PROTEINS:
         try:
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            img = ridge_plot(df_plt, 'Protein Expression')
+            img = ridge_plot(df_plt, f'{option} Expression')
             x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             d.image(img.resize((x, y)))

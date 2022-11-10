@@ -9,6 +9,7 @@ import random
 cutsize_from = 30
 cutsize_to = 10000
 
+fuzzy_match = lambda root, fname: list(root.glob(fname))[0]
 
 @st.cache
 def litcov_search(search):
@@ -58,6 +59,8 @@ class Dataset:
         self.root = root
         self.name = self.root.name
         self.cell_types = [i.name for i in self.root.iterdir()]
+        # st.write(self.root, self.cell_types)
+        
         self.umap = str(Path('./data/umaps/') / f'{self.name} dataset UMAP.png')
         self.meta = pd.DataFrame(self.metadata)
     
@@ -76,7 +79,7 @@ class Dataset:
     def total_surface_proteins(self):
         proteins = set()
         for ct in self.cell_types:
-            for p in pd.read_csv(self.root / ct / 'proteins_all_30~10000_withGroup.csv').columns:
+            for p in pd.read_csv(fuzzy_match((self.root / ct), 'proteins_all_*~*_withGroup.csv')).columns:
                 proteins.add(p)
         proteins = proteins.difference({'Unnamed: 0', 'group'})
         return proteins
@@ -85,7 +88,8 @@ class Dataset:
     def total_transcription_factors(self):
         tfs = set()
         for ct in self.cell_types:
-            for p in pd.read_csv(self.root / ct / 'TFs_rank_all_30~10000_withGroup.csv').columns:
+            
+            for p in pd.read_csv(fuzzy_match((self.root / ct), 'proteins_all_*~*_withGroup.csv')).columns:
                 tfs.add(p)
         tfs = tfs.difference({'Unnamed: 0', 'group'})
         return tfs
@@ -107,20 +111,15 @@ class Dataset:
         csv = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.csv"))[0]
         return (str(csv), str(img))
     
-    def get_paired_df(self, celltype, protein):        
-        df_data = pd.read_csv(self.root / f'{celltype}/correlation_all_{cutsize_from}~{cutsize_to}_withGroup.csv')
-        df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
-        df_plt.columns = ['patient_group', 'Pair_correlations']
-        return df_plt
     
     def get_tf_df(self, celltype, protein):
-        df_data = pd.read_csv(self.root / f'{celltype}/TFs_rank_all_{cutsize_from}~{cutsize_to}_withGroup.csv')
+        df_data = pd.read_csv(fuzzy_match((self.root / celltype), 'TFs_rank_all_*~*_withGroup.csv'))
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
     
     def get_protein_df(self, celltype, protein):
-        df_data = pd.read_csv(self.root / f'{celltype}/proteins_all_{cutsize_from}~{cutsize_to}_withGroup.csv')
+        df_data = pd.read_csv(fuzzy_match((self.root / celltype), 'proteins_all_*~*_withGroup.csv'))
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
