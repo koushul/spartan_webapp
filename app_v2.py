@@ -132,7 +132,6 @@ elif chosen_tab == TF:
         ppi(option)
         
     elif chosen_subtab == 'TF Activities':  
-        st.write(datacore.name2ds[tf_ds].get_tf_df(cell_type, option))
         try:    
             st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
             
