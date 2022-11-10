@@ -212,9 +212,8 @@ elif chosen_tab == PROTEINS:
     elif chosen_subtab == 'Protein-TF Correlation':
         st.header(f'🔗 Correlation between {option} expression and inferred TF activities in {cell_type}')
         
-        csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)
-        st.write(img)
         try:
+            csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)            
             st.image(img)
             exp = st.expander('Raw Data')
             exp.dataframe(pd.read_csv(csv))

@@ -74,7 +74,7 @@ class Dataset:
     def total_surface_proteins(self):
         proteins = set()
         for ct in self.cell_types:
-            for p in pd.read_csv(self.root / ct / 'proteins_all_30~10000_withGroup.csv').columns:
+            for p in pd.read_parquet(self.root / ct / 'proteins_all_30~10000_withGroup.parquet').columns:
                 proteins.add(p)
         proteins = proteins.difference({'Unnamed: 0', 'group'})
         return proteins
@@ -83,7 +83,7 @@ class Dataset:
     def total_transcription_factors(self):
         tfs = set()
         for ct in self.cell_types:
-            for p in pd.read_csv(self.root / ct / 'TFs_rank_all_30~10000_withGroup.csv').columns:
+            for p in pd.read_parquet(self.root / ct / 'TFs_rank_all_30~10000_withGroup.parquet').columns:
                 tfs.add(p)
         tfs = tfs.difference({'Unnamed: 0', 'group'})
         return tfs
@@ -96,29 +96,29 @@ class Dataset:
     def get_protein_tf_data(self, cell_type, protein):
         base = self.root / cell_type / 'protein-TFs_higCorr'
         img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
-        csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))
-        return (str(csv), str(img))
+        parquet = list((base).glob(f'{protein}~TFs_highCorr*.parquet'))
+        return (str(parquet), str(img))
     
     def get_tf_protein_data(self, cell_type, tf):
         base = self.root / cell_type / 'TF-proteins_higCorr'
         img =  list((base / 'Figure').glob(f'{tf}~proteins_highCorr_corrcut_*'))[0]        
-        csv = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.csv"))[0]
-        return (str(csv), str(img))
+        parquet = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.parquet"))[0]
+        return (str(parquet), str(img))
     
     def get_paired_df(self, celltype, protein):        
-        df_data = pd.read_csv(self.root / f'{celltype}/correlation_all_{cutsize_from}~{cutsize_to}_withGroup.csv')
+        df_data = pd.read_parquet(self.root / f'{celltype}/correlation_all_{cutsize_from}~{cutsize_to}_withGroup.parquet')
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
     
     def get_tf_df(self, celltype, protein):
-        df_data = pd.read_csv(self.root / f'{celltype}/TFs_rank_all_{cutsize_from}~{cutsize_to}_withGroup.csv')
+        df_data = pd.read_parquet(self.root / f'{celltype}/TFs_rank_all_{cutsize_from}~{cutsize_to}_withGroup.parquet')
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
     
     def get_protein_df(self, celltype, protein):
-        df_data = pd.read_csv(self.root / f'{celltype}/proteins_all_{cutsize_from}~{cutsize_to}_withGroup.csv')
+        df_data = pd.read_parquet(self.root / f'{celltype}/proteins_all_{cutsize_from}~{cutsize_to}_withGroup.parquet')
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
