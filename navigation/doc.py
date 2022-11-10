@@ -22,6 +22,7 @@ def doc_page():
             st.write("")
             
     elif page == 'Usage':
+        st.title('Example usage')
         video_file = open('./assets/video/video.webm', 'rb')
         video_bytes = video_file.read()
         st.video(video_bytes)
