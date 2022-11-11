@@ -58,8 +58,9 @@ def ridge_plot(df_plt, xlabel=''):
     g = sns.FacetGrid(df_plt, palette=
                     [
                         colors.to_rgb(st.color_picker('healthy', green)), 
-                        colors.to_rgb(st.color_picker('moderate', salmon)),
-                        colors.to_rgb(st.color_picker('severe', lightskyblue))
+                        colors.to_rgb(st.color_picker('mild', salmon)),
+                        colors.to_rgb(st.color_picker('moderate', lightskyblue)),
+                        colors.to_rgb(st.color_picker('severe', orchid))
                     ], 
         row="patient_group", hue="patient_group", aspect=5)
     

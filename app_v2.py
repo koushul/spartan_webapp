@@ -145,8 +145,8 @@ elif chosen_tab == TF:
         st.header(f'🔗 Correlation between {option} and surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
 
         
-        csv, img = datacore.name2ds[tf_ds].get_tf_protein_data(cell_type, option)
         try:
+            csv, img = datacore.name2ds[tf_ds].get_tf_protein_data(cell_type, option)
             st.image(img)
             exp = st.expander('Raw Data')
             exp.dataframe(pd.read_csv(csv))
