@@ -37,8 +37,8 @@ class Dataset:
         'patients': [270, 12, 143, 93],
         'cell count': ['559,517', '59,664', '691,683', '86,935'],
         'assay': ['CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq'],
-        'surface proteins': [59, 34, random.randint(10, 100), random.randint(10, 100)],
-        'transcription factors': [183, 206, random.randint(10, 100), random.randint(10, 100)],
+        'surface proteins': [125, 34, random.randint(10, 100), random.randint(10, 100)],
+        'transcription factors': [209, 206, random.randint(10, 100), random.randint(10, 100)],
         'pmid': [33171100,  54371, 33879890, 33622974],
         'severity': ['Healthy, Mild, Moderate, Severe']*4,
         'url': [
