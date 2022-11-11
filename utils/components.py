@@ -6,7 +6,7 @@ import streamlit as st
 from navigation.protein import generate_color, get_ppi_edge_list
 from pyvis.network import Network
 import streamlit.components.v1 as components
-
+from matplotlib import colors
 
 
 hide_streamlit_style = f"""
@@ -50,8 +50,19 @@ def fig2img(fig):
     return img
 
 def ridge_plot(df_plt, xlabel=''):
+    green = colors.to_hex('green')
+    salmon = colors.to_hex('salmon')
+    lightskyblue = colors.to_hex('lightskyblue')
+    orchid = colors.to_hex('orchid')
+
+    g = sns.FacetGrid(df_plt, palette=
+                    [
+                        colors.to_rgb(st.color_picker('healthy', green)), 
+                        colors.to_rgb(st.color_picker('moderate', salmon)),
+                        colors.to_rgb(st.color_picker('severe', lightskyblue))
+                    ], 
+        row="patient_group", hue="patient_group", aspect=5)
     
-    g = sns.FacetGrid(df_plt, palette=['lime', 'salmon', 'lightskyblue', 'orchid'], row="patient_group", hue="patient_group", aspect=5)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     g.map(label, "patient_group")
