@@ -129,23 +129,24 @@ def ppi(option):
     net = Network()
     try:
         caption, pairs = get_ppi_edge_list(option, neighbors, size)
+        for i, j, v in pairs:
+            net.add_node(j, label=j)
+            
+        for n in net.nodes:
+            if n['label'] == option:
+                n['color'] = 'red'
+                
+            
+            
+        for pair in pairs:
+            net.add_edge(pair[0], pair[1], value=pair[2]/10)
     except:
         st.warning('No PPI Information available from stringdb')
         return
     # st.caption(caption.preferredName.values[0])
     # st.caption(caption.annotation.values[0])
 
-    for i, j, v in pairs:
-        net.add_node(j, label=j)
-        
-    for n in net.nodes:
-        if n['label'] == option:
-            n['color'] = 'red'
-            
-        
-        
-    for pair in pairs:
-        net.add_edge(pair[0], pair[1], value=pair[2]/10)
+
     
     # net.show_buttons(filter_=['physics'])
 
