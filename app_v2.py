@@ -86,7 +86,7 @@ elif chosen_tab == TF:
     
 
     datasets = datacore.name2ds.keys()
-    tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
+    tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 1)
     cell_types = datacore.name2ds[tf_ds].cell_types
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
 
@@ -127,7 +127,7 @@ elif chosen_tab == TF:
     
     elif chosen_subtab == 'TF-Target gene':
         try:
-            st.header(f'🎯 {option}-Target gene correlation in {CELL_NAMES.get(cell_type, cell_type)}')  
+            st.header(f'🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}')  
             img = datacore.name2ds[tf_ds].get_tf_target_gene_img(cell_type, option)
             st.image(img)
         except:
