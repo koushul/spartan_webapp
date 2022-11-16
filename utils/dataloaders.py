@@ -35,17 +35,17 @@ class Dataset:
         'name': ['E-MTAB-9357', 'GSE155673', 'meyer21_pbmc', 'GSE167118'],
         'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
         'patients': [270, 12, 143, 68],
-        'cell count': ['559,517', '59,664', '691,683', '396, 244'],
+        'cell count': ['559,517', '59,664', '691,683', '396,244'],
         'assay': ['CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq'],
         'surface proteins': [190, 38, random.randint(10, 100), 192],
         'transcription factors': [209, 206, random.randint(10, 100), random.randint(10, 100)],
         'pmid': [33171100,  54371, 33879890, 33622974],
         'severity': ['Healthy, Mild, Moderate, Severe']*4,
         'url': [
-            'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357',
-            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', 
-            'https://www.covid19cellatlas.org/index.patient.html', 
-            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118'
+            'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357', ## SU: E-MTAB-9357
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', ## AR: GSE155673
+            'https://www.covid19cellatlas.org/index.patient.html', ## 
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118' ## LIU: GSE167118
         ],
         'title': [
             'Multiomic Immunophenotyping Of COVID-19 Patients Reveals Early Infection Trajectories',
@@ -61,7 +61,7 @@ class Dataset:
         self.cell_types = [i.name for i in self.root.iterdir()]
         # st.write(self.root, self.cell_types)
         
-        self.umap = str(Path('./data/umaps/') / f'{self.name} dataset UMAP.png')
+        self.umap = str(Path('./data/umaps/') / f'UMAP_{self.name}.png')
         self.meta = pd.DataFrame(self.metadata)
     
     @classmethod
