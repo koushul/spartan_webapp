@@ -105,6 +105,13 @@ class Dataset:
         csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))[0]
         return (str(csv), str(img))
     
+    def get_tf_target_gene_img(self, cell_type, tf):
+        base = self.root / cell_type / 'TF-mRNAs_highCorr'
+        img =  list(base.glob(f'{tf}~~mRNAs_highCorr_corrcut_*.png'))[0]
+        return img
+    
+    
+    
     def get_tf_protein_data(self, cell_type, tf):
         base = self.root / cell_type / 'TF-proteins_higCorr'
         img =  list((base / 'Figure').glob(f'{tf}~proteins_highCorr_corrcut_*'))[0]        
