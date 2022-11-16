@@ -126,7 +126,12 @@ elif chosen_tab == TF:
             st.warning('No literature references found')
     
     elif chosen_subtab == 'TF-Target gene':
-        st.dataframe(pd.DataFrame(columns=['Gene Name', 'Correlation with TF', 'Gene Info']))
+        try:
+            st.header(f'🎯 {option}-Target gene correlation in {CELL_NAMES.get(cell_type, cell_type)}')  
+            img = datacore.name2ds[tf_ds].get_tf_target_gene_img(cell_type, option)
+            st.image(img)
+        except:
+            st.warning('No high correlation matches found.')
     
     elif chosen_subtab == 'PPI':
         ppi(option)

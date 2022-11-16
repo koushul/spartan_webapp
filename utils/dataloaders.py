@@ -106,9 +106,9 @@ class Dataset:
         return (str(csv), str(img))
     
     def get_tf_target_gene_img(self, cell_type, tf):
-        base = self.root / cell_type / 'TF-mRNAs_highCorr'
-        img =  list(base.glob(f'{tf}~~mRNAs_highCorr_corrcut_*.png'))[0]
-        return img
+        base = self.root / cell_type / 'TF-mRNAs_highCorr' / 'Figure'
+        img =  list(base.glob(f'{tf}~mRNAs_highCorr_corrcut_*'))[0]
+        return str(img)
     
     
     
@@ -146,6 +146,6 @@ class Datacore:
         
 
 
-# @st.experimental_singleton
+@st.experimental_singleton
 def make_datacore():
     return Datacore
