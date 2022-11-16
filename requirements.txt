@@ -3,3 +3,4 @@ pyvis
 seaborn
 streamlit-aggrid
 stringdb==0.1.5
+lxml

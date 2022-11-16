@@ -136,6 +136,14 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'PPI':
         ppi(option)
         
+        try:
+            df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0].dropna()
+            df.columns = ['Interactant Symbol', 'Name', 'Associated Pathways', 'Binding Drugs', 'Associated Diseases']
+            st.dataframe(df)
+        except:
+            st.warning('No interactors found from Wiki-CORONA')
+            
+        
     elif chosen_subtab == 'TF Activities':  
         try:
             st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
