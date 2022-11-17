@@ -121,7 +121,7 @@ def make_tab(name, desc=''):
 
 
 def ppi(option):
-    st.subheader(f'Protein-Protein Interactions for {option} from stringdb')
+    st.header(f'Protein-Protein Interactions for {option} from stringdb')
     left_col, right_col = st.columns(2)
     size = left_col.slider('Interactors', 2, 100, 10)
     neighbors = right_col.slider('Neighbors', 1, 10, 3)
