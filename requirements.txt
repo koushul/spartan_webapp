@@ -5,4 +5,4 @@ streamlit-aggrid
 stringdb==0.1.5
 lxml
 requests
-bs4
+beautifulsoup4
