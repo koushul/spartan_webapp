@@ -6,10 +6,27 @@ import streamlit as st
 from pathlib import Path
 import random
 
+import requests
+from bs4 import BeautifulSoup
+import re
+
 cutsize_from = 30
 cutsize_to = 10000
 
 fuzzy_match = lambda root, fname: list(root.glob(fname))[0]
+
+
+def severus_pair(tf, protein):
+    try:
+        page = requests.get(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={tf}+and+{protein}')
+        soup = BeautifulSoup(page.content, "html.parser")
+        url = soup.findAll('a', attrs={'href': re.compile("^http://severus.dbmi.pitt.edu/corona/index.php/search\?q=")})[0].get('href').replace(' ', '%20')
+    
+        return pd.read_html(url)[0]
+    except:
+        return pd.DataFrame([])
+
+
 
 @st.cache
 def litcov_search(search):

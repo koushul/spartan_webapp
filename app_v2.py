@@ -10,18 +10,21 @@ from navigation.doc import doc_page
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
 from utils.components import make_tab, ridge_plot
-from utils.dataloaders import Dataset, litcov_search
+from utils.dataloaders import Dataset, litcov_search, severus_pair
 
 from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
 from utils.dataloaders import make_datacore
 
 from PIL import Image
+
 Image.MAX_IMAGE_PIXELS = None
+
 HOME = "Home"
 DATASET = "Datasets"
 TF = "Transcription Factors"
 PROTEINS = "Surface Proteins"
+TF_PROTEINS = "TF-Protein Pairs"
 DOC = "Documentation"
 STATS = "Usage"
 
@@ -54,6 +57,7 @@ tabs = [
     DATASET,
     PROTEINS,
     TF,
+    TF_PROTEINS,
     DOC, 
     STATS
 ]
@@ -61,8 +65,6 @@ tabs = [
 
 datacore =  make_datacore()()
 ds = Dataset.metadata_df()
-
-
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
@@ -73,7 +75,26 @@ if chosen_tab == HOME:
     
 elif chosen_tab == DATASET:
     dataset_page(ds, datacore)
-          
+    
+elif chosen_tab == TF_PROTEINS:
+    st.header('Transcription Factors & Surface Proteins Interations')
+    t, p = st.columns(2)
+    tf = t.selectbox('Transcription Factors', datacore.name2ds["GSE167118"].total_transcription_factors)
+    protein = p.selectbox('Surface Protein', list(datacore.name2ds["GSE167118"].total_surface_proteins))
+    
+    df = severus_pair(tf, protein)
+    
+    if len(df) > 0:
+        pairs = df['Symbols']
+    
+        for pair in pairs:
+            st.subheader(pair)
+    
+        st.dataframe(df)
+    else:
+        st.warning('No pairwise interaction data from Wiki-Corona.')
+        
+
 elif chosen_tab == TF:
     st.header('TF Exploration')
     st.info(Desc.tf)
