@@ -92,6 +92,7 @@ elif chosen_tab == TF_PROTEINS:
     
         st.dataframe(df)
     else:
+        st.caption('Note: Pairwise interactions are rare.')
         st.warning('No pairwise interaction data from Wiki-Corona.')
         
 
