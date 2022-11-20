@@ -5,7 +5,7 @@ from .home import TITLE
 
 def doc_page():
     st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Usage', 'Database Implementation', 'FAQ'])
+    page = st.sidebar.radio('', ['Introduction', 'Usage', 'Database Implementation'])
     st.header(page)
     if page == 'Introduction':
         st.header('SPaRTAN')

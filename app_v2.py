@@ -10,7 +10,7 @@ from navigation.doc import doc_page
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
 from utils.components import make_tab, ridge_plot
-from utils.dataloaders import Dataset, litcov_search, severus_pair
+from utils.dataloaders import Dataset, litcov_search, severus_pair, load_drug_info
 
 from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
@@ -65,6 +65,7 @@ tabs = [
 
 datacore =  make_datacore()()
 ds = Dataset.metadata_df()
+drugs = load_drug_info()
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
@@ -121,15 +122,27 @@ elif chosen_tab == TF:
         f'Transcription Factor of interest ({len(tfs)})', tfs)   
     
     litcovdf = litcov_search(option)
-
-
     
-    subtabs = ['TF Activities', 'TF-Target gene', 'TF-Protein Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
+    targets = drugs[drugs.Target.apply(lambda x: option in x)]
+
+
+    ## TF subtabs
+    subtabs = [
+        'TF Activities', 
+        'TF-Target gene', 
+        'TF-Protein Correlation', 
+        f'Drugs ({len(targets)})',
+        f'Literature References ({len(litcovdf)})', 
+        'PPI', 
+        'Download'
+    ]
 
     current_tab_tf = subtabs[0]
         
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
     st.session_state['current_tab_tf'] = chosen_subtab
+    
+    
     
     if chosen_subtab == f'Literature References ({len(litcovdf)})':
         st.caption(Desc.litcovid)
@@ -154,6 +167,12 @@ elif chosen_tab == TF:
             st.image(img)
         except:
             st.warning('No high correlation matches found.')
+    
+    elif chosen_subtab == f'Drugs ({len(targets)})':
+        if len(targets) > 0:
+            st.table(targets)
+        else:
+            st.warning('No drug targets found.')
     
     elif chosen_subtab == 'PPI':
         ppi(option)

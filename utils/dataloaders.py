@@ -27,6 +27,11 @@ def severus_pair(tf, protein):
         return pd.DataFrame([])
 
 
+@st.cache
+def load_drug_info():
+    drug_info = pd.read_parquet('./data/drugs/drugs_info.parquet')
+    return drug_info
+
 
 @st.cache
 def litcov_search(search):
