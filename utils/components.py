@@ -122,6 +122,8 @@ def make_tab(name, desc=''):
 
 def ppi(option):
     st.header(f'Protein-Protein Interactions for {option} from stringdb')
+    st.caption('Threshold of significance to include an interaction: 400')
+    st.caption('Learn more: https://string-db.org/help/api/')
     left_col, right_col = st.columns(2)
     size = left_col.slider('Interactors', 2, 100, 10)
     neighbors = right_col.slider('Neighbors', 1, 10, 3)
@@ -135,32 +137,24 @@ def ppi(option):
         for n in net.nodes:
             if n['label'] == option:
                 n['color'] = 'red'
-                
-            
-            
+                 
         for pair in pairs:
             net.add_edge(pair[0], pair[1], value=pair[2]/10)
     except:
         st.warning('No PPI Information available from stringdb')
         return
-    # st.caption(caption.preferredName.values[0])
-    # st.caption(caption.annotation.values[0])
-
-
-    
     # net.show_buttons(filter_=['physics'])
-
 
     net.show('./utils/ppi.html')
     HtmlFile = open("./utils/ppi.html", 'r', encoding='utf-8')
     source_code = HtmlFile.read()
     components.html(source_code, height = 700, width=1000)
     
-    st.download_button(
-        label='Download Graph',
-        data=source_code,
-        file_name = 'ppi.html'
-    )
+    # st.download_button(
+    #     label='Download Graph',
+    #     data=source_code,
+    #     file_name = 'ppi.html'
+    # )
     
 def download_button(desc, data, left_col, right_col, label='Download as CSV'):
     right_col.download_button(
