@@ -90,6 +90,19 @@ class Dataset:
     def metadata_df(cls):
         return pd.DataFrame(cls.metadata)
     
+    
+    def get_tf_pvals(self, cell_type, protein):
+        pth =  str(self.root / cell_type / 'TFrank_wilcox_pvalues_healthy2infected.csv')
+        pvals = pd.read_csv(pth)
+        _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
+        return pval, adj_pval
+    
+    def get_protein_pvals(self, cell_type, protein):
+        pth =  str(self.root / cell_type / 'protein_wilcox_pvalues_healthy2infected.csv')
+        pvals = pd.read_csv(pth)
+        _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
+        return pval, adj_pval
+    
         
     def surface_proteins(self, cell_type):
         proteins = (self.root / cell_type / 'protein-TFs_higCorr' / 'Figure').iterdir()

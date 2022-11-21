@@ -121,6 +121,7 @@ elif chosen_tab == TF:
     option = ca.selectbox(
         f'Transcription Factor of interest ({len(tfs)})', tfs)   
     
+    
     litcovdf = litcov_search(option)
     
     targets = drugs[drugs.Target.apply(lambda x: option in x)]
@@ -162,7 +163,7 @@ elif chosen_tab == TF:
     
     elif chosen_subtab == 'TF-Target gene':
         try:
-            st.header(f'🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}')  
+            st.header(f'🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
             img = datacore.name2ds[tf_ds].get_tf_target_gene_img(cell_type, option)
             st.image(img)
         except:
@@ -190,6 +191,12 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'TF Activities':  
         try:
             st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
+            pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
+            if pval < 0.05:
+                st.success(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+            else:
+                st.error(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+                
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
@@ -305,6 +312,12 @@ elif chosen_tab == PROTEINS:
         st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
         
         try:
+            pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
+            if pval < 0.05:
+                st.success(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+            else:
+                st.error(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+                
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
             img = ridge_plot(df_plt, f'{option} Expression')
