@@ -193,9 +193,9 @@ elif chosen_tab == TF:
             st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
             pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
             if pval < 0.05:
-                st.success(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+                st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
             else:
-                st.error(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+                st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
                 
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
@@ -314,9 +314,9 @@ elif chosen_tab == PROTEINS:
         try:
             pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
             if pval < 0.05:
-                st.success(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+                st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
             else:
-                st.error(f'Healthy vs Infected: p-value = {pval:.3f} | adjusted p-value = {adj_pval:.3f}')
+                st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
                 
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
