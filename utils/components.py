@@ -1,5 +1,6 @@
 import re
 import uuid
+import numpy as np
 
 import extra_streamlit_components as stx
 import streamlit as st
@@ -38,7 +39,19 @@ def label(x, color, label):
             ha="left", va="center", transform=ax.transAxes)
     
 sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2})
-# palette = sns.color_palette("Set2", 12)
+
+palette_mapper = {
+    'healthy': colors.to_hex('green'),
+    'mild': colors.to_hex('salmon'),
+    'moderate': colors.to_hex('lightskyblue'),
+    'critical': colors.to_hex('orchid'),
+    'severe': colors.to_hex('magenta'),
+    'other': colors.to_hex('black'),
+}
+
+def make_palette(column, groups):
+    return [colors.to_rgb(column.color_picker(g, palette_mapper.get(g.lower(), colors.to_hex('black')))) for g in groups]    
+
 
 def fig2img(fig):
     """Convert a Matplotlib figure to a PIL Image and return it"""
@@ -49,19 +62,10 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
-def ridge_plot(df_plt, xlabel=''):
-    green = colors.to_hex('green')
-    salmon = colors.to_hex('salmon')
-    lightskyblue = colors.to_hex('lightskyblue')
-    orchid = colors.to_hex('orchid')
-
-    g = sns.FacetGrid(df_plt, palette=
-                    [
-                        colors.to_rgb(st.color_picker('healthy', green)), 
-                        colors.to_rgb(st.color_picker('mild', salmon)),
-                        colors.to_rgb(st.color_picker('moderate', lightskyblue)),
-                        colors.to_rgb(st.color_picker('severe', orchid))
-                    ], 
+def ridge_plot(df_plt, xlabel, column):
+    groups = np.sort(np.unique(df_plt.patient_group.values))
+    g = sns.FacetGrid(df_plt, 
+        palette = make_palette(column=column, groups=groups),
         row="patient_group", hue="patient_group", aspect=5)
     
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
@@ -74,7 +78,7 @@ def ridge_plot(df_plt, xlabel=''):
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)
     # g.savefig('ridge.png', dpi=180)
-    
+    plt.xlabel(xlabel, fontsize=25)
     img = fig2img(g.fig)
     
     return img

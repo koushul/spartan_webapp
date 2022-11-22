@@ -175,11 +175,6 @@ class Datacore:
         self.datasets = [Dataset(i) for i in (self.root_path / 'data').iterdir()]
         self.name2ds = dict(zip([ds.name for ds in self.datasets], self.datasets))
         
-        
-    # def get_protein_tf_data(self, ds, cell_type):
-    #     return self.name2dsp[ds].get_protein_tf_data(cell_type, pair)
-        
-
 
 # @st.experimental_singleton
 def make_datacore():
