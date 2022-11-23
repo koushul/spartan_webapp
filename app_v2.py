@@ -16,14 +16,17 @@ from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
 from utils.dataloaders import make_datacore
 
+from texts.references import CELL_NAMES
+
 from PIL import Image
 
 Image.MAX_IMAGE_PIXELS = None
 
 HOME = "Home"
 DATASET = "Datasets"
-TF = "Transcription Factors"
-PROTEINS = "Surface Proteins"
+TF = "Analysis by transcription factors"
+PROTEINS = "Analysis by surface proteins"
+VIRAL_ENTRY = "Analysis by viral entry related factors"
 TF_PROTEINS = "TF-Protein Pairs"
 DOC = "Documentation"
 STATS = "Usage"
@@ -43,21 +46,14 @@ def totags(tags):
     t += '</div>'
     return t
 
-CELL_NAMES = {
-    'Mono': 'Monocytes',
-    'CD4_T': 'CD4+ T Cells',
-    'CD8_T': 'CD8+ T Cells',
-    'DC': 'Dendritic Cells',
-    'B': 'B Cells',
-    'NK': 'Natural Killer Cells'
-}
 
 tabs = [
     HOME,
     DATASET,
     PROTEINS,
     TF,
-    TF_PROTEINS,
+    VIRAL_ENTRY,
+    # TF_PROTEINS,
     DOC, 
     STATS
 ]
@@ -75,9 +71,12 @@ if chosen_tab == HOME:
     home_page()
     
 elif chosen_tab == DATASET:
-    dataset_page(ds, datacore)
+    x, y, z = st.columns([1, 6, 1])
+    with y:
+        dataset_page(ds, datacore)
     
 elif chosen_tab == TF_PROTEINS:
+
     st.header('Transcription Factors & Surface Proteins Interations')
     t, p = st.columns(2)
     tf = t.selectbox('Transcription Factors', datacore.name2ds["GSE167118"].total_transcription_factors)
@@ -98,7 +97,8 @@ elif chosen_tab == TF_PROTEINS:
         
 
 elif chosen_tab == TF:
-    st.header('TF Exploration')
+    
+    st.header('TF exploration')
     st.info(Desc.tf)
     ref = 'Literature References'
     
@@ -119,7 +119,7 @@ elif chosen_tab == TF:
         tfs = list(datacore.name2ds[tf_ds].transcription_factors(cell_type))
     
     option = ca.selectbox(
-        f'Transcription Factor of interest ({len(tfs)})', tfs)   
+        f'Transcription factor of interest ({len(tfs)})', tfs)   
     
     
     litcovdf = litcov_search(option)
@@ -129,11 +129,11 @@ elif chosen_tab == TF:
 
     ## TF subtabs
     subtabs = [
-        'TF Activities', 
+        'TF activities', 
         'TF-Target gene', 
-        'TF-Protein Correlation', 
+        'TF-protein correlation', 
         f'Drugs ({len(targets)})',
-        f'Literature References ({len(litcovdf)})', 
+        f'Literature references ({len(litcovdf)})', 
         'PPI', 
         'Download'
     ]
@@ -145,7 +145,7 @@ elif chosen_tab == TF:
     
     
     
-    if chosen_subtab == f'Literature References ({len(litcovdf)})':
+    if chosen_subtab == f'Literature references ({len(litcovdf)})':
         st.caption(Desc.litcovid)
 
         if len(litcovdf) > 0:  
@@ -178,7 +178,7 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'PPI':
         ppi(option)
         
-        st.header(f'Pathways & Drugs associated with {option} derived from Wiki-CORONA')
+        st.header(f'Pathways & drugs associated with {option} derived from Wiki-CORONA')
         
         try:
             df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0].dropna()
@@ -188,7 +188,7 @@ elif chosen_tab == TF:
             st.warning('No interactors found from Wiki-CORONA')
             
         
-    elif chosen_subtab == 'TF Activities':              
+    elif chosen_subtab == 'TF activities':              
         try:
             st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
             pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
@@ -210,7 +210,7 @@ elif chosen_tab == TF:
             st.warning('No high correlation matches found.')
 
         
-    elif chosen_subtab == 'TF-Protein Correlation':
+    elif chosen_subtab == 'TF-protein correlation':
         st.header(f'🔗 Correlation between {option} and surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
 
         
@@ -237,7 +237,7 @@ elif chosen_tab == TF:
         #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
         
 elif chosen_tab == PROTEINS:
-    st.title('Surface Protein Exploration')
+    st.title('Surface protein exploration')
     st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
     
     _, _, edge = st.columns(3)
@@ -260,7 +260,7 @@ elif chosen_tab == PROTEINS:
         s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
 
     option = c.selectbox(
-        f"Surface Protein of interest ({len(s_proteins)})",
+        f"Surface protein of interest ({len(s_proteins)})",
         s_proteins)
     
         
@@ -272,7 +272,7 @@ elif chosen_tab == PROTEINS:
         litcovdf = pd.DataFrame([])
 
         
-    subtabs = ['Protein Expression', 'Protein-TF Correlation', f'Literature References ({len(litcovdf)})', 'PPI', 'Download']
+    subtabs = ['Protein expression', 'Protein-TF correlation', f'Literature references ({len(litcovdf)})', 'PPI', 'Download']
     if 'current_tab' in st.session_state:
         current_tab = st.session_state['current_tab']
     else:
@@ -286,7 +286,7 @@ elif chosen_tab == PROTEINS:
     if chosen_subtab == 'PPI':
         ppi(o)
         
-        st.header(f'Pathways & Drugs associated with {o} derived from Wiki-CORONA')
+        st.header(f'Pathways & drugs associated with {o} derived from Wiki-CORONA')
         
         try:
             df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={o}')[0].dropna()
@@ -296,7 +296,7 @@ elif chosen_tab == PROTEINS:
             st.warning('No interactors found from Wiki-CORONA')
         
         
-    elif chosen_subtab == 'Protein-TF Correlation':
+    elif chosen_subtab == 'Protein-TF correlation':
         st.header(f'🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
         
         try:
@@ -309,7 +309,7 @@ elif chosen_tab == PROTEINS:
             
             
         
-    elif chosen_subtab == 'Protein Expression':
+    elif chosen_subtab == 'Protein expression':
         st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
         
         try:
@@ -331,7 +331,7 @@ elif chosen_tab == PROTEINS:
             st.warning('No high correlation matches found.')
         
         
-    elif chosen_subtab == f'Literature References ({len(litcovdf)})':
+    elif chosen_subtab == f'Literature references ({len(litcovdf)})':
         st.caption(Desc.litcovid)
 
         if len(litcovdf) > 0:  
@@ -351,4 +351,6 @@ elif chosen_tab == DOC:
     doc_page()
     
 elif chosen_tab == STATS:
-    stats_page()
+    x, y, z = st.columns([1, 6, 1])
+    with y:
+        stats_page()
