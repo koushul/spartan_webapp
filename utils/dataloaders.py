@@ -142,6 +142,8 @@ class Dataset:
     
     def get_tf_target_gene_img(self, cell_type, tf):
         base = self.root / cell_type / 'TF-mRNAs_highCorr' / 'Figure'
+        st.write(base)
+        st.write(list(base.iterdir()))
         img =  list(base.glob(f'{tf}~mRNAs_highCorr_corrcut_*'))[0]
         return str(img)
     
@@ -175,6 +177,7 @@ class Datacore:
         self.datasets = [Dataset(i) for i in (self.root_path / 'data').iterdir()]
         self.name2ds = dict(zip([ds.name for ds in self.datasets], self.datasets))
         
+
 
 # @st.experimental_singleton
 def make_datacore():
