@@ -162,12 +162,14 @@ elif chosen_tab == TF:
             st.warning('No literature references found')
     
     elif chosen_subtab == 'TF-Target gene':
-        try:
-            st.header(f'🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
-            img = datacore.name2ds[tf_ds].get_tf_target_gene_img(cell_type, option)
-            st.image(img)
-        except:
-            st.warning('No high correlation matches found.')
+        st.header(f'🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
+        
+        with st.spinner('Loading heatmap...'):
+            try:
+                img = datacore.name2ds[tf_ds].get_tf_target_gene_img(cell_type, option)
+                st.image(img)
+            except:
+                st.warning('No high correlation matches found.')
     
     elif chosen_subtab == f'Drugs ({len(targets)})':
         if len(targets) > 0:
@@ -346,6 +348,10 @@ elif chosen_tab == PROTEINS:
                 
         else:
             st.warning('No literature references found')
+        
+elif chosen_tab == VIRAL_ENTRY:
+    st.image('./assets/images/under_construction.png')
+
         
 elif chosen_tab == DOC:
     doc_page()
