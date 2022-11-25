@@ -20,7 +20,10 @@ def severus_pair(tf, protein):
 
 @st.cache
 def load_tftargets(tf):
-    return pd.read_csv(f'./data/hTFtarget/{tf}.target.txt', sep='\t')
+    try:
+        return pd.read_csv(f'./data/hTFtarget/{tf}.target.txt', sep='\t')
+    except:
+        return pd.DataFrame([])
 
 
 @st.cache

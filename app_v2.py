@@ -10,7 +10,7 @@ import streamlit.components.v1 as compo
 
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
-from utils.components import make_tab, ridge_plot
+from utils.components import create_st_button, make_tab, ridge_plot
 from utils.dataloaders import Dataset
 from utils.api import litcov_search, severus_pair, load_drug_info, load_tftargets
 
@@ -177,7 +177,20 @@ elif chosen_tab == TF:
         st.markdown('---')
         targets = load_tftargets(option)
         st.subheader(f'{option} has {len(targets)} target genes')
-        st.table(targets)
+        left, right = st.columns(2)
+        
+        if len(targets) > 0:
+            with left:
+                target_name = st.selectbox('Targets', targets.target_name.values)
+                target_ensg = targets[targets.target_name==target_name].target_id.values[0]
+            
+            with left:
+                _s = '!'
+                create_st_button(
+                    link_text=f'View epigenomic states for {target_name}', 
+                    link_url=f'http://bioinfo.life.hust.edu.cn/hTFtarget#{_s}/epigenomic_states?gene={target_ensg}&tf={option}&scale=2')
+            
+            st.table(targets)
     
     elif chosen_subtab == f'Drugs ({len(targets)})':
         if len(targets) > 0:

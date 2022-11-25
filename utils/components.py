@@ -4,7 +4,7 @@ import numpy as np
 
 import extra_streamlit_components as stx
 import streamlit as st
-from navigation.protein import generate_color, get_ppi_edge_list
+from navigation.protein import get_ppi_edge_list
 from pyvis.network import Network
 import streamlit.components.v1 as components
 from matplotlib import colors
@@ -26,12 +26,10 @@ hide_streamlit_style = f"""
     </style>
 """
 
-from matplotlib import rcParams
 import seaborn as sns
 import matplotlib.pyplot as plt
 from PIL import Image
 
-# rcParams['figure.figsize'] = 11.7,8.27
 
 def label(x, color, label):
     ax = plt.gca()
@@ -83,7 +81,7 @@ def ridge_plot(df_plt, xlabel, column):
     
     return img
 
-def create_st_button(link_text, link_url, hover_color="#e78ac3", st_col=None):    
+def create_st_button(link_text, link_url, hover_color="#4EC5F1", st_col=None):    
     button_uuid = uuid.uuid1()
     button_id = re.sub("\d+", "", str(button_uuid))
     
@@ -98,7 +96,7 @@ def create_st_button(link_text, link_url, hover_color="#e78ac3", st_col=None):
                 border-radius: 4px;
                 border-width: 2px;
                 border-style: solid;
-                border-color: rgb(230, 234, 241);
+                border-color: rgb(13, 242, 201);
                 border-image: initial;
             }}
             #{button_id}:hover {{
