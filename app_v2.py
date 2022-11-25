@@ -6,11 +6,13 @@ import pandas as pd
 import streamlit as st
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
+import streamlit.components.v1 as compo
 
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
 from utils.components import make_tab, ridge_plot
-from utils.dataloaders import Dataset, litcov_search, severus_pair, load_drug_info
+from utils.dataloaders import Dataset
+from utils.api import litcov_search, severus_pair, load_drug_info, load_tftargets
 
 from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
@@ -111,7 +113,7 @@ elif chosen_tab == TF:
 
     datasets = datacore.name2ds.keys()
     tf_ds = aa.selectbox(f'Dataset ({len(datasets)})', datasets, 1)
-    cell_types = datacore.name2ds[tf_ds].cell_types
+    cell_types = datacore.name2ds[tf_ds].celltypes
     cell_type = ba.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
 
     if not checkbox:
@@ -171,6 +173,11 @@ elif chosen_tab == TF:
                 st.image(img)
             except:
                 st.warning('No high correlation matches found.')
+                
+        st.markdown('---')
+        targets = load_tftargets(option)
+        st.subheader(f'{option} has {len(targets)} target genes')
+        st.table(targets)
     
     elif chosen_subtab == f'Drugs ({len(targets)})':
         if len(targets) > 0:
@@ -254,7 +261,7 @@ elif chosen_tab == PROTEINS:
         
     datasets = datacore.name2ds.keys()
     p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
-    cell_types = datacore.name2ds[p_ds].cell_types
+    cell_types = datacore.name2ds[p_ds].celltypes
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
     if not checkbox:
@@ -337,7 +344,7 @@ elif chosen_tab == PROTEINS:
         
     elif chosen_subtab == f'Literature references ({len(litcovdf)})':
         st.caption(Desc.litcovid)
-
+        
         if len(litcovdf) > 0:  
             st.table(litcovdf)
             st.download_button(
