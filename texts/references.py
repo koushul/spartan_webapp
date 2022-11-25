@@ -20,3 +20,6 @@ CELL_NAMES = {
     'B': 'B Cells',
     'NK': 'Natural Killer Cells'
 }
+
+CELL_NAMES_REVERSE = dict(zip(CELL_NAMES.values(), CELL_NAMES.keys()))
+

@@ -16,9 +16,10 @@ from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
 from utils.dataloaders import make_datacore
 
-from texts.references import CELL_NAMES
+from texts.references import CELL_NAMES, CELL_NAMES_REVERSE
 
 from PIL import Image
+
 
 Image.MAX_IMAGE_PIXELS = None
 
@@ -312,9 +313,10 @@ elif chosen_tab == PROTEINS:
             
         
     elif chosen_subtab == 'Protein expression':
-        st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
         
         try:
+            st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
+            
             pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
             if pval < 0.05:
                 st.success(f'Healthy vs Infected: p-value = {pval:.3f}')

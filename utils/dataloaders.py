@@ -10,6 +10,9 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
+from texts.references import CELL_NAMES, CELL_NAMES_REVERSE
+
+
 cutsize_from = 30
 cutsize_to = 10000
 
@@ -20,7 +23,9 @@ def severus_pair(tf, protein):
     try:
         page = requests.get(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={tf}+and+{protein}')
         soup = BeautifulSoup(page.content, "html.parser")
-        url = soup.findAll('a', attrs={'href': re.compile("^http://severus.dbmi.pitt.edu/corona/index.php/search\?q=")})[0].get('href').replace(' ', '%20')
+        url = soup.findAll('a', 
+                attrs={'href': 
+                    re.compile("^http://severus.dbmi.pitt.edu/corona/index.php/search\?q=")})[0].get('href').replace(' ', '%20')
     
         return pd.read_html(url)[0]
     except:
@@ -80,9 +85,7 @@ class Dataset:
     def __init__(self, root):
         self.root = root
         self.name = self.root.name
-        self.cell_types = [i.name for i in self.root.iterdir()]
-        # st.write(self.root, self.cell_types)
-        
+        self.cell_types = [CELL_NAMES.get(i.name, i.name) for i in self.root.iterdir()]
         self.umap = str(Path('./data/umaps/') / f'UMAP_{self.name}.png')
         self.meta = pd.DataFrame(self.metadata)
     
@@ -92,12 +95,14 @@ class Dataset:
     
     
     def get_tf_pvals(self, cell_type, protein):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         pth =  str(self.root / cell_type / 'TFrank_wilcox_pvalues_healthy2infected.csv')
         pvals = pd.read_csv(pth)
         _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
         return pval, adj_pval
     
     def get_protein_pvals(self, cell_type, protein):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         pth =  str(self.root / cell_type / 'protein_wilcox_pvalues_healthy2infected.csv')
         pvals = pd.read_csv(pth)
         _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
@@ -105,15 +110,16 @@ class Dataset:
     
         
     def surface_proteins(self, cell_type):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         proteins = (self.root / cell_type / 'protein-TFs_higCorr' / 'Figure').iterdir()
         proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
-                
         return proteins
     
     @property
     def total_surface_proteins(self):
         proteins = set()
         for ct in self.cell_types:
+            ct = CELL_NAMES_REVERSE[ct]
             for p in pd.read_csv(fuzzy_match((self.root / ct), 'proteins_all_*~*_withGroup.csv')).columns:
                 proteins.add(p)
         proteins = proteins.difference({'Unnamed: 0', 'group'})
@@ -123,6 +129,7 @@ class Dataset:
     def total_transcription_factors(self):
         tfs = set()
         for ct in self.cell_types:
+            ct = CELL_NAMES_REVERSE[ct]
             
             for p in pd.read_csv(fuzzy_match((self.root / ct), 'TFs_rank_all_*~*_withGroup.csv')).columns:
                 tfs.add(p)
@@ -130,24 +137,27 @@ class Dataset:
         return tfs
     
     def transcription_factors(self, cell_type):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         tfs = (self.root / cell_type / 'TF-proteins_higCorr' / 'Figure').iterdir()
         tfs = [i.name.split('~proteins_highCorr_corrcut_')[0] for i in tfs]
         return tfs
     
     def get_protein_tf_data(self, cell_type, protein):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         base = self.root / cell_type / 'protein-TFs_higCorr'
         img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
         csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))[0]
         return (str(csv), str(img))
     
     def get_tf_target_gene_img(self, cell_type, tf):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         base = self.root / cell_type / 'TF-mRNAs_highCorr' / 'Figure'
         img =  list(base.glob(f'{tf}~mRNAs_highCorr_corrcut_*'))[0]
         return str(img)
     
     
-    
     def get_tf_protein_data(self, cell_type, tf):
+        cell_type = CELL_NAMES_REVERSE[cell_type]
         base = self.root / cell_type / 'TF-proteins_higCorr'
         img =  list((base / 'Figure').glob(f'{tf}~proteins_highCorr_corrcut_*'))[0]        
         csv = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.csv"))[0]
@@ -155,12 +165,15 @@ class Dataset:
     
     
     def get_tf_df(self, celltype, protein):
+        celltype = CELL_NAMES_REVERSE[celltype]
         df_data = pd.read_csv(fuzzy_match((self.root / celltype), 'TFs_rank_all_*~*_withGroup.csv'))
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
     
+    
     def get_protein_df(self, celltype, protein):
+        celltype = CELL_NAMES_REVERSE[celltype]
         df_data = pd.read_csv(fuzzy_match((self.root / celltype), 'proteins_all_*~*_withGroup.csv'))
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
