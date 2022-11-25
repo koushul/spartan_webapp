@@ -1,4 +1,3 @@
-from pathlib import Path
 import uuid
 
 import extra_streamlit_components as stx
@@ -6,7 +5,6 @@ import pandas as pd
 import streamlit as st
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
-import streamlit.components.v1 as compo
 
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
@@ -18,12 +16,17 @@ from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
 from utils.dataloaders import make_datacore
 
-from texts.references import CELL_NAMES, CELL_NAMES_REVERSE
+from texts.references import CELL_NAMES
 
 from PIL import Image
 
+import streamlit_analytics
+
 
 Image.MAX_IMAGE_PIXELS = None
+
+
+streamlit_analytics.start_tracking()
 
 HOME = "Home"
 DATASET = "Datasets"
@@ -382,3 +385,5 @@ elif chosen_tab == STATS:
     x, y, z = st.columns([1, 6, 1])
     with y:
         stats_page()
+        
+streamlit_analytics.stop_tracking()

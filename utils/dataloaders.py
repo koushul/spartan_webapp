@@ -1,14 +1,7 @@
 from pathlib import Path
-
 import pandas as pd
-import streamlit as st
-
 from pathlib import Path
 import random
-
-import requests
-from bs4 import BeautifulSoup
-import re
 
 from texts.references import CELL_NAMES, CELL_NAMES_REVERSE
 
