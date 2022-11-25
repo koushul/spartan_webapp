@@ -5,21 +5,29 @@ from .home import TITLE
 
 def doc_page():
     st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Usage', 'Database Implementation'])
-    st.header(page)
+    page = st.sidebar.radio('', ['Introduction', 'Usage', 'Database Implementation', 'FAQ'])
     if page == 'Introduction':
-        st.header('SPaRTAN')
-        st.write(Desc.spartan)
+        st.header('Introduction')
+        st.write(Desc.manuscript_intro)
+        
+        with st.expander("Data Collection and Processing", expanded=True):
+            st.image('./assets/images/documentation.png')
+        
+        
+        
+        # st.header('SPaRTAN')
+        # st.write(Desc.spartan)
         
         with st.expander("Model Overview"):
             st.write(Desc.spartan_model)
             st.image('./assets/images/SPaRTAN_fig.png')
         
-        with st.expander("Data Collection and Processing", expanded=True):
-            st.image('./assets/images/documentation.png')
+
+    elif page == 'FAQ':
+        # st.header('How to cite')
+        st.image('./assets/images/under_construction.png')        
+        
             
-        with st.expander(f"Functions of {TITLE}"):
-            st.write("")
             
     elif page == 'Usage':
         st.caption(f'Example usage of the {TITLE}')
