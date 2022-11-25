@@ -203,7 +203,7 @@ elif chosen_tab == TF:
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            img = ridge_plot(df_plt, f'{option} Expression', column=c)
+            img = ridge_plot(df_plt, f'{option} inferred activity', column=c)
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))
@@ -325,7 +325,7 @@ elif chosen_tab == PROTEINS:
                 
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            img = ridge_plot(df_plt, f'{option} Expression', column=c)
+            img = ridge_plot(df_plt, f'{option} expression', column=c)
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))
