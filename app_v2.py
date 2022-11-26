@@ -26,7 +26,6 @@ import streamlit_analytics
 Image.MAX_IMAGE_PIXELS = None
 
 
-streamlit_analytics.start_tracking()
 
 HOME = "Home"
 DATASET = "Datasets"
@@ -35,7 +34,7 @@ PROTEINS = "Analysis by surface proteins"
 VIRAL_ENTRY = "Analysis by viral entry related factors"
 TF_PROTEINS = "TF-Protein Pairs"
 DOC = "Documentation"
-STATS = "Usage"
+STATS = "Usage Statistics"
 
 st.set_page_config(
     page_title=TITLE,
@@ -74,7 +73,10 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
 
 if chosen_tab == HOME:
+    # streamlit_analytics.start_tracking()
     home_page()
+    # streamlit_analytics.stop_tracking()
+    
     
 elif chosen_tab == DATASET:
     x, y, z = st.columns([1, 6, 1])
@@ -386,4 +388,3 @@ elif chosen_tab == STATS:
     with y:
         stats_page()
         
-streamlit_analytics.stop_tracking()
