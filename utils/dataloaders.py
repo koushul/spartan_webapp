@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
-from pathlib import Path
 import random
+import streamlit as st
 
 from texts.references import CELL_NAMES, CELL_NAMES_REVERSE
 
@@ -69,6 +69,8 @@ class Dataset:
         celltype = CELL_NAMES_REVERSE[celltype]
         proteins = (self.root / celltype / 'protein-TFs_higCorr' / 'Figure').iterdir()
         proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
+        proteins = list(filter(lambda x: x != ".gitkeep", proteins))
+        
         return proteins
     
     @property
@@ -96,6 +98,7 @@ class Dataset:
         celltype = CELL_NAMES_REVERSE[celltype]
         tfs = (self.root / celltype / 'TF-proteins_higCorr' / 'Figure').iterdir()
         tfs = [i.name.split('~proteins_highCorr_corrcut_')[0] for i in tfs]
+        tfs = list(filter(lambda x: x != ".gitkeep", tfs))
         return tfs
     
     def get_protein_tf_data(self, celltype, protein):
@@ -146,6 +149,6 @@ class Datacore:
         
 
 
-# @st.experimental_singleton
+@st.experimental_singleton
 def make_datacore():
     return Datacore

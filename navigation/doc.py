@@ -60,5 +60,12 @@ def doc_page():
         # st.subheader('Data Availability')
         st.subheader('Code Availability')
         st.write('All the code for the database are available at https://github.com/osmanbeyoglulab/covid19_webapp')
+        st.write("""Apache License 2.0""")
+        
+        st.markdown('---')
+        st.subheader("Funding")
+        st.write("""This study was funded by support from the National Institutes of Health (R35GM146989 to H.U.O.).""")
+        st.write("""Funding for open access charge: National Institutes of Health.""")
+        
     
         

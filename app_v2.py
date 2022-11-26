@@ -287,6 +287,7 @@ elif chosen_tab == PROTEINS:
     else:
         s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
 
+
     option = c.selectbox(
         f"Surface protein of interest ({len(s_proteins)})",
         s_proteins)
@@ -343,6 +344,7 @@ elif chosen_tab == PROTEINS:
             st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
             
             pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
+                        
             if pval < 0.05:
                 st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
             else:

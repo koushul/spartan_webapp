@@ -41,6 +41,75 @@
              }
 
              
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 500px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
 
              
 
@@ -56,6 +125,15 @@
             <div id="mynetwork" class="card-body"></div>
         </div>
 
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
         
         
 
@@ -88,8 +166,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "red", "id": "TCF12", "label": "TCF12", "shape": "dot"}, {"color": "#97c2fc", "id": "POU3F2", "label": "POU3F2", "shape": "dot"}, {"color": "#97c2fc", "id": "TCF3", "label": "TCF3", "shape": "dot"}, {"color": "#97c2fc", "id": "NEUROG2", "label": "NEUROG2", "shape": "dot"}, {"color": "#97c2fc", "id": "TCF4", "label": "TCF4", "shape": "dot"}, {"color": "#97c2fc", "id": "VGF", "label": "VGF", "shape": "dot"}, {"color": "#97c2fc", "id": "MYT1L", "label": "MYT1L", "shape": "dot"}, {"color": "#97c2fc", "id": "EP300", "label": "EP300", "shape": "dot"}, {"color": "#97c2fc", "id": "CREB1", "label": "CREB1", "shape": "dot"}, {"color": "#97c2fc", "id": "ATOH1", "label": "ATOH1", "shape": "dot"}, {"color": "#97c2fc", "id": "LMO2", "label": "LMO2", "shape": "dot"}, {"color": "#97c2fc", "id": "LDB1", "label": "LDB1", "shape": "dot"}, {"color": "#97c2fc", "id": "GATA1", "label": "GATA1", "shape": "dot"}, {"color": "#97c2fc", "id": "GATA2", "label": "GATA2", "shape": "dot"}, {"color": "#97c2fc", "id": "KDM1A", "label": "KDM1A", "shape": "dot"}, {"color": "#97c2fc", "id": "GATA3", "label": "GATA3", "shape": "dot"}, {"color": "#97c2fc", "id": "CBFA2T3", "label": "CBFA2T3", "shape": "dot"}, {"color": "#97c2fc", "id": "CTNNB1", "label": "CTNNB1", "shape": "dot"}, {"color": "#97c2fc", "id": "ID1", "label": "ID1", "shape": "dot"}, {"color": "#97c2fc", "id": "ID2", "label": "ID2", "shape": "dot"}, {"color": "#97c2fc", "id": "TAL1", "label": "TAL1", "shape": "dot"}, {"color": "#97c2fc", "id": "TLE1", "label": "TLE1", "shape": "dot"}, {"color": "#97c2fc", "id": "TBL1XR1", "label": "TBL1XR1", "shape": "dot"}, {"color": "#97c2fc", "id": "ASCL1", "label": "ASCL1", "shape": "dot"}, {"color": "#97c2fc", "id": "TLE3", "label": "TLE3", "shape": "dot"}, {"color": "#97c2fc", "id": "MYOD1", "label": "MYOD1", "shape": "dot"}, {"color": "#97c2fc", "id": "RUNX1T1", "label": "RUNX1T1", "shape": "dot"}, {"color": "#97c2fc", "id": "TWIST1", "label": "TWIST1", "shape": "dot"}, {"color": "#97c2fc", "id": "MYF6", "label": "MYF6", "shape": "dot"}]);
-                  edges = new vis.DataSet([{"from": "ASCL1", "to": "TCF12", "value": 0.09759999999999999}, {"from": "ASCL1", "to": "POU3F2", "value": 0.0963}, {"from": "ASCL1", "to": "TCF3", "value": 0.09419999999999999}, {"from": "ASCL1", "to": "NEUROG2", "value": 0.094}, {"from": "ASCL1", "to": "TCF4", "value": 0.0938}, {"from": "ASCL1", "to": "VGF", "value": 0.0908}, {"from": "ASCL1", "to": "MYT1L", "value": 0.089}, {"from": "ASCL1", "to": "EP300", "value": 0.0885}, {"from": "ASCL1", "to": "CREB1", "value": 0.0843}, {"from": "ASCL1", "to": "ATOH1", "value": 0.0837}, {"from": "TAL1", "to": "LMO2", "value": 0.0999}, {"from": "TAL1", "to": "LDB1", "value": 0.0999}, {"from": "TAL1", "to": "GATA1", "value": 0.0999}, {"from": "TAL1", "to": "TCF3", "value": 0.0999}, {"from": "TAL1", "to": "GATA2", "value": 0.0997}, {"from": "TAL1", "to": "TCF12", "value": 0.0989}, {"from": "TAL1", "to": "KDM1A", "value": 0.0986}, {"from": "TAL1", "to": "GATA3", "value": 0.0985}, {"from": "TAL1", "to": "CBFA2T3", "value": 0.0977}, {"from": "TAL1", "to": "TCF4", "value": 0.0974}, {"from": "TCF4", "to": "CTNNB1", "value": 0.0999}, {"from": "TCF4", "to": "ID1", "value": 0.0992}, {"from": "TCF4", "to": "ID2", "value": 0.0989}, {"from": "TCF4", "to": "TCF12", "value": 0.0977}, {"from": "TCF4", "to": "TLE1", "value": 0.0943}, {"from": "TCF4", "to": "TBL1XR1", "value": 0.0939}, {"from": "TCF4", "to": "TLE3", "value": 0.0936}, {"from": "TCF4", "to": "MYOD1", "value": 0.0932}, {"from": "TCF12", "to": "ID1", "value": 0.0974}, {"from": "TCF12", "to": "ID2", "value": 0.0973}, {"from": "TCF12", "to": "RUNX1T1", "value": 0.09659999999999999}, {"from": "TCF12", "to": "TWIST1", "value": 0.0965}, {"from": "TCF12", "to": "EP300", "value": 0.0958}, {"from": "TCF12", "to": "ATOH1", "value": 0.094}, {"from": "TCF12", "to": "MYF6", "value": 0.0936}]);
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "CARD11", "label": "CARD11", "shape": "dot"}, {"color": "red", "id": "CD28", "label": "CD28", "shape": "dot"}, {"color": "#97c2fc", "id": "IKBKB", "label": "IKBKB", "shape": "dot"}, {"color": "#97c2fc", "id": "VAV1", "label": "VAV1", "shape": "dot"}, {"color": "#97c2fc", "id": "LCK", "label": "LCK", "shape": "dot"}, {"color": "#97c2fc", "id": "CHUK", "label": "CHUK", "shape": "dot"}, {"color": "#97c2fc", "id": "LCP2", "label": "LCP2", "shape": "dot"}, {"color": "#97c2fc", "id": "FLNA", "label": "FLNA", "shape": "dot"}, {"color": "#97c2fc", "id": "IKBKG", "label": "IKBKG", "shape": "dot"}, {"color": "#97c2fc", "id": "BCL10", "label": "BCL10", "shape": "dot"}, {"color": "#97c2fc", "id": "PDPK1", "label": "PDPK1", "shape": "dot"}, {"color": "#97c2fc", "id": "CD247", "label": "CD247", "shape": "dot"}, {"color": "#97c2fc", "id": "CD4", "label": "CD4", "shape": "dot"}, {"color": "#97c2fc", "id": "LAT", "label": "LAT", "shape": "dot"}, {"color": "#97c2fc", "id": "GRAP2", "label": "GRAP2", "shape": "dot"}, {"color": "#97c2fc", "id": "STK39", "label": "STK39", "shape": "dot"}, {"color": "#97c2fc", "id": "HRAS", "label": "HRAS", "shape": "dot"}, {"color": "#97c2fc", "id": "CD8A", "label": "CD8A", "shape": "dot"}, {"color": "#97c2fc", "id": "ZAP70", "label": "ZAP70", "shape": "dot"}, {"color": "#97c2fc", "id": "KRAS", "label": "KRAS", "shape": "dot"}, {"color": "#97c2fc", "id": "LYN", "label": "LYN", "shape": "dot"}, {"color": "#97c2fc", "id": "CD3E", "label": "CD3E", "shape": "dot"}, {"color": "#97c2fc", "id": "MAPK3", "label": "MAPK3", "shape": "dot"}, {"color": "#97c2fc", "id": "CD80", "label": "CD80", "shape": "dot"}, {"color": "#97c2fc", "id": "CD3D", "label": "CD3D", "shape": "dot"}, {"color": "#97c2fc", "id": "CD3G", "label": "CD3G", "shape": "dot"}, {"color": "#97c2fc", "id": "MAPK1", "label": "MAPK1", "shape": "dot"}, {"color": "#97c2fc", "id": "CASP3", "label": "CASP3", "shape": "dot"}, {"color": "#97c2fc", "id": "HLA-DRB1", "label": "HLA-DRB1", "shape": "dot"}, {"color": "#97c2fc", "id": "RASGRP1", "label": "RASGRP1", "shape": "dot"}, {"color": "#97c2fc", "id": "CTLA4", "label": "CTLA4", "shape": "dot"}, {"color": "#97c2fc", "id": "CD274", "label": "CD274", "shape": "dot"}, {"color": "#97c2fc", "id": "IL10", "label": "IL10", "shape": "dot"}, {"color": "#97c2fc", "id": "B2M", "label": "B2M", "shape": "dot"}, {"color": "#97c2fc", "id": "ICAM1", "label": "ICAM1", "shape": "dot"}, {"color": "#97c2fc", "id": "CD86", "label": "CD86", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGAX", "label": "ITGAX", "shape": "dot"}, {"color": "#97c2fc", "id": "PDCD1LG2", "label": "PDCD1LG2", "shape": "dot"}, {"color": "#97c2fc", "id": "PDCD1", "label": "PDCD1", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGAL", "label": "ITGAL", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGAM", "label": "ITGAM", "shape": "dot"}, {"color": "#97c2fc", "id": "HLA-A", "label": "HLA-A", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGB1", "label": "ITGB1", "shape": "dot"}, {"color": "#97c2fc", "id": "CSF1", "label": "CSF1", "shape": "dot"}, {"color": "#97c2fc", "id": "CD40", "label": "CD40", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGB2", "label": "ITGB2", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGA4", "label": "ITGA4", "shape": "dot"}, {"color": "#97c2fc", "id": "PTPN11", "label": "PTPN11", "shape": "dot"}, {"color": "#97c2fc", "id": "IL1R1", "label": "IL1R1", "shape": "dot"}, {"color": "#97c2fc", "id": "ITGA2", "label": "ITGA2", "shape": "dot"}, {"color": "#97c2fc", "id": "HLA-DRA", "label": "HLA-DRA", "shape": "dot"}, {"color": "#97c2fc", "id": "FCER2", "label": "FCER2", "shape": "dot"}, {"color": "#97c2fc", "id": "GRB2", "label": "GRB2", "shape": "dot"}, {"color": "#97c2fc", "id": "PRKCQ", "label": "PRKCQ", "shape": "dot"}, {"color": "#97c2fc", "id": "PIK3R1", "label": "PIK3R1", "shape": "dot"}, {"color": "#97c2fc", "id": "B7RP1", "label": "B7RP1", "shape": "dot"}, {"color": "#97c2fc", "id": "CD2", "label": "CD2", "shape": "dot"}, {"color": "#97c2fc", "id": "ITK", "label": "ITK", "shape": "dot"}, {"color": "#97c2fc", "id": "CD276", "label": "CD276", "shape": "dot"}, {"color": "#97c2fc", "id": "FCGR3B", "label": "FCGR3B", "shape": "dot"}, {"color": "#97c2fc", "id": "FCGR3A", "label": "FCGR3A", "shape": "dot"}, {"color": "#97c2fc", "id": "SYK", "label": "SYK", "shape": "dot"}, {"color": "#97c2fc", "id": "CD8B", "label": "CD8B", "shape": "dot"}, {"color": "#97c2fc", "id": "GAB2", "label": "GAB2", "shape": "dot"}, {"color": "#97c2fc", "id": "CD83", "label": "CD83", "shape": "dot"}, {"color": "#97c2fc", "id": "IL1R2", "label": "IL1R2", "shape": "dot"}, {"color": "#97c2fc", "id": "PTPRC", "label": "PTPRC", "shape": "dot"}, {"color": "#97c2fc", "id": "CBL", "label": "CBL", "shape": "dot"}, {"color": "#97c2fc", "id": "PTPN22", "label": "PTPN22", "shape": "dot"}, {"color": "#97c2fc", "id": "SH2D2A", "label": "SH2D2A", "shape": "dot"}, {"color": "#97c2fc", "id": "CD44", "label": "CD44", "shape": "dot"}, {"color": "#97c2fc", "id": "PTPN6", "label": "PTPN6", "shape": "dot"}, {"color": "#97c2fc", "id": "IL2RA", "label": "IL2RA", "shape": "dot"}, {"color": "#97c2fc", "id": "STAT3", "label": "STAT3", "shape": "dot"}, {"color": "#97c2fc", "id": "IL2RB", "label": "IL2RB", "shape": "dot"}, {"color": "#97c2fc", "id": "PXN", "label": "PXN", "shape": "dot"}, {"color": "#97c2fc", "id": "PLCG1", "label": "PLCG1", "shape": "dot"}, {"color": "#97c2fc", "id": "PAG1", "label": "PAG1", "shape": "dot"}, {"color": "#97c2fc", "id": "DOK2", "label": "DOK2", "shape": "dot"}, {"color": "#97c2fc", "id": "DLG1", "label": "DLG1", "shape": "dot"}, {"color": "#97c2fc", "id": "BCAR1", "label": "BCAR1", "shape": "dot"}, {"color": "#97c2fc", "id": "PTK2", "label": "PTK2", "shape": "dot"}, {"color": "#97c2fc", "id": "IRS2", "label": "IRS2", "shape": "dot"}, {"color": "#97c2fc", "id": "ERBB4", "label": "ERBB4", "shape": "dot"}, {"color": "#97c2fc", "id": "FGFR2", "label": "FGFR2", "shape": "dot"}, {"color": "#97c2fc", "id": "JAK2", "label": "JAK2", "shape": "dot"}, {"color": "#97c2fc", "id": "EGFR", "label": "EGFR", "shape": "dot"}, {"color": "#97c2fc", "id": "FRS2", "label": "FRS2", "shape": "dot"}, {"color": "#97c2fc", "id": "PTPN1", "label": "PTPN1", "shape": "dot"}, {"color": "#97c2fc", "id": "SHC1", "label": "SHC1", "shape": "dot"}, {"color": "#97c2fc", "id": "GAB1", "label": "GAB1", "shape": "dot"}, {"color": "#97c2fc", "id": "WAS", "label": "WAS", "shape": "dot"}, {"color": "#97c2fc", "id": "MET", "label": "MET", "shape": "dot"}, {"color": "#97c2fc", "id": "PTK2B", "label": "PTK2B", "shape": "dot"}, {"color": "#97c2fc", "id": "BLNK", "label": "BLNK", "shape": "dot"}, {"color": "#97c2fc", "id": "SPRY2", "label": "SPRY2", "shape": "dot"}, {"color": "#97c2fc", "id": "SOS1", "label": "SOS1", "shape": "dot"}, {"color": "#97c2fc", "id": "SOS2", "label": "SOS2", "shape": "dot"}, {"color": "#97c2fc", "id": "DNM2", "label": "DNM2", "shape": "dot"}, {"color": "#97c2fc", "id": "KIT", "label": "KIT", "shape": "dot"}, {"color": "#97c2fc", "id": "ERBB3", "label": "ERBB3", "shape": "dot"}, {"color": "#97c2fc", "id": "ERBB2", "label": "ERBB2", "shape": "dot"}, {"color": "#97c2fc", "id": "IRS1", "label": "IRS1", "shape": "dot"}, {"color": "#97c2fc", "id": "EGF", "label": "EGF", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"from": "PRKCQ", "to": "CARD11", "value": 0.0997}, {"from": "PRKCQ", "to": "CD28", "value": 0.0996}, {"from": "PRKCQ", "to": "IKBKB", "value": 0.0988}, {"from": "PRKCQ", "to": "VAV1", "value": 0.0984}, {"from": "PRKCQ", "to": "LCK", "value": 0.0982}, {"from": "PRKCQ", "to": "CHUK", "value": 0.0973}, {"from": "PRKCQ", "to": "LCP2", "value": 0.0969}, {"from": "PRKCQ", "to": "FLNA", "value": 0.09659999999999999}, {"from": "PRKCQ", "to": "IKBKG", "value": 0.096}, {"from": "PRKCQ", "to": "BCL10", "value": 0.0954}, {"from": "PRKCQ", "to": "PDPK1", "value": 0.0953}, {"from": "PRKCQ", "to": "CD247", "value": 0.09519999999999999}, {"from": "PRKCQ", "to": "CD4", "value": 0.09519999999999999}, {"from": "PRKCQ", "to": "LAT", "value": 0.0948}, {"from": "PRKCQ", "to": "GRAP2", "value": 0.0945}, {"from": "PRKCQ", "to": "STK39", "value": 0.094}, {"from": "PRKCQ", "to": "HRAS", "value": 0.094}, {"from": "PRKCQ", "to": "CD8A", "value": 0.094}, {"from": "PRKCQ", "to": "ZAP70", "value": 0.0939}, {"from": "PRKCQ", "to": "KRAS", "value": 0.0935}, {"from": "PRKCQ", "to": "LYN", "value": 0.0932}, {"from": "PRKCQ", "to": "CD3E", "value": 0.0932}, {"from": "PRKCQ", "to": "MAPK3", "value": 0.0931}, {"from": "PRKCQ", "to": "CD80", "value": 0.0931}, {"from": "PRKCQ", "to": "CD3D", "value": 0.0931}, {"from": "PRKCQ", "to": "CD3G", "value": 0.09290000000000001}, {"from": "PRKCQ", "to": "MAPK1", "value": 0.09280000000000001}, {"from": "PRKCQ", "to": "CASP3", "value": 0.09280000000000001}, {"from": "PRKCQ", "to": "HLA-DRB1", "value": 0.09280000000000001}, {"from": "PRKCQ", "to": "RASGRP1", "value": 0.0925}, {"from": "CD80", "to": "CTLA4", "value": 0.0999}, {"from": "CD80", "to": "CD28", "value": 0.0999}, {"from": "CD80", "to": "CD4", "value": 0.0994}, {"from": "CD80", "to": "CD8A", "value": 0.0989}, {"from": "CD80", "to": "CD274", "value": 0.0988}, {"from": "CD80", "to": "IL10", "value": 0.0986}, {"from": "CD80", "to": "B2M", "value": 0.0983}, {"from": "CD80", "to": "ICAM1", "value": 0.09809999999999999}, {"from": "CD80", "to": "CD86", "value": 0.09809999999999999}, {"from": "CD80", "to": "ITGAX", "value": 0.0972}, {"from": "CD80", "to": "PDCD1LG2", "value": 0.09659999999999999}, {"from": "CD80", "to": "PDCD1", "value": 0.0965}, {"from": "CD80", "to": "ITGAL", "value": 0.0962}, {"from": "CD80", "to": "ITGAM", "value": 0.096}, {"from": "CD80", "to": "HLA-A", "value": 0.0959}, {"from": "CD80", "to": "ITGB1", "value": 0.0957}, {"from": "CD80", "to": "CD247", "value": 0.09559999999999999}, {"from": "CD80", "to": "CSF1", "value": 0.0955}, {"from": "CD80", "to": "CD40", "value": 0.0954}, {"from": "CD80", "to": "ITGB2", "value": 0.0954}, {"from": "CD80", "to": "CD3E", "value": 0.0954}, {"from": "CD80", "to": "ZAP70", "value": 0.09519999999999999}, {"from": "CD80", "to": "ITGA4", "value": 0.09459999999999999}, {"from": "CD80", "to": "PTPN11", "value": 0.09459999999999999}, {"from": "CD80", "to": "LCK", "value": 0.0945}, {"from": "CD80", "to": "HLA-DRB1", "value": 0.0944}, {"from": "CD80", "to": "IL1R1", "value": 0.0943}, {"from": "CD80", "to": "ITGA2", "value": 0.09409999999999999}, {"from": "CD80", "to": "HLA-DRA", "value": 0.0935}, {"from": "CD80", "to": "FCER2", "value": 0.09340000000000001}, {"from": "CD28", "to": "GRB2", "value": 0.0999}, {"from": "CD28", "to": "LCK", "value": 0.0999}, {"from": "CD28", "to": "CD86", "value": 0.0999}, {"from": "CD28", "to": "CD4", "value": 0.0996}, {"from": "CD28", "to": "CD247", "value": 0.0995}, {"from": "CD28", "to": "PIK3R1", "value": 0.0993}, {"from": "CD28", "to": "B7RP1", "value": 0.0992}, {"from": "CD28", "to": "CD8A", "value": 0.0991}, {"from": "CD28", "to": "CD2", "value": 0.0991}, {"from": "CD28", "to": "ITK", "value": 0.0988}, {"from": "CD28", "to": "ZAP70", "value": 0.0987}, {"from": "CD28", "to": "GRAP2", "value": 0.09809999999999999}, {"from": "CD28", "to": "ITGA4", "value": 0.09809999999999999}, {"from": "CD28", "to": "CD3E", "value": 0.098}, {"from": "CD28", "to": "CD276", "value": 0.097}, {"from": "CD28", "to": "FCGR3B", "value": 0.0969}, {"from": "CD28", "to": "FCGR3A", "value": 0.0968}, {"from": "CD28", "to": "FLNA", "value": 0.0968}, {"from": "CD28", "to": "ITGAL", "value": 0.09659999999999999}, {"from": "CD28", "to": "CD3D", "value": 0.09609999999999999}, {"from": "CD28", "to": "SYK", "value": 0.0953}, {"from": "CD28", "to": "CD3G", "value": 0.0953}, {"from": "CD28", "to": "CD40", "value": 0.09509999999999999}, {"from": "CD28", "to": "B2M", "value": 0.0948}, {"from": "CD28", "to": "CD8B", "value": 0.0948}, {"from": "CD28", "to": "GAB2", "value": 0.0943}, {"from": "CD28", "to": "HLA-A", "value": 0.0943}, {"from": "CD28", "to": "ITGB2", "value": 0.09409999999999999}, {"from": "CD86", "to": "CTLA4", "value": 0.0999}, {"from": "CD86", "to": "CD4", "value": 0.0995}, {"from": "CD86", "to": "CD8A", "value": 0.0987}, {"from": "CD86", "to": "IL10", "value": 0.0987}, {"from": "CD86", "to": "ICAM1", "value": 0.098}, {"from": "CD86", "to": "CD3E", "value": 0.09609999999999999}, {"from": "CD86", "to": "CSF1", "value": 0.096}, {"from": "CD86", "to": "CD247", "value": 0.0958}, {"from": "CD86", "to": "HLA-DRB1", "value": 0.09559999999999999}, {"from": "CD86", "to": "HLA-DRA", "value": 0.0954}, {"from": "CD86", "to": "ZAP70", "value": 0.0953}, {"from": "CD86", "to": "CD40", "value": 0.09519999999999999}, {"from": "CD86", "to": "HLA-A", "value": 0.09509999999999999}, {"from": "CD86", "to": "B2M", "value": 0.095}, {"from": "CD86", "to": "FCER2", "value": 0.0948}, {"from": "CD86", "to": "LCK", "value": 0.09459999999999999}, {"from": "CD86", "to": "IL1R1", "value": 0.0944}, {"from": "CD86", "to": "PTPN11", "value": 0.094}, {"from": "CD86", "to": "CD3D", "value": 0.0936}, {"from": "CD86", "to": "ITGAX", "value": 0.09340000000000001}, {"from": "CD86", "to": "ITK", "value": 0.09340000000000001}, {"from": "CD86", "to": "CD8B", "value": 0.09290000000000001}, {"from": "CD86", "to": "ITGAM", "value": 0.09290000000000001}, {"from": "CD86", "to": "CD3G", "value": 0.09290000000000001}, {"from": "CD86", "to": "GRB2", "value": 0.0927}, {"from": "CD86", "to": "CD83", "value": 0.0926}, {"from": "CD86", "to": "IL1R2", "value": 0.0926}, {"from": "CD86", "to": "PRKCQ", "value": 0.09240000000000001}, {"from": "LCK", "to": "PTPRC", "value": 0.0999}, {"from": "LCK", "to": "CD247", "value": 0.0999}, {"from": "LCK", "to": "CD8A", "value": 0.0999}, {"from": "LCK", "to": "CD4", "value": 0.0999}, {"from": "LCK", "to": "LCP2", "value": 0.0998}, {"from": "LCK", "to": "CBL", "value": 0.0998}, {"from": "LCK", "to": "CTLA4", "value": 0.0997}, {"from": "LCK", "to": "PTPN22", "value": 0.0996}, {"from": "LCK", "to": "ZAP70", "value": 0.0995}, {"from": "LCK", "to": "SH2D2A", "value": 0.0993}, {"from": "LCK", "to": "CD3E", "value": 0.0993}, {"from": "LCK", "to": "CD44", "value": 0.0992}, {"from": "LCK", "to": "LAT", "value": 0.0992}, {"from": "LCK", "to": "VAV1", "value": 0.0991}, {"from": "LCK", "to": "CD2", "value": 0.0991}, {"from": "LCK", "to": "PTPN6", "value": 0.0988}, {"from": "LCK", "to": "CD3D", "value": 0.0988}, {"from": "LCK", "to": "IL2RA", "value": 0.0987}, {"from": "LCK", "to": "STAT3", "value": 0.0987}, {"from": "LCK", "to": "IL2RB", "value": 0.0986}, {"from": "LCK", "to": "PXN", "value": 0.0985}, {"from": "LCK", "to": "PIK3R1", "value": 0.0984}, {"from": "LCK", "to": "PLCG1", "value": 0.0984}, {"from": "LCK", "to": "SYK", "value": 0.0983}, {"from": "LCK", "to": "PAG1", "value": 0.0983}, {"from": "LCK", "to": "DOK2", "value": 0.0979}, {"from": "LCK", "to": "DLG1", "value": 0.0979}, {"from": "LCK", "to": "BCAR1", "value": 0.0977}, {"from": "GRB2", "to": "PIK3R1", "value": 0.0999}, {"from": "GRB2", "to": "PTK2", "value": 0.0999}, {"from": "GRB2", "to": "IRS2", "value": 0.0999}, {"from": "GRB2", "to": "ERBB4", "value": 0.0999}, {"from": "GRB2", "to": "FGFR2", "value": 0.0999}, {"from": "GRB2", "to": "JAK2", "value": 0.0999}, {"from": "GRB2", "to": "EGFR", "value": 0.0999}, {"from": "GRB2", "to": "FRS2", "value": 0.0999}, {"from": "GRB2", "to": "GAB2", "value": 0.0999}, {"from": "GRB2", "to": "PTPN1", "value": 0.0999}, {"from": "GRB2", "to": "SHC1", "value": 0.0999}, {"from": "GRB2", "to": "GAB1", "value": 0.0999}, {"from": "GRB2", "to": "WAS", "value": 0.0999}, {"from": "GRB2", "to": "MET", "value": 0.0999}, {"from": "GRB2", "to": "PTK2B", "value": 0.0999}, {"from": "GRB2", "to": "BLNK", "value": 0.0999}, {"from": "GRB2", "to": "SPRY2", "value": 0.0999}, {"from": "GRB2", "to": "SOS1", "value": 0.0999}, {"from": "GRB2", "to": "SOS2", "value": 0.0999}, {"from": "GRB2", "to": "DNM2", "value": 0.0999}, {"from": "GRB2", "to": "LCP2", "value": 0.0999}, {"from": "GRB2", "to": "KIT", "value": 0.0999}, {"from": "GRB2", "to": "ERBB3", "value": 0.0999}, {"from": "GRB2", "to": "ERBB2", "value": 0.0999}, {"from": "GRB2", "to": "CBL", "value": 0.0999}, {"from": "GRB2", "to": "IRS1", "value": 0.0999}, {"from": "GRB2", "to": "LAT", "value": 0.0999}, {"from": "GRB2", "to": "EGF", "value": 0.0998}, {"from": "GRB2", "to": "MAPK3", "value": 0.0998}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -144,6 +222,23 @@
                   
 
 
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
                   
 
                   return network;
