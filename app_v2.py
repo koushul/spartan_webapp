@@ -209,7 +209,7 @@ elif chosen_tab == TF:
         st.header(f'Pathways & drugs associated with {option} derived from Wiki-CORONA')
         
         try:
-            df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0].dropna()
+            df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0]
             df.columns = ['Interactant Symbol', 'Name', 'Associated Pathways', 'Binding Drugs', 'Associated Diseases']
             st.dataframe(df)
         except:

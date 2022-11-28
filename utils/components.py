@@ -75,7 +75,7 @@ def ridge_plot(df_plt, xlabel, column):
     g.despine( left=True)
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)
-    # g.savefig('ridge.png', dpi=180)
+    # g.savefig('ridge.png', dpi=180)    
     plt.xlabel(xlabel, fontsize=25)
     img = fig2img(g.fig)
     
