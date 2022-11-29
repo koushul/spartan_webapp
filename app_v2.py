@@ -228,7 +228,7 @@ elif chosen_tab == TF:
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
-            img = ridge_plot(df_plt, f'{option} inferred activity', column=c)
+            img = ridge_plot(df_plt, f'{option} inferred rank', column=c)
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))

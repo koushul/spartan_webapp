@@ -7,6 +7,9 @@ from st_aggrid.grid_options_builder import GridOptionsBuilder
 from utils.components import local_css
 from texts.descriptions import DatasetDesc, Desc
 
+from PIL import Image
+
+
 @st.cache
 def totags(tags):
     t = '<div>'
@@ -20,7 +23,7 @@ from st_aggrid import JsCode
 
 
 def dataset_page(ds, datacore):
-    
+        
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
@@ -66,8 +69,10 @@ def dataset_page(ds, datacore):
         st.markdown(ds[ds.name==row_json['name']].url.values[0])
         
         exp = st.expander('View UMAP')
+
         try:
-            exp.image(datacore.name2ds[row_json['name']].umap)
+            umap = Image.open(datacore.name2ds[row_json['name']].umap)
+            exp.image(umap.resize((600, 400)))
         except:
             exp.write('No UMAP available.')
 
