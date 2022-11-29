@@ -44,7 +44,8 @@ palette_mapper = {
     'moderate': colors.to_hex('lightskyblue'),
     'critical': colors.to_hex('orchid'),
     'severe': colors.to_hex('magenta'),
-    'other': colors.to_hex('black'),
+    'stable': colors.to_hex('orange'),
+    'progressive': colors.to_hex('blueviolet'),
 }
 
 def make_palette(column, groups):
