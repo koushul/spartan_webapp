@@ -175,7 +175,7 @@ elif chosen_tab == TF:
                     pmid = article.pubmed_id.split()[0]
                     st_url(text=article.title, link=f"https://pubmed.ncbi.nlm.nih.gov/{pmid}")
                     with st.expander('Abstract'):
-                        st.write(article.authors)
+                        st.write(article.abstract)
                     
                     local_css()
                     author = article.authors[0]
