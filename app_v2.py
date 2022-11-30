@@ -68,14 +68,15 @@ datacore =  make_datacore()()
 ds = Dataset.metadata_df()
 drugs = load_drug_info()
 
+streamlit_analytics.start_tracking()
+
+
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
 chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
 
 if chosen_tab == HOME:
-    # streamlit_analytics.start_tracking()
     home_page()
-    # streamlit_analytics.stop_tracking()
     
     
 elif chosen_tab == DATASET:
@@ -390,3 +391,4 @@ elif chosen_tab == STATS:
     with y:
         stats_page()
         
+streamlit_analytics.stop_tracking()
