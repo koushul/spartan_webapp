@@ -7,3 +7,4 @@ lxml
 requests
 beautifulsoup4
 streamlit-analytics
+pymed

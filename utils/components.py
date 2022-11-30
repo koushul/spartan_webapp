@@ -124,7 +124,7 @@ def make_tab(name, desc=''):
 
 
 def ppi(option):
-    st.header(f'Protein-Protein Interactions for {option} from stringdb')
+    st.header(f'Protein-Protein Interactions for {option} from StringDB')
     st.caption('Threshold of significance to include an interaction: 400')
     st.caption('Learn more: https://string-db.org/help/api/')
     left_col, right_col = st.columns(2)

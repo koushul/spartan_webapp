@@ -3,7 +3,9 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 import re
+from pymed import PubMed
 
+pubmed = PubMed(tool="MyTool", email="my@email.address")
 
 def severus_pair(tf, protein):
     try:
@@ -30,6 +32,15 @@ def load_tftargets(tf):
 def load_drug_info():
     drug_info = pd.read_parquet('./data/drugs/drugs_info.parquet')
     return drug_info
+
+@st.experimental_singleton
+def get_pubmed_article(title):
+    articles = list(pubmed.query(title, max_results=1))
+    if articles:
+        article = articles[0]
+        return article
+    else:
+        return None
 
 
 @st.cache

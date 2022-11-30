@@ -8,9 +8,9 @@ from navigation.doc import doc_page
 
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
-from utils.components import create_st_button, make_tab, ridge_plot
+from utils.components import create_st_button, local_css, make_tab, ridge_plot
 from utils.dataloaders import Dataset
-from utils.api import litcov_search, severus_pair, load_drug_info, load_tftargets
+from utils.api import get_pubmed_article, litcov_search, severus_pair, load_drug_info, load_tftargets
 
 from utils.components import ppi, hide_streamlit_style
 from texts.descriptions import Desc
@@ -50,6 +50,11 @@ def totags(tags):
         t += f"<span class='highlight {color}'>{tag}</span>\t"
     t += '</div>'
     return t
+
+
+def st_url(text, link, tags='####'):
+    st.write(tags+f" [{text}]({link})")
+
 
 
 tabs = [
@@ -147,25 +152,49 @@ elif chosen_tab == TF:
         'Download'
     ]
 
-    current_tab_tf = subtabs[0]
-        
+    
+    if 'current_tab_tf' in st.session_state:
+        current_tab_tf = st.session_state['current_tab_tf']
+    else:
+        current_tab_tf = subtabs[1]
+                
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
     st.session_state['current_tab_tf'] = chosen_subtab
     
     
     
-    if chosen_subtab == f'Literature references ({len(litcovdf)})':
-        st.caption(Desc.litcovid)
-
-        if len(litcovdf) > 0:  
-            st.table(litcovdf)
-            st.download_button(
-                label='Download as CSV',
-                data=litcovdf.to_csv(index=None),
-                file_name=f'references_{option}.csv',
-                mime='text/csv',
-                key=uuid.uuid1()
-            )
+    
+    if 'Literature references' in chosen_subtab:
+        # st.caption(Desc.litcovid)
+        st.header(f'📄 Relevant publications for {option} based on LitCovid')
+        
+        if len(litcovdf) > 0: 
+            for title in litcovdf.title:
+                article = get_pubmed_article(title)
+                if article:
+                    pmid = article.pubmed_id.split()[0]
+                    st_url(text=article.title, link=f"https://pubmed.ncbi.nlm.nih.gov/{pmid}")
+                    with st.expander('Abstract'):
+                        st.write(article.authors)
+                    
+                    local_css()
+                    author = article.authors[0]
+                    author = f"{author['lastname']} et al. ({article.publication_date.year})"
+                    
+                    st.markdown(totags([author, article.journal, "PMID:"+pmid]), unsafe_allow_html=True)
+                    
+                    st.markdown('---')
+                
+                
+        # if len(litcovdf) > 0:  
+        #     st.table(litcovdf)
+        #     st.download_button(
+        #         label='Download as CSV',
+        #         data=litcovdf.to_csv(index=None),
+        #         file_name=f'references_{option}.csv',
+        #         mime='text/csv',
+        #         key=uuid.uuid1()
+        #     )
                 
         else:
             st.warning('No literature references found')
@@ -310,6 +339,7 @@ elif chosen_tab == PROTEINS:
         
     
     chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab) 
+    
     st.session_state['current_tab'] = chosen_subtab
         
     
@@ -363,8 +393,10 @@ elif chosen_tab == PROTEINS:
             st.warning('No high correlation matches found.')
         
         
-    elif chosen_subtab == f'Literature references ({len(litcovdf)})':
-        st.caption(Desc.litcovid)
+    elif 'Literature references' in chosen_subtab:
+        # st.caption(Desc.litcovid)
+        st.header('📄 Relevant publications based on LitCovid')
+        
         
         if len(litcovdf) > 0:  
             st.table(litcovdf)
