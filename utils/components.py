@@ -33,16 +33,18 @@ from PIL import Image
 
 def label(x, color, label):
     ax = plt.gca()
-    ax.text(0, .2, label, color='black', fontsize=15,
+    ax.text(0, .2, label, color='black', fontsize=30,
             ha="left", va="center", transform=ax.transAxes)
+    ax.tick_params(axis='x', labelsize=30)
     
 sns.set_theme(style="white", rc={"axes.facecolor": (0, 0, 0, 0), 'axes.linewidth':2})
 
+## https://matplotlib.org/stable/gallery/color/named_colors.html
 palette_mapper = {
-    'healthy': colors.to_hex('green'),
+    'healthy': colors.to_hex('seagreen'),
     'mild': colors.to_hex('salmon'),
     'moderate': colors.to_hex('lightskyblue'),
-    'critical': colors.to_hex('orchid'),
+    'critical': colors.to_hex('red'),
     'severe': colors.to_hex('magenta'),
     'stable': colors.to_hex('orange'),
     'progressive': colors.to_hex('blueviolet'),
@@ -65,19 +67,22 @@ def ridge_plot(df_plt, xlabel, column):
     groups = np.sort(np.unique(df_plt.patient_group.values))
     g = sns.FacetGrid(df_plt, 
         palette = make_palette(column=column, groups=groups),
-        row="patient_group", hue="patient_group", aspect=5)
+        row="patient_group", hue="patient_group", aspect=4.5)
     
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     g.map(label, "patient_group")
-    g.fig.subplots_adjust(hspace=-.5)
+    g.fig.subplots_adjust(hspace=-.25)
     g.set_titles("")
     g.set(yticks=[], xlabel=xlabel)
     g.despine( left=True)
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)
-    # g.savefig('ridge.png', dpi=180)    
-    plt.xlabel(xlabel, fontsize=25)
+    # g.savefig('ridge.png', dpi=180)
+
+    plt.xlabel(xlabel, fontsize=28, labelpad=25)
+    plt.gcf().subplots_adjust(bottom=0.15)
+    # plt.tight_layout()
     img = fig2img(g.fig)
     
     return img

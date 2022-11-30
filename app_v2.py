@@ -257,7 +257,7 @@ elif chosen_tab == TF:
                 
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
-            c, d, e = st.columns([1, 6, 1])
+            c, d, e = st.columns([2, 6, 2])
             img = ridge_plot(df_plt, f'{option} inferred rank', column=c)
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
@@ -395,18 +395,36 @@ elif chosen_tab == PROTEINS:
         
     elif 'Literature references' in chosen_subtab:
         # st.caption(Desc.litcovid)
-        st.header('📄 Relevant publications based on LitCovid')
+        st.header(f'📄 Relevant publications for {option} based on LitCovid')
+        
+        if len(litcovdf) > 0: 
+            for title in litcovdf.title:
+                article = get_pubmed_article(title)
+                if article:
+                    pmid = article.pubmed_id.split()[0]
+                    st_url(text=article.title, link=f"https://pubmed.ncbi.nlm.nih.gov/{pmid}")
+                    with st.expander('Abstract'):
+                        st.write(article.abstract)
+                    
+                    local_css()
+                    author = article.authors[0]
+                    author = f"{author['lastname']} et al. ({article.publication_date.year})"
+                    
+                    st.markdown(totags([author, article.journal, "PMID:"+pmid]), unsafe_allow_html=True)
+                    
+                    st.markdown('---')
         
         
-        if len(litcovdf) > 0:  
-            st.table(litcovdf)
-            st.download_button(
-                label='Download as CSV',
-                data=litcovdf.to_csv(index=None),
-                file_name=f'references_{option}.csv',
-                mime='text/csv',
-                key=uuid.uuid1()
-            )
+        
+        # if len(litcovdf) > 0:  
+        #     st.table(litcovdf)
+        #     st.download_button(
+        #         label='Download as CSV',
+        #         data=litcovdf.to_csv(index=None),
+        #         file_name=f'references_{option}.csv',
+        #         mime='text/csv',
+        #         key=uuid.uuid1()
+        #     )
                 
         else:
             st.warning('No literature references found')
