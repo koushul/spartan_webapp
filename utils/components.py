@@ -33,7 +33,7 @@ from PIL import Image
 
 def label(x, color, label):
     ax = plt.gca()
-    ax.text(0, .2, label, color='black', fontsize=30,
+    ax.text(0, .2, label, color='black', fontsize=35,
             ha="left", va="center", transform=ax.transAxes)
     ax.tick_params(axis='x', labelsize=30)
     
@@ -80,7 +80,7 @@ def ridge_plot(df_plt, xlabel, column):
     g.despine(bottom=True, left=True)
     # g.savefig('ridge.png', dpi=180)
 
-    plt.xlabel(xlabel, fontsize=28, labelpad=25)
+    plt.xlabel(xlabel, fontsize=36, labelpad=25)
     plt.gcf().subplots_adjust(bottom=0.15)
     # plt.tight_layout()
     img = fig2img(g.fig)

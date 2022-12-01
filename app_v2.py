@@ -262,7 +262,11 @@ elif chosen_tab == TF:
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))
-            d.image(img)
+            xx, yy = img.size
+            dd = 2.5
+            xx = int(xx/dd)
+            yy = int(yy/dd)
+            d.image(img.resize((xx, yy)))
 
         except:
             st.warning('No high correlation matches found.')
@@ -387,7 +391,11 @@ elif chosen_tab == PROTEINS:
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))
-            d.image(img)
+            xx, yy = img.size
+            dd = 2.5
+            xx = int(xx/dd)
+            yy = int(yy/dd)
+            d.image(img.resize((xx, yy)))
 
         except:
             st.warning('No high correlation matches found.')
@@ -395,7 +403,9 @@ elif chosen_tab == PROTEINS:
         
     elif 'Literature references' in chosen_subtab:
         # st.caption(Desc.litcovid)
-        st.header(f'📄 Relevant publications for {option} based on LitCovid')
+        # st.header(f'📄 Relevant publications for {option} based on LitCovid')
+        st.header(f'📄 Relevant publications for CD82 based on LitCovid')
+        
         
         if len(litcovdf) > 0: 
             for title in litcovdf.title:
