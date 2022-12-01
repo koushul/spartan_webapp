@@ -15,7 +15,7 @@ fuzzy_match = lambda root, fname: list(root.glob(fname))[0]
 class Dataset:
     
     metadata = {
-        'name': ['E-MTAB-9357 (SU)', 'GSE155673 (AR)', 'meyer21_pbmc', 'GSE167118 (LIU)'],
+        'name': ['E-MTAB-9357', 'GSE155673', 'meyer21_pbmc', 'GSE167118'],
         'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
         'patients': [270, 12, 143, 68],
         'cell count': ['559,517', '59,664', '691,683', '396,244'],
