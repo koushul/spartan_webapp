@@ -2,6 +2,9 @@ import streamlit as st
 from PIL import Image
 import datetime
 
+import streamlit_analytics
+
+
 @st.cache(allow_output_mutation=True)
 def load_home_image():
     return Image.open('./assets/images/home.png')
@@ -12,6 +15,11 @@ def home_page():
     from texts.descriptions import Desc
     img = load_home_image()
     x, y, z = st.columns([1, 6, 1])
+    
+    
+    streamlit_analytics.start_tracking()
+    
+    # st.write(streamlit_analytics.main.counts)
     
     with y:
         st.title(TITLE) 
@@ -24,6 +32,10 @@ def home_page():
         st.image(img)      
         st.write(Desc.intro_1)
         st.markdown(Desc.intro_2)
+        
+    streamlit_analytics.stop_tracking()
+
+    
     
     
 if __name__ == '__main__':

@@ -20,7 +20,6 @@ from texts.references import CELL_NAMES
 
 from PIL import Image
 
-import streamlit_analytics
 
 
 Image.MAX_IMAGE_PIXELS = None
@@ -73,7 +72,6 @@ datacore =  make_datacore()()
 ds = Dataset.metadata_df()
 drugs = load_drug_info()
 
-streamlit_analytics.start_tracking()
 
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
@@ -403,8 +401,7 @@ elif chosen_tab == PROTEINS:
         
     elif 'Literature references' in chosen_subtab:
         # st.caption(Desc.litcovid)
-        # st.header(f'📄 Relevant publications for {option} based on LitCovid')
-        st.header(f'📄 Relevant publications for CD82 based on LitCovid')
+        st.header(f'📄 Relevant publications for {option} based on LitCovid')
         
         
         if len(litcovdf) > 0: 
@@ -447,8 +444,5 @@ elif chosen_tab == DOC:
     doc_page()
     
 elif chosen_tab == STATS:
-    x, y, z = st.columns([1, 6, 1])
-    with y:
-        stats_page()
+    stats_page()
         
-streamlit_analytics.stop_tracking()
