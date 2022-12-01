@@ -36,7 +36,7 @@ def stats_page():
         
         st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
-        st.write(streamlit_analytics.main.counts)
+#         st.write(streamlit_analytics.main.counts)
         
         
         
