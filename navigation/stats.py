@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 from navigation.home import streamlit_analytics
-import plotly.express as px
 import plotly.graph_objects as go
 
 
