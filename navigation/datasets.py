@@ -64,7 +64,7 @@ def dataset_page(ds, datacore):
     
     for idx, row_json in enumerate(selected_row):
         
-        st.header(row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
+        st.markdown('#### ' + row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
         st.markdown(DatasetDesc[row_json['name']])
         st.markdown(ds[ds.name==row_json['name']].url.values[0])
         

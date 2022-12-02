@@ -51,7 +51,7 @@ def totags(tags):
     return t
 
 
-def st_url(text, link, tags='####'):
+def st_url(text, link, tags='######'):
     st.write(tags+f" [{text}]({link})")
 
 
@@ -87,30 +87,11 @@ elif chosen_tab == DATASET:
     with y:
         dataset_page(ds, datacore)
     
-elif chosen_tab == TF_PROTEINS:
 
-    st.header('Transcription Factors & Surface Proteins Interations')
-    t, p = st.columns(2)
-    tf = t.selectbox('Transcription Factors', datacore.name2ds["GSE167118"].total_transcription_factors)
-    protein = p.selectbox('Surface Protein', list(datacore.name2ds["GSE167118"].total_surface_proteins))
     
-    df = severus_pair(tf, protein)
-    
-    if len(df) > 0:
-        pairs = df['Symbols']
-    
-        for pair in pairs:
-            st.subheader(pair)
-    
-        st.dataframe(df)
-    else:
-        st.caption('Note: Pairwise interactions are rare.')
-        st.warning('No pairwise interaction data from Wiki-Corona.')
-        
-
 elif chosen_tab == TF:
     
-    st.header('TF exploration')
+    # st.header('TF exploration')
     st.info(Desc.tf)
     ref = 'Literature References'
     
@@ -164,7 +145,7 @@ elif chosen_tab == TF:
     
     if 'Literature references' in chosen_subtab:
         # st.caption(Desc.litcovid)
-        st.header(f'📄 Relevant publications for {option} based on LitCovid')
+        st.markdown(f'### 📄 Relevant publications for {option} based on LitCovid')
         
         if len(litcovdf) > 0: 
             for title in litcovdf.title:
@@ -198,7 +179,7 @@ elif chosen_tab == TF:
             st.warning('No literature references found')
     
     elif chosen_subtab == 'TF-Target gene':
-        st.header(f'🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
+        st.markdown(f'### 🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
         
         with st.spinner('Loading heatmap...'):
             try:
@@ -234,7 +215,7 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'PPI':
         ppi(option)
         
-        st.header(f'Pathways & drugs associated with {option} derived from Wiki-CORONA')
+        st.markdown(f'### Pathways & drugs associated with {option} derived from Wiki-CORONA')
         
         try:
             df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0]
@@ -246,7 +227,7 @@ elif chosen_tab == TF:
         
     elif chosen_subtab == 'TF activities':              
         try:
-            st.header(f'📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
+            st.markdown(f'### 📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
             pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
             if pval < 0.05:
                 st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
@@ -271,7 +252,7 @@ elif chosen_tab == TF:
 
         
     elif chosen_subtab == 'TF-protein correlation':
-        st.header(f'🔗 Correlation between {option} and surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
+        st.markdown(f'### 🔗 Correlation between {option} and surface protein expression in {CELL_NAMES.get(cell_type, cell_type)}')
 
         
         try:
@@ -297,7 +278,7 @@ elif chosen_tab == TF:
         #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
         
 elif chosen_tab == PROTEINS:
-    st.title('Surface protein exploration')
+    # st.title('Surface protein exploration')
     st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
     
     _, _, edge = st.columns(3)
@@ -348,7 +329,7 @@ elif chosen_tab == PROTEINS:
     if chosen_subtab == 'PPI':
         ppi(o)
         
-        st.header(f'Pathways & drugs associated with {o} derived from Wiki-CORONA')
+        st.markdown(f'### Pathways & drugs associated with {o} derived from Wiki-CORONA')
         
         try:
             df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={o}')[0].dropna()
@@ -359,7 +340,7 @@ elif chosen_tab == PROTEINS:
         
         
     elif chosen_subtab == 'Protein-TF correlation':
-        st.header(f'🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
+        st.markdown(f'### 🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
         
         try:
             csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)            
@@ -374,7 +355,7 @@ elif chosen_tab == PROTEINS:
     elif chosen_subtab == 'Protein expression':
         
         try:
-            st.header(f'📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
+            st.markdown(f'### 📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
             
             pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
                         
@@ -401,7 +382,7 @@ elif chosen_tab == PROTEINS:
         
     elif 'Literature references' in chosen_subtab:
         # st.caption(Desc.litcovid)
-        st.header(f'📄 Relevant publications for {option} based on LitCovid')
+        st.markdown(f'### 📄 Relevant publications for {option} based on LitCovid')
         
         
         if len(litcovdf) > 0: 
