@@ -76,7 +76,8 @@ drugs = load_drug_info()
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
-chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
+# chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
+chosen_tab = st.sidebar.radio('Page', tabs)
 
 if chosen_tab == HOME:
     home_page()
