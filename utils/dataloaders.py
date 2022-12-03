@@ -15,7 +15,7 @@ fuzzy_match = lambda root, fname: list(root.glob(fname))[0]
 class Dataset:
     
     metadata = {
-        'name': ['E-MTAB-9357', 'GSE155673', 'meyer21_pbmc', 'GSE167118'],
+        'name': ['E-MTAB-9357', 'GSE155673', 'GSE155224', 'GSE167118'],
         'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
         'patients': [270, 12, 143, 68],
         'cell count': ['559,517', '59,664', '691,683', '396,244'],
@@ -27,13 +27,13 @@ class Dataset:
         'url': [
             'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357', ## SU: E-MTAB-9357
             'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', ## AR: GSE155673
-            'https://www.covid19cellatlas.org/index.patient.html', ## 
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155222', ## 
             'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118' ## LIU: GSE167118
         ],
         'title': [
             'Multiomic Immunophenotyping Of COVID-19 Patients Reveals Early Infection Trajectories',
             'Systems Biological Assessment Of Immunity To Mild Versus Severe COVID-19 Infection In Humans',
-            'The Cellular Immune Response To COVID-19 Deciphered By Single Cell Multi-Omics Across 2 Three UK Centres',
+            'Single-Cell Omics Reveals Dyssynchrony of the Innate and Adaptive Immune System in Progressive COVID-19',
             'Clonal expansion and activation of tissue-resident memory-like Th17 cells expressing GM-CSF in the lung of severe COVID-19 patients'
         ]
     }
