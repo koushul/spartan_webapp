@@ -358,13 +358,13 @@ elif chosen_tab == PROTEINS:
         try:
             st.markdown(f'### 📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
             
-            pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
-                        
-            if pval < 0.05:
-                st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
-            else:
-                st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
-                
+            # pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
+            # pval, adj_pval = None     
+            # if pval < 0.05:
+            #     st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
+            # else:
+            #     st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
+                    
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
             c, d, e = st.columns([1, 6, 1])
             img = ridge_plot(df_plt, f'{option} expression', column=c)

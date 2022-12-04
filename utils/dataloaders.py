@@ -67,7 +67,7 @@ class Dataset:
         
     def surface_proteins(self, celltype):
         celltype = CELL_NAMES_REVERSE[celltype]
-        proteins = (self.root / celltype / 'protein-TFs_higCorr' / 'Figure').iterdir()
+        proteins = (self.root / celltype / 'protein-TFs_highCorr' / 'Figure').iterdir()
         proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
         proteins = list(filter(lambda x: x != ".gitkeep", proteins))
         
