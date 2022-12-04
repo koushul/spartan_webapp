@@ -229,26 +229,45 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'TF activities':              
         try:
             st.markdown(f'### 📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
-            # pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
-            # if pval < 0.05:
-            #     st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
-            # else:
-            #     st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
-                
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
+            
+            groups = list(set(df_plt['patient_group'].values))
+
+            if 'healthy' in groups:
+                good = 'healthy'
+                bad = ', '.join(list(set(groups).difference([good])))
+                bad = f'impacted ({bad})'
+            elif 'Healthy' in groups:
+                good = 'Healthy'
+                bad = ', '.join(list(set(groups).difference([good])))
+                bad = f'Impacted ({bad})'
+                
+            else:
+                good = groups[0]
+                bad = groups[1]
+        
+        
+        # pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
+        # if pval < 0.05:
+        #     st.success(f'{good} vs {bad}: p-value = {pval:.3f}')
+        # else:
+        #     st.error(f'{good} vs {bad}: p-value = {pval:.3f}')
+            
+            
+            
             c, d, e = st.columns([2, 6, 2])
             img = ridge_plot(df_plt, f'{option} inferred rank', column=c)
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))
             xx, yy = img.size
-            dd = 2.5
+            dd = 2
             xx = int(xx/dd)
             yy = int(yy/dd)
             d.image(img.resize((xx, yy)))
 
-        except:
+        except :
             st.warning('No high correlation matches found.')
 
         
@@ -354,25 +373,43 @@ elif chosen_tab == PROTEINS:
             
         
     elif chosen_subtab == 'Protein expression':
-        
         try:
             st.markdown(f'### 📈 {o} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
             
-            # pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
-            # pval, adj_pval = None     
-            # if pval < 0.05:
-            #     st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
-            # else:
-            #     st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
-                    
             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
-            c, d, e = st.columns([1, 6, 1])
+            
+            groups = list(set(df_plt['patient_group'].values))
+
+            if 'healthy' in groups:
+                good = 'healthy'
+                bad = ', '.join(list(set(groups).difference([good])))
+                bad = f'impacted ({bad})'
+            elif 'Healthy' in groups:
+                good = 'Healthy'
+                bad = ', '.join(list(set(groups).difference([good])))
+                bad = f'Impacted ({bad})'
+                
+            else:
+                good = groups[0]
+                bad = groups[1]
+            
+            
+            pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
+            if pval < 0.05:
+                st.success(f'{good} vs {bad}: p-value = {pval:.3f}')
+            else:
+                st.error(f'{good} vs {bad}: p-value = {pval:.3f}')
+            
+                    
+
+            
+            c, d, e = st.columns([2.5, 6, 1])
             img = ridge_plot(df_plt, f'{option} expression', column=c)
             # x = st.slider('x', int(img.size[0]/2), int(img.size[0]*2), img.size[0], 50)
             # y = st.slider('y', int(img.size[1]/2), int(img.size[1]*2), img.size[1], 50)
             # d.image(img.resize((x, y)))
             xx, yy = img.size
-            dd = 2.5
+            dd = 2
             xx = int(xx/dd)
             yy = int(yy/dd)
             d.image(img.resize((xx, yy)))
