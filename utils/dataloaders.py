@@ -96,16 +96,16 @@ class Dataset:
     
     def transcription_factors(self, celltype):
         celltype = CELL_NAMES_REVERSE[celltype]
-        tfs = (self.root / celltype / 'TF-proteins_higCorr' / 'Figure').iterdir()
+        tfs = (self.root / celltype / 'TF-proteins_highCorr' / 'Figure').iterdir()
         tfs = [i.name.split('~proteins_highCorr_corrcut_')[0] for i in tfs]
         tfs = list(filter(lambda x: x != ".gitkeep", tfs))
         return tfs
     
     def get_protein_tf_data(self, celltype, protein):
         celltype = CELL_NAMES_REVERSE[celltype]
-        base = self.root / celltype / 'protein-TFs_higCorr'
+        base = self.root / celltype / 'protein-TFs_highCorr'
         img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
-        csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))[0]
+        csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))[0]        
         return (str(csv), str(img))
     
     def get_tf_target_gene_img(self, celltype, tf):
@@ -117,8 +117,8 @@ class Dataset:
     
     def get_tf_protein_data(self, celltype, tf):
         celltype = CELL_NAMES_REVERSE[celltype]
-        base = self.root / celltype / 'TF-proteins_higCorr'
-        img =  list((base / 'Figure').glob(f'{tf}~proteins_highCorr_corrcut_*'))[0]        
+        base = self.root / celltype / 'TF-proteins_highCorr'
+        img =  list((base / 'Figure').glob(f'{tf}~proteins_highCorr_corrcut_*'))[0]      
         csv = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.csv"))[0]
         return (str(csv), str(img))
     
@@ -149,6 +149,6 @@ class Datacore:
         
 
 
-@st.experimental_singleton
+# @st.experimental_singleton
 def make_datacore():
     return Datacore

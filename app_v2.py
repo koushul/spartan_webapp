@@ -229,11 +229,11 @@ elif chosen_tab == TF:
     elif chosen_subtab == 'TF activities':              
         try:
             st.markdown(f'### 📈 Inferred {option} activity in {CELL_NAMES.get(cell_type, cell_type)}')  
-            pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
-            if pval < 0.05:
-                st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
-            else:
-                st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
+            # pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
+            # if pval < 0.05:
+            #     st.success(f'Healthy vs Infected: p-value = {pval:.3f}')
+            # else:
+            #     st.error(f'Healthy vs Infected: p-value = {pval:.3f}')
                 
             
             df_plt = datacore.name2ds[tf_ds].get_tf_df(cell_type, option)
