@@ -17,17 +17,17 @@ class Dataset:
     metadata = {
         'name': ['E-MTAB-9357', 'GSE155673', 'GSE155224', 'GSE167118'],
         'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
-        'patients': [270, 12, 143, 68],
-        'cell count': ['559,517', '59,664', '691,683', '396,244'],
+        'patients': [270, 12, 20, 68],
+        'cell count': ['559,517', '59,664', '38,532', '396,244'],
         'assay': ['CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq'],
-        'surface proteins': [190, 38, random.randint(10, 100), 192],
-        'transcription factors': [209, 206, random.randint(10, 100), random.randint(10, 100)],
-        'pmid': [33171100,  54371, 33879890, 33622974],
-        'severity': ['Healthy, Mild, Moderate, Severe']*4,
+        'surface proteins': [190, 38, 188, 192],
+        'transcription factors': [209, 206, 254, 262],
+        'pmid': [33171100,  32788292, 33879890, 33622974],
+        'severity': [['healthy, mild, moderate, severe'],['healthy, moderate, severe'],['progressive, stable'],['healthy, critical, moderate, severe']],
         'url': [
             'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357', ## SU: E-MTAB-9357
             'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673', ## AR: GSE155673
-            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155222', ## 
+            'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155224', ## UN: GSE155224
             'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE167118' ## LIU: GSE167118
         ],
         'title': [
