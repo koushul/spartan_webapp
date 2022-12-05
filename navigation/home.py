@@ -14,24 +14,22 @@ TITLE = 'COVID-19db of Immune Cell States'
 def home_page():
     from texts.descriptions import Desc
     img = load_home_image()
-    x, y, z = st.columns([1, 6, 1])
     
     
     streamlit_analytics.start_tracking()
     
     # st.write(streamlit_analytics.main.counts)
     
-    with y:
-        st.title(TITLE) 
-        with open('./clock.time', 'r') as f:
-            last_updated_on = f.readlines()[0]
-        st.caption(last_updated_on)
-        st.write(Desc.home)
-        with st.expander('Watch Tutorial'):
-            st.video('./assets/video/video.webm')
-        st.image(img)      
-        st.write(Desc.intro_1)
-        st.markdown(Desc.intro_2)
+    st.title(TITLE) 
+    with open('./clock.time', 'r') as f:
+        last_updated_on = f.readlines()[0]
+    st.caption(last_updated_on)
+    st.write(Desc.home)
+    with st.expander('Watch Tutorial'):
+        st.video('./assets/video/video.webm')
+    st.image(img)      
+    st.write(Desc.intro_1)
+    st.markdown(Desc.intro_2)
         
     streamlit_analytics.stop_tracking()
 

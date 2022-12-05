@@ -38,7 +38,7 @@ STATS = "Usage Statistics"
 st.set_page_config(
     page_title=TITLE,
     page_icon="./assets/logos/spartan.png",
-    layout="wide",
+    # layout="wide",
     initial_sidebar_state="expanded",
     menu_items={}
 )
@@ -84,9 +84,7 @@ if chosen_tab == HOME:
     
     
 elif chosen_tab == DATASET:
-    x, y, z = st.columns([1, 6, 1])
-    with y:
-        dataset_page(ds, datacore)
+    dataset_page(ds, datacore)
     
 
     
