@@ -25,15 +25,15 @@ def stats_page():
         
         
 
-    with b:
+    # with b:
    
-        views_df = pd.DataFrame([view_data['days'], view_data['pageviews']]).T
-        views_df.columns = ['date', 'pageviews']
-                
-        fig = go.Figure([go.Scatter(x=views_df['date'], y=views_df['pageviews'])])
-        fig.update_xaxes(rangeslider_visible=True)
-        
-        st.plotly_chart(fig, use_container_width=True, theme='streamlit')
+    views_df = pd.DataFrame([view_data['days'], view_data['pageviews']]).T
+    views_df.columns = ['date', 'pageviews']
+            
+    fig = go.Figure([go.Scatter(x=views_df['date'], y=views_df['pageviews'])])
+    fig.update_xaxes(rangeslider_visible=True)
+    
+    st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
 #         st.write(streamlit_analytics.main.counts)
         
