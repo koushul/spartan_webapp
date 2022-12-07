@@ -173,13 +173,21 @@ elif chosen_tab == TF:
         'Download'
     ]
 
+    option_data2 = [{'icon': "", 'label':label} for label in subtabs]
+    chosen_subtab = hc.option_bar(
+        option_definition=option_data2,
+        title='',
+        key='Sub1',
+        override_theme=over_theme,
+        # font_styling=font_fmt,
+        horizontal_orientation=True)
     
     if 'current_tab_tf' in st.session_state:
         current_tab_tf = st.session_state['current_tab_tf']
     else:
         current_tab_tf = subtabs[1]
                 
-    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
+    # chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab_tf) 
     st.session_state['current_tab_tf'] = chosen_subtab
     
     
@@ -381,8 +389,18 @@ elif chosen_tab == PROTEINS:
     else:
         current_tab = subtabs[1]
         
+        
+    option_data2 = [{'icon': "", 'label':label} for label in subtabs]
     
-    chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab) 
+    chosen_subtab = hc.option_bar(
+        option_definition=option_data2,
+        title='',
+        key='Sub2',
+        override_theme=over_theme,
+        # font_styling=font_fmt,
+        horizontal_orientation=True)
+    
+    # chosen_subtab = stx.tab_bar(data=[make_tab(t) for t in subtabs], default=current_tab) 
     
     st.session_state['current_tab'] = chosen_subtab
         
