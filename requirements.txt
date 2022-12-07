@@ -9,3 +9,4 @@ beautifulsoup4
 streamlit-analytics
 pymed
 plotly
+hydralit_components

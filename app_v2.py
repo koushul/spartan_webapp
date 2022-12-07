@@ -20,6 +20,7 @@ from texts.references import CELL_NAMES
 
 from PIL import Image
 
+import hydralit_components as hc
 
 
 Image.MAX_IMAGE_PIXELS = None
@@ -56,28 +57,70 @@ def st_url(text, link, tags='######'):
 
 
 
-tabs = [
-    HOME,
-    DATASET,
-    PROTEINS,
-    TF,
-    VIRAL_ENTRY,
-    # TF_PROTEINS,
-    DOC, 
-    STATS
-]
 
 
 datacore =  make_datacore()()
 ds = Dataset.metadata_df()
 drugs = load_drug_info()
 
-
+hide_menu_style = """
+        <style>
+        #MainMenu {visibility: hidden;}
+        </style>
+        """
+st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
-# chosen_tab = stx.tab_bar(data=[make_tab(t) for t in tabs], default=tabs[0]) 
-chosen_tab = st.sidebar.radio('Page', tabs)
+data = [
+    make_tab(HOME),
+    make_tab(DATASET),
+    make_tab("Analysis by", desc="surface proteins"),
+    make_tab("Analysis by", desc="transcription factors"),
+    make_tab("Analysis by", desc="viral entry related factors"),
+    make_tab(DOC),
+    make_tab(STATS),
+]
+
+# chosen_tab = stx.tab_bar(data=data, default=tabs[0]) 
+# chosen_tab = st.sidebar.radio('Page', tabs)
+
+tabs = [
+    HOME,
+    DATASET,
+    PROTEINS,
+    TF,
+    VIRAL_ENTRY,
+    DOC, 
+    STATS
+]
+
+# define what option labels and icons to display
+option_data = [
+   {'icon': "", 'label':HOME},
+   {'icon':"",'label':DATASET},
+   {'icon': "", 'label':PROTEINS},
+   {'icon': "", 'label':TF},
+   {'icon': "", 'label':VIRAL_ENTRY},
+   {'icon': "", 'label':DOC},
+   {'icon': "", 'label':STATS},
+]
+
+# override the theme, else it will use the Streamlit applied theme
+over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
+font_fmt = {'font-class':'h3','font-size':'50%'}
+
+
+# display a horizontal version of the option bar
+chosen_tab = hc.option_bar(
+    option_definition=option_data,
+    title='',
+    key='PrimaryOptionx',
+    override_theme=over_theme,
+    # font_styling=font_fmt,
+    horizontal_orientation=True)
+
+st.markdown('----')
 
 if chosen_tab == HOME:
     home_page()
