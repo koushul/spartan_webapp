@@ -16,17 +16,13 @@ def stats_page():
         
     
     _, y, z, w = st.columns([2, 8, 1, 3])
-    a, b , c = st.columns([1, 8, 1])
     
     y.header(f'👤 COVID-19db daily users')
     w.metric('Pageviews', 
         views[-1],
         help = f"Number of times the app home page was visited since {start_time}")
         
-        
-
-    # with b:
-   
+           
     views_df = pd.DataFrame([view_data['days'], view_data['pageviews']]).T
     views_df.columns = ['date', 'pageviews']
             
@@ -35,7 +31,6 @@ def stats_page():
     
     st.plotly_chart(fig, use_container_width=True, theme='streamlit')
 
-#         st.write(streamlit_analytics.main.counts)
         
         
         

@@ -2,10 +2,29 @@ import streamlit as st
 
 from texts.descriptions import Desc
 from .home import TITLE
+import hydralit_components as hc
+
+
+option_data = [
+   {'icon': "", 'label':i} for i in ['Introduction', 'Usage', 'Database Implementation', 'FAQ']]
+
+# override the theme, else it will use the Streamlit applied theme
+over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'green'}
+font_fmt = {'font-class':'h3','font-size':'50%'}
+
+
+# display a horizontal version of the option bar
+
+
 
 def doc_page():
-    st.sidebar.header('Content')
-    page = st.sidebar.radio('', ['Introduction', 'Usage', 'Database Implementation', 'FAQ'])
+    page = hc.option_bar(
+        option_definition=option_data,
+        title='',
+        override_theme=over_theme,
+        # font_styling=font_fmt,
+        horizontal_orientation=True)
+    
     if page == 'Introduction':
         st.header('Introduction')
         st.write(Desc.manuscript_intro)

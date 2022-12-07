@@ -29,12 +29,11 @@ Image.MAX_IMAGE_PIXELS = None
 
 HOME = "Home"
 DATASET = "Datasets"
-TF = "Analysis by transcription factors"
-PROTEINS = "Analysis by surface proteins"
-VIRAL_ENTRY = "Analysis by viral entry related factors"
-TF_PROTEINS = "TF-Protein Pairs"
-DOC = "Documentation"
-STATS = "Usage Statistics"
+TF = "Transcription factors"
+PROTEINS = "Surface proteins"
+VIRAL_ENTRY = "Viral entry related factors"
+DOC = "Docs"
+STATS = "Usage"
 
 st.set_page_config(
     page_title=TITLE,
@@ -56,9 +55,6 @@ def st_url(text, link, tags='######'):
     st.write(tags+f" [{text}]({link})")
 
 
-
-
-
 datacore =  make_datacore()()
 ds = Dataset.metadata_df()
 drugs = load_drug_info()
@@ -68,7 +64,7 @@ hide_menu_style = """
         #MainMenu {visibility: hidden;}
         </style>
         """
-st.markdown(hide_menu_style, unsafe_allow_html=True)
+# st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
@@ -97,17 +93,20 @@ tabs = [
 
 # define what option labels and icons to display
 option_data = [
-   {'icon': "", 'label':HOME},
-   {'icon':"",'label':DATASET},
-   {'icon': "", 'label':PROTEINS},
-   {'icon': "", 'label':TF},
-   {'icon': "", 'label':VIRAL_ENTRY},
-   {'icon': "", 'label':DOC},
-   {'icon': "", 'label':STATS},
+   {'icon': "🏠", 'label':HOME},
+   {'icon':"💾",'label':DATASET},
+   {'icon': "🔬", 'label':PROTEINS},
+   {'icon': "🧪", 'label':TF},
+   {'icon': "😷", 'label':VIRAL_ENTRY},
+   {'icon': "📋", 'label':DOC},
+   {'icon': "📈", 'label':STATS},
 ]
 
 # override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
+protein_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blue'}
+tf_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'purple'}
+
 font_fmt = {'font-class':'h3','font-size':'50%'}
 
 
@@ -178,7 +177,7 @@ elif chosen_tab == TF:
         option_definition=option_data2,
         title='',
         key='Sub1',
-        override_theme=over_theme,
+        override_theme=tf_bar,
         # font_styling=font_fmt,
         horizontal_orientation=True)
     
@@ -213,17 +212,7 @@ elif chosen_tab == TF:
                     st.markdown(totags([author, article.journal, "PMID:"+pmid]), unsafe_allow_html=True)
                     
                     st.markdown('---')
-                
-                
-        # if len(litcovdf) > 0:  
-        #     st.table(litcovdf)
-        #     st.download_button(
-        #         label='Download as CSV',
-        #         data=litcovdf.to_csv(index=None),
-        #         file_name=f'references_{option}.csv',
-        #         mime='text/csv',
-        #         key=uuid.uuid1()
-        #     )
+
                 
         else:
             st.warning('No literature references found')
@@ -396,7 +385,7 @@ elif chosen_tab == PROTEINS:
         option_definition=option_data2,
         title='',
         key='Sub2',
-        override_theme=over_theme,
+        override_theme=protein_bar,
         # font_styling=font_fmt,
         horizontal_orientation=True)
     
