@@ -8,6 +8,7 @@ from navigation.doc import doc_page
 
 from navigation.home import home_page, TITLE
 from navigation.stats import stats_page
+from navigation.viral_entry import viral_entry_page
 from utils.components import create_st_button, local_css, make_tab, ridge_plot
 from utils.dataloaders import Dataset
 from utils.api import get_pubmed_article, litcov_search, severus_pair, load_drug_info, load_tftargets
@@ -504,7 +505,8 @@ elif chosen_tab == PROTEINS:
             st.warning('No literature references found')
         
 elif chosen_tab == VIRAL_ENTRY:
-    st.image('./assets/images/under_construction.png')
+    # st.image('./assets/images/under_construction.png')
+    viral_entry_page(datacore)
 
         
 elif chosen_tab == DOC:

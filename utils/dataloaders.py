@@ -142,6 +142,24 @@ class Dataset:
         return df_plt
     
     
+    def get_viral_proteins(self, celltype):
+        celltype = CELL_NAMES_REVERSE[celltype]
+        proteins = (self.root / celltype / 'protein-TFs_highCorr_viral' / 'Figure').iterdir()
+        proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
+        proteins = list(filter(lambda x: x != ".gitkeep", proteins))
+        
+        return proteins
+    
+    
+    def get_viral_protein_data(self, celltype, protein):
+        celltype = CELL_NAMES_REVERSE[celltype]
+        base = self.root / celltype / 'protein-TFs_highCorr_viral'
+        img =  list((base / 'Figure').glob(f'{protein}~TFs_highCorr*'))[0]
+        csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))[0]        
+        return (str(csv), str(img))
+    
+    
+    
 
 class Datacore:
     

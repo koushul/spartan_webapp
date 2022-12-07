@@ -65,10 +65,15 @@ def fig2img(fig):
 
 def ridge_plot(df_plt, xlabel, column):
     groups = np.sort(np.unique(df_plt.patient_group.values))
+    if column:
+        palette = make_palette(column=column, groups=groups)
+    else:
+        palette = sns.color_palette('pastel')
+        
     g = sns.FacetGrid(df_plt, 
-        palette = make_palette(column=column, groups=groups),
+        palette = palette,
         row="patient_group", hue="patient_group", aspect=5)
-    
+        
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     g.map(label, "patient_group")
