@@ -83,8 +83,7 @@ def doc_page():
         
         st.markdown('---')
         st.subheader("Funding")
-        st.write("""This study was funded by support from the National Institutes of Health (R35GM146989 to H.U.O.).""")
-        st.write("""Funding for open access charge: National Institutes of Health.""")
+        st.write("""This study was funded by support from the National Institutes of Health (R35GM146989).""")
         
     
         

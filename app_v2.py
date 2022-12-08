@@ -173,7 +173,7 @@ elif chosen_tab == TF:
         'Download'
     ]
 
-    option_data2 = [{'icon': "", 'label':label} for label in subtabs]
+    option_data2 = [{'icon': icon, 'label':label} for label, icon in zip(subtabs, ['📈', '🎯', '🔗', '💊', '📚','🔄', '📩'])]
     chosen_subtab = hc.option_bar(
         option_definition=option_data2,
         title='',
@@ -373,14 +373,14 @@ elif chosen_tab == PROTEINS:
         litcovdf = pd.DataFrame([])
 
         
-    subtabs = ['Protein expression', 'Protein-TF correlation', f'Literature references ({len(litcovdf)})', 'PPI', 'Download']
+    subtabs = ['Protein expression', 'Protein-TF correlation', 'Drugs', f'Literature references ({len(litcovdf)})', 'PPI', 'Download']
     if 'current_tab' in st.session_state:
         current_tab = st.session_state['current_tab']
     else:
         current_tab = subtabs[1]
         
         
-    option_data2 = [{'icon': "", 'label':label} for label in subtabs]
+    option_data2 = [{'icon': icon, 'label':label} for label, icon in zip(subtabs, ['📈', '🔗', '💊', '📚', '🔄','📩'])]
     
     chosen_subtab = hc.option_bar(
         option_definition=option_data2,
