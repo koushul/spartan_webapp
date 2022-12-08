@@ -3,6 +3,7 @@ import streamlit as st
 from utils.components import ridge_plot
 import hydralit_components as hc
 
+import time
 
 
 def viral_entry_page(datacore):
@@ -47,9 +48,8 @@ def viral_entry_page(datacore):
         horizontal_orientation=True)
     
     csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
-    st.write(img)
     
-    # left, right = st.columns(2)
+    left, right = st.columns(2)
     
     # for option_protein in s_proteins:
     #     csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
@@ -59,7 +59,23 @@ def viral_entry_page(datacore):
     
     #     st.image(img_ridge)
     
+
+    with hc.HyLoader('Generating plots',hc.Loaders.standard_loaders,index=[3]):
+        # time.sleep(10)
+        # st.write(img)
+        for option_protein in s_proteins:
+            csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+        
+            df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
+            img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
+            
+            left.image(img)
+            right.image(img_ridge)
+            
+            left.markdown('---')
+            right.markdown('---')
+            
+            
     
-    # with st.spinner('Loading heatmap...'):
-    #     left.image(img)
+        
     
