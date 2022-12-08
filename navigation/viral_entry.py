@@ -1,6 +1,7 @@
 import streamlit as st
 
 from utils.components import ridge_plot
+import hydralit_components as hc
 
 
 
@@ -26,20 +27,39 @@ def viral_entry_page(datacore):
     
     s_proteins = list(datacore.name2ds[p_ds].get_viral_proteins(cell_type))
 
+    a.checkbox('Show all density plots')
+    b.checkbox('Show all heatmaps')
+    # option_protein = c.selectbox(
+    #     f"Surface protein of interest ({len(s_proteins)})",
+    #     s_proteins)
+    
+    option_data = [{'icon': "", 'label':p} for p in s_proteins]
 
-    option_protein = c.selectbox(
-        f"Surface protein of interest ({len(s_proteins)})",
-        s_proteins)
+    over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
+
+    font_fmt = {'font-class':'h3','font-size':'50%'}
+
+
+    option_protein = hc.option_bar(
+        option_definition=option_data,
+        title='',
+        override_theme=over_theme,
+        horizontal_orientation=True)
     
     csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
-    df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
+    st.write(img)
     
-    left, right = st.columns(2)
-    img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
+    # left, right = st.columns(2)
     
-    right.image(img_ridge)
+    # for option_protein in s_proteins:
+    #     csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+    #     df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
+        
+    #     img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
+    
+    #     st.image(img_ridge)
     
     
-    with st.spinner('Loading heatmap...'):
-        left.image(img)
+    # with st.spinner('Loading heatmap...'):
+    #     left.image(img)
     

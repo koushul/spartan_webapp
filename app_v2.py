@@ -96,8 +96,8 @@ tabs = [
 option_data = [
    {'icon': "🏠", 'label':HOME},
    {'icon':"💾",'label':DATASET},
-   {'icon': "🔬", 'label':PROTEINS},
-   {'icon': "🧪", 'label':TF},
+   {'icon': "🍳", 'label':PROTEINS},
+   {'icon': "🧬", 'label':TF},
    {'icon': "😷", 'label':VIRAL_ENTRY},
    {'icon': "📋", 'label':DOC},
    {'icon': "📈", 'label':STATS},
@@ -106,7 +106,7 @@ option_data = [
 # override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
 protein_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blue'}
-tf_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'purple'}
+tf_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blueviolet'}
 
 font_fmt = {'font-class':'h3','font-size':'50%'}
 
