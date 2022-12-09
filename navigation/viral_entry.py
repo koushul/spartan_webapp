@@ -97,7 +97,7 @@ def viral_entry_page(datacore):
             for cols, option_protein in zip(columns_2, s_mrna):
                 with cols:
                     with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
-                        df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, mrna)
+                        df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, option_protein)
                         img = ridge_plot(df, xlabel=f'{mrna}', column=None)
                         xx, yy = img.size
                         dd = 2
