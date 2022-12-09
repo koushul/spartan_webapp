@@ -52,15 +52,16 @@ st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 st.markdown(hide_streamlit_style, unsafe_allow_html=True) ## Footer
 
-data = [
-    make_tab(HOME),
-    make_tab(DATASET),
-    make_tab("Analysis by", desc="surface proteins"),
-    make_tab("Analysis by", desc="transcription factors"),
-    make_tab("Analysis by", desc="viral entry related factors"),
-    make_tab(DOC),
-    make_tab(STATS),
-]
+# data = [
+#     make_tab(HOME),
+#     make_tab(DATASET),
+#     make_tab("Analysis by", desc="surface proteins"),
+#     make_tab("Analysis by", desc="transcription factors"),
+#     make_tab("Analysis by", desc="viral entry related factors"),
+#     make_tab('MultiDataset'),
+#     make_tab(DOC),
+#     make_tab(STATS),
+# ]
 
 
 
@@ -97,6 +98,7 @@ chosen_tab = hc.option_bar(
 
 st.markdown('----')
 
+    
 if chosen_tab == HOME:
     home_page()
     
