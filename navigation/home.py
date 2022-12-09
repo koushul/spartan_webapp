@@ -26,11 +26,11 @@ def home_page():
         last_updated_on = f.readlines()[0]
     st.caption(last_updated_on)
     st.write(Desc.home)
-    with st.expander('Watch Tutorial'):
-        st.video('./assets/video/video.webm')
+    # with st.expander('Watch Tutorial'):
+    #     st.video('./assets/video/video.webm')
     st.image(img)      
-    st.write(Desc.intro_1)
-    st.markdown(Desc.intro_2)
+    # st.write(Desc.intro_1)
+    # st.markdown(Desc.intro_2)
         
 
     
