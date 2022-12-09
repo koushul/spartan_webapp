@@ -16,16 +16,16 @@ from PIL import Image
 
 import hydralit_components as hc
 
-if 'conf' not in st.session_state:
-    st.set_page_config(
-            page_title=TITLE,
-            page_icon="./assets/logos/spartan.png",
-            # layout="wide",
-            initial_sidebar_state="expanded",
-            menu_items={}
-    )
+# if 'conf' not in st.session_state:
+#     st.set_page_config(
+#             page_title=TITLE,
+#             page_icon="./assets/logos/spartan.png",
+#             # layout="wide",
+#             initial_sidebar_state="expanded",
+#             menu_items={}
+#     )
     
-    st.session_state['conf'] = True
+#     st.session_state['conf'] = True
 
 
 Image.MAX_IMAGE_PIXELS = None
