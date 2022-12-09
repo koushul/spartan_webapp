@@ -4,7 +4,6 @@ import numpy as np
 
 import extra_streamlit_components as stx
 import streamlit as st
-from navigation.protein import get_ppi_edge_list
 from pyvis.network import Network
 import streamlit.components.v1 as components
 from matplotlib import colors
@@ -30,6 +29,16 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from PIL import Image
 
+def get_ppi_edge_list(gene, neighbors, size):
+    genes = [gene]
+    string_ids = stringdb.get_string_ids(genes)
+    enrichment_df = stringdb.get_interaction_partners(string_ids.queryItem, limit=size)
+    extras = list(enrichment_df['preferredName_B'].values[:neighbors])
+    string_ids = stringdb.get_string_ids(extras+genes)
+    enrichment_df = stringdb.get_interaction_partners(string_ids.queryItem, limit=size)
+
+    return string_ids, enrichment_df[['preferredName_A',	'preferredName_B', 'score']].values
+
 
 def label(x, color, label):
     ax = plt.gca()
@@ -49,6 +58,17 @@ palette_mapper = {
     'stable': colors.to_hex('orange'),
     'progressive': colors.to_hex('blueviolet'),
 }
+
+
+def st_url(text, link, tags='######'):
+    st.write(tags+f" [{text}]({link})")
+
+def totags(tags):
+    t = '<div>'
+    for tag, color in zip(tags, ['red', 'blue', 'green', 'orange']):
+        t += f"<span class='highlight {color}'>{tag}</span>\t"
+    t += '</div>'
+    return t
 
 def make_palette(column, groups):
     return [colors.to_rgb(column.color_picker(g, palette_mapper.get(g.lower(), colors.to_hex('black')))) for g in groups]    
