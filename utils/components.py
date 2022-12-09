@@ -1,6 +1,7 @@
 import re
 import uuid
 import numpy as np
+import stringdb
 
 import extra_streamlit_components as stx
 import streamlit as st

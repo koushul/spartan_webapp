@@ -13,7 +13,7 @@ Many COVID-19 related CITE-seq data have been generated for public research. Mos
     
     tf =  "Search activity of a TF across COVID-19 patients and health individuals. For a single TF, SPaRTAN COVID-19db supports exploring its activity for each cell type, correlated surface proteins, and relevant literature."
     
-    ds = "For a single dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein interaction results."
+    ds = "For a single CITE-seq dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein interaction results."
     
     home = "A comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection"
     
