@@ -17,12 +17,12 @@ class Dataset:
     metadata = {
         'name': ['E-MTAB-9357', 'GSE155673', 'GSE155224', 'GSE167118', 'E-MTAB-10026'],
         'organism': ['Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens', 'Homo sapiens'],
-        'patients': [270, 12, 20, 68, 134],
-        'cell count': ['559,517', '59,664', '38,532', '396,244', ''],
+        'patients': [270, 12, 20, 68, 130],
+        'cell count': ['559,517', '59,664', '38,532', '396,244', '780,000'],
         'assay': ['CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq', 'CITE-seq'],
         'surface proteins': [190, 38, 188, 192, 188],
         'transcription factors': [209, 206, 254, 262, 210],
-        'pmid': [33171100,  32788292, 33879890, 33622974, ''],
+        'pmid': [33171100,  32788292, 33879890, 33622974, 33879890],
         'severity': [['healthy, mild, moderate, severe'],['healthy, moderate, severe'],['progressive, stable'],['healthy, critical, moderate, severe'],['healthy, critical, moderate, severe']],
         'url': [
             'https://www.ebi.ac.uk/biostudies/arrayexpress/studies/E-MTAB-9357', ## SU: E-MTAB-9357
