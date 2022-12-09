@@ -96,7 +96,7 @@ tabs = [
 option_data = [
    {'icon': "🏠", 'label':HOME},
    {'icon':"💾",'label':DATASET},
-   {'icon': "🍳", 'label':PROTEINS},
+   {'icon': "🍡", 'label':PROTEINS},
    {'icon': "🧬", 'label':TF},
    {'icon': "😷", 'label':VIRAL_ENTRY},
    {'icon': "📋", 'label':DOC},
@@ -230,7 +230,7 @@ elif chosen_tab == TF:
                 
         st.markdown('---')
         targets = load_tftargets(option)
-        st.subheader(f'{option} has {len(targets)} target genes')
+        st.subheader(f'{option} target genes based on hTFtarget (N={len(targets)})')
         left, right = st.columns(2)
         
         if len(targets) > 0:

@@ -34,48 +34,37 @@ def viral_entry_page(datacore):
     #     f"Surface protein of interest ({len(s_proteins)})",
     #     s_proteins)
     
-    option_data = [{'icon': "", 'label':p} for p in s_proteins]
+    # option_data = [{'icon': "", 'label':p} for p in s_proteins]
 
-    over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
+    # over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
 
-    font_fmt = {'font-class':'h3','font-size':'50%'}
+    # font_fmt = {'font-class':'h3','font-size':'50%'}
 
 
-    option_protein = hc.option_bar(
-        option_definition=option_data,
-        title='',
-        override_theme=over_theme,
-        horizontal_orientation=True)
-    
-    csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+    # option_protein = hc.option_bar(
+    #     option_definition=option_data,
+    #     title='',
+    #     override_theme=over_theme,
+    #     horizontal_orientation=True)
     
     
-    # for option_protein in s_proteins:
-    #     csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
-    #     df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
-        
-    #     img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
-    
-    #     st.image(img_ridge)
     
     if show_density or show_heatmap:
-        left, right = st.columns(2)
         title = '🎨 Generating plots'
         
         with hc.HyLoader(title, hc.Loaders.standard_loaders,index=[3]):
-            # time.sleep(10)
-            # st.write(img)
+
             for option_protein in s_proteins:
                 csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
             
                 df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
                 img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
                 
-                if show_density: left.image(img)
-                if show_heatmap: right.image(img_ridge)
+                if show_density: st.image(img)
+                if show_heatmap: st.image(img_ridge)
                 
-                left.markdown('---')
-                right.markdown('---')
+                st.markdown('---')
+
             
             
     

@@ -51,7 +51,7 @@ def dataset_page(ds, datacore):
         gridOptions=gd.build(),
         update_mode=GridUpdateMode.SELECTION_CHANGED, 
         fit_columns_on_grid_load=True,
-        height=155,
+        height=175,
         width='100%',
         theme="streamlit",
         allow_unsafe_jscode=True,
