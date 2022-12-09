@@ -14,6 +14,9 @@ TITLE = 'COVID-19db of Immune Cell States'
 
 
 def home_page():
+
+    
+
     from texts.descriptions import Desc
     img = load_home_image()
     

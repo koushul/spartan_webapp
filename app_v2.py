@@ -9,7 +9,6 @@ from navigation.tf import tf_page
 from navigation.viral_entry import viral_entry_page
 from utils.components import make_tab
 from utils.dataloaders import Dataset
-from utils.api import load_drug_info
 from utils.components import hide_streamlit_style
 from utils.dataloaders import make_datacore
 
@@ -17,13 +16,16 @@ from PIL import Image
 
 import hydralit_components as hc
 
-# st.set_page_config(
-#     page_title=TITLE,
-#     page_icon="./assets/logos/spartan.png",
-#     # layout="wide",
-#     initial_sidebar_state="expanded",
-#     menu_items={}
-# )
+if 'conf' not in st.session_state:
+    st.set_page_config(
+            page_title=TITLE,
+            page_icon="./assets/logos/spartan.png",
+            # layout="wide",
+            initial_sidebar_state="expanded",
+            menu_items={}
+    )
+    
+    st.session_state['conf'] = True
 
 
 Image.MAX_IMAGE_PIXELS = None
