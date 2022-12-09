@@ -76,6 +76,8 @@ def protein_page(datacore):
     
     st.session_state['current_tab'] = chosen_subtab
         
+    if chosen_subtab == 'Drugs':
+        st.image('./assets/images/under_construction.png')
     
     if chosen_subtab == 'PPI':
         ppi(o)
