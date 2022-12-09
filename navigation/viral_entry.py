@@ -4,7 +4,7 @@ from utils.components import ridge_plot
 import hydralit_components as hc
 
 import time
-
+import pandas as pd
 
 def viral_entry_page(datacore):
     """
@@ -30,6 +30,8 @@ def viral_entry_page(datacore):
     s_proteins = list(datacore.name2ds[p_ds].get_viral_proteins(cell_type))
     s_mrna = list(datacore.name2ds[p_ds].get_viral_mrnas(cell_type))
     
+
+    
     show_protein_tf = b.checkbox('Viral protein-TF correlations')
     show_mrna_tf = b.checkbox('Viral mRNA-TF correlations')
     
@@ -52,7 +54,7 @@ def viral_entry_page(datacore):
             c.markdown('##### ' + p)
           
         if show_protein_tf:
-            st.markdown('#### Viral protein-TF correlations')
+            # st.markdown('#### Viral protein-TF correlations')
             
             for cols, option_protein in zip(columns, s_proteins):
                 with cols:
@@ -60,10 +62,24 @@ def viral_entry_page(datacore):
                         csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
                         st.image(img)
                         
-            st.markdown('---')
+        st.markdown('---')
             
+            
+        if show_protein_density:
+            for cols, protein in zip(columns, s_proteins):
+                with cols:
+                    with hc.HyLoader(f'🎨 Painting {protein}', hc.Loaders.standard_loaders,index=[3]):
+                        df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, protein)
+                        img = ridge_plot(df, xlabel=f'{protein}', column=None)
+                        xx, yy = img.size
+                        dd = 2
+                        xx = int(xx/dd)
+                        yy = int(yy/dd)
+                        st.image(img.resize((xx, yy)))
+        st.markdown('---')
+        
         if show_mrna_tf:
-            st.markdown('#### Viral protein-TF correlations')
+            # st.markdown('#### Viral protein-TF correlations')
             
             for c, p in zip(columns_2, s_mrna):
                 c.markdown('##### ' + p)
@@ -73,7 +89,23 @@ def viral_entry_page(datacore):
                         csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
                         st.image(img)
                         
-            st.markdown('---')
+        st.markdown('---')
+            
+
+            
+        if show_mrna_density:
+            for cols, option_protein in zip(columns_2, s_mrna):
+                with cols:
+                    with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
+                        df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, mrna)
+                        img = ridge_plot(df, xlabel=f'{mrna}', column=None)
+                        xx, yy = img.size
+                        dd = 2
+                        xx = int(xx/dd)
+                        yy = int(yy/dd)
+                        st.image(img.resize((xx, yy)))
+            
+            
     
     else:
         if show_protein_tf:
@@ -86,40 +118,37 @@ def viral_entry_page(datacore):
                     
         st.markdown('---')
         
-                    
-                    
-
-                    
-                    
-                    
-                                # df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
-                    # img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
-                    
-                                
-    
-    
-            
-
-    
-    
-    # if show_density or show_heatmap:
-    #     title = 
+        if show_protein_density:
+            for protein in s_proteins:
+                with hc.HyLoader(f'🎨 Painting {protein}', hc.Loaders.standard_loaders,index=[3]):
+                    df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, protein)
+                    img = ridge_plot(df, xlabel=f'{protein}', column=None)
+                    xx, yy = img.size
+                    dd = 2
+                    xx = int(xx/dd)
+                    yy = int(yy/dd)
+                    st.image(img.resize((xx, yy)))
         
-    #     with hc.HyLoader(title, hc.Loaders.standard_loaders,index=[3]):
+        if show_mrna_tf:
+            
+            for option_protein in s_mrna:
+                st.markdown('##### ' + option_protein)
 
-    #         for option_protein in s_proteins:
-    #             csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
-            
-    #             df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
-    #             img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
-                
-    #             if show_density: st.image(img)
-    #             if show_heatmap: st.image(img_ridge)
-                
-    #             st.markdown('---')
-
-            
-            
-    
+                with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
+                    csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
+                    st.image(img)
+                    
+        st.markdown('---')
         
-    
+        if show_mrna_density:
+            for mrna in s_mrna:
+                with hc.HyLoader(f'🎨 Painting {mrna}', hc.Loaders.standard_loaders,index=[3]):
+                    
+                    df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, mrna)
+                    img = ridge_plot(df, xlabel=f'{mrna}', column=None)
+                    xx, yy = img.size
+                    dd = 2
+                    xx = int(xx/dd)
+                    yy = int(yy/dd)
+                    st.image(img.resize((xx, yy)))
+                    

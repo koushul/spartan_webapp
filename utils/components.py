@@ -84,8 +84,8 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
-def ridge_plot(df_plt, xlabel, column):
-    groups = np.sort(np.unique(df_plt.patient_group.values))
+def ridge_plot(df_plt, xlabel, column, group='patient_group'):
+    groups = np.sort(np.unique(df_plt[group].values))
     if column:
         palette = make_palette(column=column, groups=groups)
     else:
@@ -93,11 +93,11 @@ def ridge_plot(df_plt, xlabel, column):
         
     g = sns.FacetGrid(df_plt, 
         palette = palette,
-        row="patient_group", hue="patient_group", aspect=5)
+        row=group, hue=group, aspect=5)
         
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
-    g.map(label, "patient_group")
+    g.map(label, group)
     g.fig.subplots_adjust(hspace=-.25)
     g.set_titles("")
     g.set(yticks=[], xlabel=xlabel)

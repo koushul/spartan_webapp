@@ -176,6 +176,20 @@ class Dataset:
         csv = list((base).glob(f'{protein}~TFs_highCorr*.csv'))[0]        
         return (str(csv), str(img))
     
+    def get_viral_mrna_df(self, celltype, protein):
+        celltype = CELL_NAMES_REVERSE[celltype]
+        df_data = pd.read_csv(fuzzy_match((self.root / celltype), 'mRNAs_all_*~*_withGroup_viral.csv'))
+        df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
+        df_plt.columns = ['patient_group', 'Pair_correlations']
+        return df_plt
+    
+    
+    def get_viral_protein_df(self, celltype, protein):
+        celltype = CELL_NAMES_REVERSE[celltype]
+        df_data = pd.read_csv(fuzzy_match((self.root / celltype), 'proteins_all_*~*_withGroup_viral.csv'))
+        df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
+        df_plt.columns = ['patient_group', 'Pair_correlations']
+        return df_plt
     
 
 class Datacore:
