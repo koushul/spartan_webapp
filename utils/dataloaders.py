@@ -52,14 +52,14 @@ class Dataset:
         return pd.DataFrame(cls.metadata)
     
     
-    # def get_tf_pvals(self, celltype, protein):
-    #     celltype = CELL_NAMES_REVERSE[celltype]
-    #     pth =  (self.root / celltype).glob('TFrank_wilcox_pvalues_*.csv')
-    #     pth = list(pth)[-1]
-    #     pvals = pd.read_csv(pth)
+    def get_tf_pvals(self, celltype, protein):
+        celltype = CELL_NAMES_REVERSE[celltype]
+        pth =  (self.root / celltype).glob('TFrank_wilcox_pvalues_*.csv')
+        pth = list(pth)[-1]
+        pvals = pd.read_csv(pth)
         
-    #     _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
-    #     return pval, adj_pval
+        _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
+        return pval, adj_pval
     
     def get_protein_pvals(self, celltype, protein):
         celltype = CELL_NAMES_REVERSE[celltype]
