@@ -28,32 +28,49 @@ def viral_entry_page(datacore):
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
     s_proteins = list(datacore.name2ds[p_ds].get_viral_proteins(cell_type))
-
+    s_mrna = list(datacore.name2ds[p_ds].get_viral_mrnas(cell_type))
     
     show_protein_tf = b.checkbox('Viral protein-TF correlations')
     show_mrna_tf = b.checkbox('Viral mRNA-TF correlations')
     
-    show_mrna_density = a.checkbox('Viral mRNA distributions')
     show_protein_density  = a.checkbox('Viral protein distributions')
+    show_mrna_density = a.checkbox('Viral mRNA distributions')
     
     
-    st.markdown('---')    
+    
+    st.markdown('---')  
 
     if sbs:
         if show_protein_tf or show_mrna_tf:
-            st.markdown('#### Viral protein-TF correlations')
             st.caption('Click on image corner to enlarge')
         
         columns = st.columns(len(s_proteins))
+        columns_2 = st.columns(len(s_mrna))
+        
         
         for c, p in zip(columns, s_proteins):
             c.markdown('##### ' + p)
           
         if show_protein_tf:
+            st.markdown('#### Viral protein-TF correlations')
+            
             for cols, option_protein in zip(columns, s_proteins):
                 with cols:
                     with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                         csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+                        st.image(img)
+                        
+            st.markdown('---')
+            
+        if show_mrna_tf:
+            st.markdown('#### Viral protein-TF correlations')
+            
+            for c, p in zip(columns_2, s_mrna):
+                c.markdown('##### ' + p)
+            for cols, option_protein in zip(columns_2, s_mrna):
+                with cols:
+                    with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
+                        csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
                         st.image(img)
                         
             st.markdown('---')
