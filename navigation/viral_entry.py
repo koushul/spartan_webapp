@@ -21,7 +21,7 @@ def viral_entry_page(datacore):
     
 
     a.markdown('##### &nbsp;')            
-    sbs = b.checkbox('Side-by-Side Plots')    
+    sbs = b.checkbox('Side-by-Side Plots', value=True)    
         
     p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
     cell_types = datacore.name2ds[p_ds].celltypes
@@ -40,33 +40,44 @@ def viral_entry_page(datacore):
     st.markdown('---')    
 
     if sbs:
+        if show_protein_tf or show_mrna_tf:
+            st.markdown('#### Viral protein-TF correlations')
+            st.caption('Click on image corner to enlarge')
+        
         columns = st.columns(len(s_proteins))
         
         for c, p in zip(columns, s_proteins):
             c.markdown('##### ' + p)
-        
-        # option_data = [{'icon': "", 'label':p} for p in s_proteins]
-
-        # over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'black','option_active':'white'}
-
-        # font_fmt = {'font-class':'h3','font-size':'50%'}
-
-
-        # option_protein = hc.option_bar(
-        #     option_definition=option_data,
-        #     title='',
-        #     override_theme=over_theme,
-        #     horizontal_orientation=True)    
-        
+          
         if show_protein_tf:
-            with hc.HyLoader('🎨 Generating plots', hc.Loaders.standard_loaders,index=[3]):
-                for option_protein in s_proteins:
-                    csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+            for cols, option_protein in zip(columns, s_proteins):
+                with cols:
+                    with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
+                        csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+                        st.image(img)
+                        
+            st.markdown('---')
+    
+    else:
+        if show_protein_tf:
+            for option_protein in s_proteins:
+                st.markdown('##### '+option_protein)
                 
-                    # df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
+                with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
+                    csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
+                    st.image(img)
+                    
+        st.markdown('---')
+        
+                    
+                    
+
+                    
+                    
+                    
+                                # df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option_protein)
                     # img_ridge = ridge_plot(df_plt, f'{option_protein} expression', column=None)
                     
-                    st.image(img)
                                 
     
     
