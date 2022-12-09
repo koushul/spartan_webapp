@@ -75,9 +75,9 @@ tabs = [
 option_data = [
    {'icon': "🏠", 'label':HOME},
    {'icon':"💾",'label':DATASET},
-   {'icon': "🍡", 'label':PROTEINS},
-   {'icon': "🧬", 'label':TF},
-   {'icon': "😷", 'label':VIRAL_ENTRY},
+   {'icon': "🔎", 'label':PROTEINS},
+   {'icon': "🔎", 'label':TF},
+   {'icon': "🔍", 'label':VIRAL_ENTRY},
    {'icon': "📋", 'label':DOC},
    {'icon': "📈", 'label':STATS},
 ]

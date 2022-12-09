@@ -27,7 +27,7 @@ def dataset_page(ds, datacore):
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
-    ds2 = ds[['name', 'organism', 'patients', 'cell count', 'surface proteins', 'transcription factors',  'assay', 'pmid', 'severity']]
+    ds2 = ds[['name', 'patients', 'cell count', 'surface proteins', 'transcription factors', 'pmid']]
     
     # ds2.pmid = ds2.pmid.apply(lambda x: f'https://pubmed.ncbi.nlm.nih.gov/{x}/')
     
