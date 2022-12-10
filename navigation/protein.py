@@ -5,7 +5,7 @@ import hydralit_components as hc
 from texts.references import CELL_NAMES
 
 from utils.api import get_pubmed_article, litcov_search
-from utils.components import local_css, ppi, ridge_plot, st_url, totags
+from utils.components import local_css, display_ppi_data, ridge_plot, st_url, totags
 
 def generate_color():
     random_number = random.randint(0,16777215)
@@ -79,7 +79,7 @@ def protein_page(datacore):
         st.image('./assets/images/under_construction.png')
     
     if chosen_subtab == 'PPI':
-        ppi(o)
+        display_ppi_data(o)
         
         st.markdown(f'### Pathways & drugs associated with {o} derived from Wiki-CORONA')
         

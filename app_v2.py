@@ -136,10 +136,7 @@ if chosen_tab == "Multi datasets":
                         results[ct][ds][tf] = pval
             my_bar.progress((idx)/(len(common_celltypes)-1))
                     
-                    
-    
-    # st.write(results)
-    
+                        
     for ct in common_celltypes:
         significant_tfs = set.intersection(*[set(results[ct][ds].keys()) for ds in datasets])
         if len(significant_tfs)>0:

@@ -1,13 +1,18 @@
+from io import TextIOWrapper
 import re
+from typing import Tuple
 import uuid
 import numpy as np
 import stringdb
-
+from PIL import Image
 import extra_streamlit_components as stx
 import streamlit as st
 from pyvis.network import Network
 import streamlit.components.v1 as components
 from matplotlib import colors
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 hide_streamlit_style = f"""
@@ -26,9 +31,7 @@ hide_streamlit_style = f"""
     </style>
 """
 
-import seaborn as sns
-import matplotlib.pyplot as plt
-from PIL import Image
+
 
 def get_ppi_edge_list(gene, neighbors, size):
     genes = [gene]
@@ -84,7 +87,7 @@ def fig2img(fig):
     img = Image.open(buf)
     return img
 
-def ridge_plot(df_plt, xlabel, column, group='patient_group'):
+def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: str='patient_group'):
     groups = np.sort(np.unique(df_plt[group].values))
     if column:
         palette = make_palette(column=column, groups=groups)
@@ -104,7 +107,6 @@ def ridge_plot(df_plt, xlabel, column, group='patient_group'):
     g.despine( left=True)
     g.set(yticks=[], ylabel="")
     g.despine(bottom=True, left=True)
-    # g.savefig('ridge.png', dpi=180)
 
     plt.xlabel(xlabel, fontsize=36, labelpad=25)
     plt.gcf().subplots_adjust(bottom=0.25)
@@ -154,7 +156,7 @@ def make_tab(name, desc=''):
     return stx.TabBarItemData(id=name, title=name, description=desc)
 
 
-def ppi(option):
+def display_ppi_data(option: str) -> Tuple[TextIOWrapper, pd.DataFrame]:
     st.header(f'Protein-Protein Interactions for {option} from StringDB')
     st.caption('Threshold of significance to include an interaction: 400')
     st.caption('Learn more: https://string-db.org/help/api/')
@@ -184,11 +186,18 @@ def ppi(option):
     source_code = HtmlFile.read()
     components.html(source_code, height = 700, width=1000)
     
-    # st.download_button(
-    #     label='Download Graph',
-    #     data=source_code,
-    #     file_name = 'ppi.html'
-    # )
+    
+    st.markdown(f'### Pathways & drugs associated with {option} derived from Wiki-CORONA')
+    
+    try:
+        df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0]
+        df.columns = ['Interactant Symbol', 'Name', 'Associated Pathways', 'Binding Drugs', 'Associated Diseases']
+        st.dataframe(df)
+    except:
+        st.warning('No interactors found from Wiki-CORONA')
+        
+        
+    return HtmlFile, df
     
 def download_button(desc, data, left_col, right_col, label='Download as CSV'):
     right_col.download_button(
@@ -205,3 +214,11 @@ def download_button(desc, data, left_col, right_col, label='Download as CSV'):
 def local_css(file_name='./assets/style.css'):
     with open(file_name) as f:
         st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
+        
+        
+def resize(img: Image, factor: float = 2) -> Image:
+    x, y = img.size
+    x = int(x/factor)
+    y = int(y/factor)
+    img = img.resize((x, y))
+    return img
