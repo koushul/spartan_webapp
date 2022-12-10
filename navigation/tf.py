@@ -1,3 +1,4 @@
+from unittest.mock import Mock
 import streamlit as st
 from navigation.tf_pages.activities import display_tf_activities
 from navigation.tf_pages.litcovid import display_litcovid_data
@@ -10,19 +11,28 @@ from utils.api import litcov_search, load_drug_info
 from utils.components import display_ppi_data
 import hydralit_components as hc
 import pandas as pd
+from io import BytesIO
+from PIL import Image
 
-
-def download_button(desc, data, label='Download', format='text/csv'):
-    left_col, right_col = st.columns(2)
+def download_button(desc, data, fname, label='Download', format='text/csv'):
+    left_col, right_col = st.columns([2, 1])
     right_col.download_button(
-        label="Download",
+        label=label,
         data=data,
-        file_name='projD.csv',
-        mime='text/csv',
+        file_name=fname,
+        mime=format,
     )
         
     left_col.write(desc)
-    
+
+@st.cache   
+def img_path2buffer(img_path: str):
+    img = Image.open(img_path)
+    buf = BytesIO()
+    img.save(buf, format='PNG')
+    png = buf.getvalue()
+    return png
+
     
 tf_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blueviolet'}
 
@@ -102,15 +112,94 @@ def tf_page(datacore):
         display_tf_protein_corr_data(option, cell_type, datacore.name2ds[tf_ds])
             
         
+    elif chosen_subtab == 'Download':
+        pbar = st.progress(10)
+        
+        tf_activities = display_tf_activities(
+            option, datacore.name2ds[tf_ds], cell_type, disabled=True) 
+        pbar.progress(25)
+        
+        tf_target_img, tf_target_df = display_tf_target_data(
+            option, cell_type, ds=datacore.name2ds[tf_ds], disabled = True)
+        pbar.progress(30)
+        
+        csv_path, img_path = display_tf_protein_corr_data(
+            option, cell_type, datacore.name2ds[tf_ds], disabled = True)
+        pbar.progress(40)
+        
+        html_ppi, wiki_csv =  display_ppi_data(option, disabled = True)
+        
+            
+        if tf_activities is not None:
+            buf = BytesIO()
+            tf_activities.save(buf, format='PNG')
+            png = buf.getvalue()
+            
+            pbar.progress(45)
+            
+            
+            download_button(
+                    desc = 'TF activities density plots\n',
+                    label = 'Download as PNG', 
+                    data = png, 
+                    fname = f'{option}_tf_activities.png',
+                    format="application/octet-stream"
+            )
+        
+        download_button(
+                desc = 'TF-Target gene heatmap\n', 
+                label = 'Download as PNG', 
+                data = img_path2buffer(tf_target_img), 
+                fname = tf_target_img
+        )
+        
+        pbar.progress(55)
+        
+        
+        download_button(
+                desc = f'{option} target genes from hTFtarget\n', 
+                label = 'Download as CSV', 
+                data = tf_target_df.to_csv(), 
+                fname = f'{option}_htftargets.csv'
+        )
+        
+        pbar.progress(65)
+                
+        download_button(
+                desc = 'Literature references\n', 
+                label = 'Download as CSV', 
+                data = litcovdf.to_csv(), 
+                fname = f'{option}_litcovid_references.csv'
+        )
+        
+        pbar.progress(75)
+        
+        download_button(
+                desc = f'{option} tf-protein correlation heatmap\n', 
+                label = 'Download as PNG', 
+                data = img_path2buffer(img_path), 
+                fname = f'{option}_TF-protein_corr.png'
+        )
+        
+        
+        pbar.progress(85)
+        
+        download_button(
+                desc = f'{option} tf-protein correlation csv\n', 
+                label = 'Download as CSV', 
+                data = pd.read_csv(csv_path).to_csv(), 
+                fname = f'{option}_TF-protein_corr.csv'
+        )
+        
+        if html_ppi:
+            download_button(
+                    desc = f'{option} StringDB network\n', 
+                    label = 'Download as HTML', 
+                    data = html_ppi, 
+                    fname = f'{option}_ppi.html'
+            )
+            
         
 
-    elif chosen_subtab == 'Download':
-        left_col, right_col = st.columns(2)        
-        # download_button('Transcription factors activity distributions\n', 
-        #         tf_severity.to_csv(), left_col, right_col)
-        # download_button('Transcription factors and surface protein correlation\n', 
-        #         tf_severity.to_csv(), left_col, right_col)
-        # download_button(f'Density Plot for {option}\n', 
-        #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
-        # download_button('Heatmap\n', 
-        #         tf_severity.to_csv(), left_col, right_col, label='Download as PNG')
+        pbar.progress(100)
+    

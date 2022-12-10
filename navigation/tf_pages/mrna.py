@@ -6,22 +6,27 @@ from utils.components import create_st_button
 from utils.dataloaders import Dataset
 import pandas as pd
 
-def display_tf_target_data(option: str, cell_type: str, ds: Dataset) -> Tuple[str, pd.DataFrame]:
-    st.markdown(f'### 🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
+def display_tf_target_data(option: str, cell_type: str, ds: Dataset, disabled = False) -> Tuple[str, pd.DataFrame]:
+    if not disabled:
+        st.markdown(f'### 🎯 {option}-Target genes correlation in {CELL_NAMES.get(cell_type, cell_type)}') 
         
     with st.spinner('Loading heatmap...'):
         try:
             img = ds.get_tf_target_gene_img(cell_type, option)
-            st.image(img)
+            if not disabled:
+                st.image(img)
         except:
-            st.warning('No high correlation matches found.')
+            if not disabled:
+                st.warning('No high correlation matches found.')
             
-    st.markdown('---')
+    if not disabled: st.markdown('---')
     targets = load_tftargets(tf=option)
-    st.subheader(f'{option} target genes based on hTFtarget (N={len(targets)})')
+    if not disabled: st.subheader(f'{option} target genes based on hTFtarget (N={len(targets)})')
+    
     left, right = st.columns(2)
     
-    if len(targets) > 0:
+    
+    if len(targets) > 0 and not disabled:
         with left:
             target_name = st.selectbox('Targets', targets.target_name.values)
             target_ensg = targets[targets.target_name==target_name].target_id.values[0]

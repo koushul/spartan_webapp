@@ -89,7 +89,7 @@ def fig2img(fig):
 
 def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: str='patient_group'):
     groups = np.sort(np.unique(df_plt[group].values))
-    if column:
+    if column is not None:
         palette = make_palette(column=column, groups=groups)
     else:
         palette = sns.color_palette('pastel')
@@ -156,13 +156,18 @@ def make_tab(name, desc=''):
     return stx.TabBarItemData(id=name, title=name, description=desc)
 
 
-def display_ppi_data(option: str) -> Tuple[TextIOWrapper, pd.DataFrame]:
-    st.header(f'Protein-Protein Interactions for {option} from StringDB')
-    st.caption('Threshold of significance to include an interaction: 400')
-    st.caption('Learn more: https://string-db.org/help/api/')
-    left_col, right_col = st.columns(2)
-    size = left_col.slider('Interactors', 2, 100, 10)
-    neighbors = right_col.slider('Neighbors', 1, 10, 3)
+def display_ppi_data(option: str, disabled: bool = False) -> Tuple[TextIOWrapper, pd.DataFrame]:
+    if not disabled:
+        st.header(f'Protein-Protein Interactions for {option} from StringDB')
+        st.caption('Threshold of significance to include an interaction: 400')
+        st.caption('Learn more: https://string-db.org/help/api/')
+        left_col, right_col = st.columns(2)
+        size = left_col.slider('Interactors', 2, 100, 10)
+        neighbors = right_col.slider('Neighbors', 1, 10, 3)
+    else:
+        size = 10
+        neighbors = 3
+        
 
     net = Network()
     try:
@@ -177,24 +182,27 @@ def display_ppi_data(option: str) -> Tuple[TextIOWrapper, pd.DataFrame]:
         for pair in pairs:
             net.add_edge(pair[0], pair[1], value=pair[2]/10)
     except:
-        st.warning('No PPI Information available from stringdb')
-        return
+        if not disabled: st.warning('No PPI Information available from stringdb')
+        return None, None
     # net.show_buttons(filter_=['physics'])
-
+    
     net.show('./utils/ppi.html')
+        
     HtmlFile = open("./utils/ppi.html", 'r', encoding='utf-8')
     source_code = HtmlFile.read()
-    components.html(source_code, height = 700, width=1000)
+    if not disabled: components.html(source_code, height = 700, width=1000)
     
     
-    st.markdown(f'### Pathways & drugs associated with {option} derived from Wiki-CORONA')
+    if not disabled: 
+        st.markdown(f'### Pathways & drugs associated with {option} derived from Wiki-CORONA')
     
     try:
         df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0]
         df.columns = ['Interactant Symbol', 'Name', 'Associated Pathways', 'Binding Drugs', 'Associated Diseases']
-        st.dataframe(df)
+        if not disabled: st.dataframe(df)
     except:
-        st.warning('No interactors found from Wiki-CORONA')
+        if not disabled: st.warning('No interactors found from Wiki-CORONA')
+        df = None
         
         
     return HtmlFile, df
