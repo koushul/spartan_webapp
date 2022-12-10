@@ -5,10 +5,11 @@ import hydralit_components as hc
 from navigation.protein_pages.expression import display_protein_expressions
 from navigation.protein_pages.litcovid import display_litcovid_data
 from navigation.protein_pages.protein_tf_corr import display_protein_tf_corr_data
-from texts.references import CELL_NAMES
 
 from utils.api import litcov_search
 from utils.components import display_ppi_data
+from io import BytesIO
+from PIL import Image
 
 def generate_color():
     random_number = random.randint(0,16777215)
@@ -17,7 +18,28 @@ def generate_color():
     return hex_number
         
 
+
 protein_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blue'}
+
+def download_button(desc: str, data, fname: str, label: str = 'Download', format: str ='text/csv'):
+    left_col, right_col = st.columns([2, 1])
+    right_col.download_button(
+        label=label,
+        data=data,
+        file_name=fname,
+        mime=format,
+    )
+        
+    left_col.write(desc)
+
+@st.cache   
+def img_path2buffer(img_path: str):
+    img = Image.open(img_path)
+    buf = BytesIO()
+    img.save(buf, format='PNG')
+    png = buf.getvalue()
+    return png
+
 
 
 def protein_page(datacore):
@@ -38,22 +60,21 @@ def protein_page(datacore):
     else:
         s_proteins = list(datacore.name2ds[p_ds].surface_proteins(cell_type))
 
-    option = c.selectbox(
+    selected_protein = c.selectbox(
         f"Surface protein of interest ({len(s_proteins)})",
         s_proteins)
             
     try:    
-        litcovdf = litcov_search(option)
+        litcovdf = litcov_search(selected_protein)
     except:
         litcovdf = pd.DataFrame([])
-
         
     subtabs = ['Protein expression', 'Protein-TF correlation', 'Drugs', f'Literature references ({len(litcovdf)})', 'PPI', 'Download']
-        
+
     option_data2 = [{'icon': icon, 'label':label} for 
             label, icon in zip(
                 subtabs, 
-                ['📈', '🔗', '💊', '📚', '🔄','📩']
+                ['📈', '🔗', '💊', '📚', ' 🔄','📩']
             )
     ]
     
@@ -66,20 +87,91 @@ def protein_page(datacore):
         
         
     if chosen_subtab == 'Protein expression':
-        display_protein_expressions(option, datacore.name2ds[p_ds], cell_type)
+        display_protein_expressions(selected_protein, datacore.name2ds[p_ds], cell_type)
         
     elif chosen_subtab == 'Protein-TF correlation':
-        display_protein_tf_corr_data(option, cell_type, datacore.name2ds[p_ds])
+        display_protein_tf_corr_data(selected_protein, cell_type, datacore.name2ds[p_ds])
         
     elif chosen_subtab == 'Drugs':
         st.image('./assets/images/under_construction.png')
             
     elif 'Literature references' in chosen_subtab:
-        display_litcovid_data(litcovdf, option)
+        display_litcovid_data(litcovdf, selected_protein)
     
     elif chosen_subtab == 'PPI':
-        display_ppi_data(option)
+        display_ppi_data(selected_protein)
         
+        
+    elif chosen_subtab == 'Download':
+        pbar = st.progress(10)
+        
+        tf_activities = display_protein_expressions(
+            selected_protein, datacore.name2ds[p_ds], cell_type, disabled=True) 
+        pbar.progress(25)
+        pbar.progress(30)
+        
+        csv_path, img_path = display_protein_tf_corr_data(
+            selected_protein, cell_type, datacore.name2ds[p_ds], disabled = True)
+        pbar.progress(40)
+        
+        html_ppi, wiki_csv =  display_ppi_data(selected_protein, disabled = True)
+        
+        if tf_activities is not None:
+            buf = BytesIO()
+            tf_activities.save(buf, format='PNG')
+            png = buf.getvalue()
+            
+            pbar.progress(45)
+            
+            download_button(
+                    desc = 'TF activities density plots\n',
+                    label = 'Download as PNG', 
+                    data = png, 
+                    fname = f'{selected_protein}_tf_activities.png',
+                    format="application/octet-stream"
+            )
+
+        pbar.progress(55)
+        
+        pbar.progress(65)
+                
+        download_button(
+                desc = 'Literature references\n', 
+                label = 'Download as CSV', 
+                data = litcovdf.to_csv(), 
+                fname = f'{selected_protein}_litcovid_references.csv'
+        )
+        
+        pbar.progress(75)
+        
+        download_button(
+                desc = f'{selected_protein} tf-protein correlation heatmap\n', 
+                label = 'Download as PNG', 
+                data = img_path2buffer(img_path), 
+                fname = f'{selected_protein}_TF-protein_corr.png'
+        )
+        
+        
+        pbar.progress(85)
+        
+        download_button(
+                desc = f'{selected_protein} tf-protein correlation csv\n', 
+                label = 'Download as CSV', 
+                data = pd.read_csv(csv_path).to_csv(), 
+                fname = f'{selected_protein}_TF-protein_corr.csv'
+        )
+        
+        if html_ppi:
+            download_button(
+                    desc = f'{selected_protein} StringDB network\n', 
+                    label = 'Download as HTML', 
+                    data = html_ppi, 
+                    fname = f'{selected_protein}_ppi.html'
+            )
+            
+        
+
+        pbar.progress(100)
         
 
             
