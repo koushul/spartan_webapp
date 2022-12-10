@@ -14,7 +14,7 @@ def display_tf_protein_corr_data(option: str, cell_type: str, ds: Dataset, disab
             exp.dataframe(pd.read_csv(csv))
         return csv, img
         
-    except:
+    except IndexError:
         st.warning('No high correlation matches found.')
         return None, None
         

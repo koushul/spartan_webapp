@@ -1,7 +1,7 @@
 import streamlit as st
 
 from utils.api import get_pubmed_article
-from utils.components import create_st_button, local_css, display_ppi_data, ridge_plot, st_url, totags
+from utils.components import local_css, st_url, totags
 
 
 def display_litcovid_data(litcovdf, option):

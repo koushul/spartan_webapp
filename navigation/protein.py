@@ -2,10 +2,13 @@ import random
 import pandas as pd
 import streamlit as st
 import hydralit_components as hc
+from navigation.protein_pages.expression import display_protein_expressions
+from navigation.protein_pages.litcovid import display_litcovid_data
+from navigation.protein_pages.protein_tf_corr import display_protein_tf_corr_data
 from texts.references import CELL_NAMES
 
-from utils.api import get_pubmed_article, litcov_search
-from utils.components import local_css, display_ppi_data, ridge_plot, st_url, totags
+from utils.api import litcov_search
+from utils.components import display_ppi_data
 
 def generate_color():
     random_number = random.randint(0,16777215)
@@ -62,101 +65,24 @@ def protein_page(datacore):
         horizontal_orientation=True)
         
         
-    if chosen_subtab == 'Drugs':
-        st.image('./assets/images/under_construction.png')
-    
-    if chosen_subtab == 'PPI':
-        display_ppi_data(option)
-        
-        st.markdown(f'### Pathways & drugs associated with {option} derived from Wiki-CORONA')
-        
-        try:
-            df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0].dropna()
-            df.columns = ['Interactant Symbol', 'Name', 'Associated Pathways', 'Binding Drugs', 'Associated Diseases']
-            st.dataframe(df)
-        except:
-            st.warning('No interactors found from Wiki-CORONA')
-        
+    if chosen_subtab == 'Protein expression':
+        display_protein_expressions(option, datacore.name2ds[p_ds], cell_type)
         
     elif chosen_subtab == 'Protein-TF correlation':
-        st.markdown(f'### 🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
+        display_protein_tf_corr_data(option, cell_type, datacore.name2ds[p_ds])
         
-        try:
-            csv, img = datacore.name2ds[p_ds].get_protein_tf_data(cell_type, option)            
-            st.image(img)
-            exp = st.expander('Raw Data')            
-            exp.dataframe(pd.read_csv(csv))
-        except:
-            st.warning('No high correlation matches found.')
+    elif chosen_subtab == 'Drugs':
+        st.image('./assets/images/under_construction.png')
             
-            
-        
-    elif chosen_subtab == 'Protein expression':
-
-        try:
-            st.markdown(f'### 📈 {option} expression in {CELL_NAMES.get(cell_type, cell_type)}')  
-            
-            df_plt = datacore.name2ds[p_ds].get_protein_df(cell_type, option)
-            
-            groups = list(set(df_plt['patient_group'].values))
-
-            if 'healthy' in groups:
-                good = 'healthy'
-                bad = ', '.join(list(set(groups).difference([good])))
-                bad = f'impacted ({bad})'
-            elif 'Healthy' in groups:
-                good = 'Healthy'
-                bad = ', '.join(list(set(groups).difference([good])))
-                bad = f'Impacted ({bad})'
-                
-            else:
-                good = groups[0]
-                bad = groups[1]
-            
-            
-            # pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
-            # if pval < 0.05:
-            #     st.success(f'{good} vs {bad}: p-value = {pval:.3f}')
-            # else:
-            #     st.error(f'{good} vs {bad}: p-value = {pval:.3f}')
-            
-                    
-
-            
-            c, d, e = st.columns([2.5, 6, 1])
-            img = ridge_plot(df_plt, f'{option} expression', column=c)
-
-            xx, yy = img.size
-            dd = 2
-            xx = int(xx/dd)
-            yy = int(yy/dd)
-            d.image(img.resize((xx, yy)))
-
-        except FileNotFoundError:
-            st.warning('No high correlation matches found.')
-        
-        
     elif 'Literature references' in chosen_subtab:
-        st.markdown(f'### 📄 Relevant publications for {option} based on LitCovid')
+        display_litcovid_data(litcovdf, option)
+    
+    elif chosen_subtab == 'PPI':
+        display_ppi_data(option)
         
         
-        if len(litcovdf) > 0: 
-            for title in litcovdf.title:
-                article = get_pubmed_article(title)
-                if article:
-                    pmid = article.pubmed_id.split()[0]
-                    st_url(text=article.title, link=f"https://pubmed.ncbi.nlm.nih.gov/{pmid}")
-                    with st.expander('Abstract'):
-                        st.write(article.abstract)
-                    
-                    local_css()
-                    author = article.authors[0]
-                    author = f"{author['lastname']} et al. ({article.publication_date.year})"
-                    
-                    st.markdown(totags([author, article.journal, "PMID:"+pmid]), unsafe_allow_html=True)
-                    
-                    st.markdown('---')
+
+            
+            
         
-                
-        else:
-            st.warning('No literature references found')
+
