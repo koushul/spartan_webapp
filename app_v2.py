@@ -108,7 +108,7 @@ if chosen_tab == "Multi datasets":
             
     """)
     
-    thresh = st.slider('p-value threshold', min_value=0.0, max_value=1.0, value=0.05, step=0.01)
+    thresh = st.slider('p-value threshold', min_value=0.0, max_value=0.5, value=0.05, step=0.01)
     
     names = list(datacore.name2ds.keys())
     datasets = st.multiselect('Datasets', names, [names[0], names[1]])
