@@ -102,6 +102,8 @@ def protein_page(datacore):
         
         
     elif chosen_subtab == 'Download':
+        info = st.empty()
+        info.info('⌛ Generating files')
         pbar = st.progress(10)
         
         tf_activities = display_protein_expressions(
@@ -171,6 +173,8 @@ def protein_page(datacore):
         
 
         pbar.progress(100)
+        info.success('Downloads ready!')
+        
         
 
             

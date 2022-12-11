@@ -110,6 +110,9 @@ def tf_page(datacore):
         display_ppi_data(selected_tf)
         
     elif chosen_subtab == 'Download':
+        info = st.empty()
+        info.info('⌛ Generating files')
+        
         pbar = st.progress(10)
         
         tf_activities = display_tf_activities(
@@ -197,4 +200,6 @@ def tf_page(datacore):
         
 
         pbar.progress(100)
+        info.success('Downloads ready!')
+        
     

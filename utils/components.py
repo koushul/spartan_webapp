@@ -15,12 +15,12 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-hide_streamlit_style = f"""
+footer_style = f"""
     <style>
         MainMenu {{visibility: hidden;}}
         footer {{visibility: hidden;}}
         footer:after {{
-            content:'Created by Koushul using Streamlit and BioRender'; 
+            content:'Created by Koushul using Streamlit'; 
             visibility: visible;
             display: block;
             position: relative;
