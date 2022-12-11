@@ -5,7 +5,8 @@ from texts.references import CELL_NAMES
 
 
 def display_protein_tf_corr_data(option: str, cell_type: str, ds: Dataset, disabled = False):
-    st.markdown(f'### 🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
+    if not disabled: 
+        st.markdown(f'### 🔗 Correlation between {option} expression and inferred TF activities in {CELL_NAMES.get(cell_type, cell_type)}')
         
     try:
         csv, img = ds.get_protein_tf_data(cell_type, option)            
@@ -17,5 +18,6 @@ def display_protein_tf_corr_data(option: str, cell_type: str, ds: Dataset, disab
     
     
     except IndexError:
-        st.warning('No high correlation matches found.')
+        if not disabled: 
+            st.warning('No high correlation matches found.')
         return None, None

@@ -2,12 +2,11 @@ import streamlit as st
 
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
-from navigation.home import home_page, TITLE
+from navigation.home import home_page
 from navigation.protein import protein_page
 from navigation.stats import stats_page
 from navigation.tf import tf_page
 from navigation.viral_entry import viral_entry_page
-from utils.components import make_tab
 from utils.dataloaders import Dataset
 from utils.components import hide_streamlit_style
 from utils.dataloaders import make_datacore
@@ -16,16 +15,14 @@ from PIL import Image
 
 import hydralit_components as hc
 
-# if 'conf' not in st.session_state:
-#     st.set_page_config(
-#             page_title=TITLE,
-#             page_icon="./assets/logos/spartan.png",
-#             # layout="wide",
-#             initial_sidebar_state="expanded",
-#             menu_items={}
-#     )
-    
-#     st.session_state['conf'] = True
+
+st.set_page_config(
+        page_title='COVID-19db of Immune Cell States',
+        page_icon="./assets/logos/spartan.png",
+        # layout="wide",
+        initial_sidebar_state="expanded",
+)
+
 
 
 Image.MAX_IMAGE_PIXELS = None

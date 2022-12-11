@@ -24,7 +24,7 @@ protein_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'w
 def download_button(desc: str, data, fname: str, label: str = 'Download', format: str ='text/csv'):
     left_col, right_col = st.columns([2, 1])
     right_col.download_button(
-        label=label,
+        label='📥 '+label,
         data=data,
         file_name=fname,
         mime=format,
@@ -32,7 +32,6 @@ def download_button(desc: str, data, fname: str, label: str = 'Download', format
         
     left_col.write(desc)
 
-@st.cache   
 def img_path2buffer(img_path: str):
     img = Image.open(img_path)
     buf = BytesIO()
@@ -124,7 +123,7 @@ def protein_page(datacore):
             pbar.progress(45)
             
             download_button(
-                    desc = 'TF activities density plots\n',
+                    desc = f'{selected_protein} expression density plots\n',
                     label = 'Download as PNG', 
                     data = png, 
                     fname = f'{selected_protein}_tf_activities.png',
@@ -143,28 +142,28 @@ def protein_page(datacore):
         )
         
         pbar.progress(75)
-        
-        download_button(
-                desc = f'{selected_protein} tf-protein correlation heatmap\n', 
-                label = 'Download as PNG', 
-                data = img_path2buffer(img_path), 
-                fname = f'{selected_protein}_TF-protein_corr.png'
-        )
-        
-        
-        pbar.progress(85)
-        
-        download_button(
-                desc = f'{selected_protein} tf-protein correlation csv\n', 
-                label = 'Download as CSV', 
-                data = pd.read_csv(csv_path).to_csv(), 
-                fname = f'{selected_protein}_TF-protein_corr.csv'
+        if img_path:
+            download_button(
+                    desc = f'{selected_protein} protein-tf correlation heatmap\n', 
+                    label = 'Download as PNG', 
+                    data = img_path2buffer(img_path), 
+                    fname = f'{selected_protein}_protein-TF_corr.png'
+            )
+            
+            
+            pbar.progress(85)
+            
+            download_button(
+                    desc = f'{selected_protein} tf-protein correlation csv\n', 
+                    label = 'Download as CSV', 
+                    data = pd.read_csv(csv_path).to_csv(), 
+                    fname = f'{selected_protein}_TF-protein_corr.csv'
         )
         
         if html_ppi:
             download_button(
                     desc = f'{selected_protein} StringDB network\n', 
-                    label = 'Download as HTML', 
+                    label = 'Download as PNG', 
                     data = html_ppi, 
                     fname = f'{selected_protein}_ppi.html'
             )

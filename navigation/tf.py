@@ -189,7 +189,7 @@ def tf_page(datacore):
         if html_ppi:
             download_button(
                     desc = f'{selected_tf} StringDB network\n', 
-                    label = 'Download as HTML', 
+                    label = 'Download as PNG', 
                     data = html_ppi, 
                     fname = f'{selected_tf}_ppi.html'
             )
