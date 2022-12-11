@@ -51,5 +51,5 @@ def multi_dataset_page(datacore):
                         
                 st.markdown('---')
                 
-        if celebrate:
-            st.balloons()
+        # if celebrate:
+        #     st.balloons()
