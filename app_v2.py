@@ -31,7 +31,7 @@ HOME = "Home"
 DATASET = "Datasets"
 TF = "Transcription factors"
 PROTEINS = "Surface proteins"
-VIRAL_ENTRY = "Viral entry related factors"
+VIRAL_ENTRY = "Viral entry"
 DOC = "Docs"
 STATS = "Usage"
 
