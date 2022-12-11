@@ -17,12 +17,12 @@ from PIL import Image
 import hydralit_components as hc
 
 
-# st.set_page_config(
-#         page_title='COVID-19db of Immune Cell States',
-#         page_icon="./assets/logos/spartan.png",
-#         # layout="wide",
-#         initial_sidebar_state="expanded",
-# )
+st.set_page_config(
+        page_title='COVID-19db of Immune Cell States',
+        page_icon="./assets/logos/spartan.png",
+        # layout="wide",
+        initial_sidebar_state="expanded",
+)
 
 
 
