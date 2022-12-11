@@ -80,7 +80,6 @@ def dataset_page(ds, datacore):
         
         st.markdown(
             totags([
-                row_json['assay'], 
                 row_json['cell count'] + ' cells', 
                 str(row_json['patients']) + ' patients',
                 str(row_json['surface proteins']) + ' surface proteins',

@@ -46,21 +46,7 @@ hide_menu_style = """
         </style>
         """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
-
 st.markdown(footer_style, unsafe_allow_html=True) ## Footer
-
-# data = [
-#     make_tab(HOME),
-#     make_tab(DATASET),
-#     make_tab("Analysis by", desc="surface proteins"),
-#     make_tab("Analysis by", desc="transcription factors"),
-#     make_tab("Analysis by", desc="viral entry related factors"),
-#     make_tab('MultiDataset'),
-#     make_tab(DOC),
-#     make_tab(STATS),
-# ]
-
-
 
 tabs = [
     HOME,
@@ -86,7 +72,6 @@ option_data = [
 
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
 font_fmt = {'font-class':'h3','font-size':'50%'}
-
 
 chosen_tab = hc.option_bar(
     option_definition=option_data,
