@@ -92,7 +92,7 @@ def protein_page(datacore):
         display_protein_tf_corr_data(selected_protein, cell_type, datacore.name2ds[p_ds])
         
     elif chosen_subtab == 'Drugs':
-        drugs_df = pd.read_csv('/tmp/repurposing_drugs_20180907.txt', sep='\t')
+        drugs_df = pd.read_csv('./data/drugs/repurposing_drugs_20180907.txt', sep='\t')
         drugs_df = drugs_df.dropna(subset=['target'], axis=0)
         st.caption('Examples: CD44, CD38...')
         # for p in s_proteins:
