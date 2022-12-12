@@ -66,7 +66,7 @@ def tf_page(datacore):
         'TF activities', 
         'TF-Target gene', 
         'TF-protein correlation', 
-        f'Drugs ({len(targets)})',
+        f'Drugs',
         f'Literature references ({len(litcovdf)})', 
         'PPI', 
         'Download'
