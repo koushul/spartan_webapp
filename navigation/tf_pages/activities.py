@@ -27,13 +27,13 @@ def display_tf_activities(option: str, ds: DatasetDesc, cell_type: str, disabled
                 bad = groups[1]
         
         
-        # pval, adj_pval = datacore.name2ds[tf_ds].get_tf_pvals(cell_type, option)
-        # if pval < 0.05:
-        #     st.success(f'{good} vs {bad}: p-value = {pval:.3f}')
-        # else:
-        #     st.error(f'{good} vs {bad}: p-value = {pval:.3f}')
-            
-            
+            # pval, adj_pval = ds.get_tf_pvals(cell_type, option)
+            # if pval < 0.05:
+            #     st.success(f'{good} vs {bad}: p-value = {pval:.3f}')
+            # else:
+            #     st.error(f'{good} vs {bad}: p-value = {pval:.3f}')
+                
+                
             c, d, _ = st.columns([2, 6, 2])
             if disabled:
                 img = ridge_plot(df_plt, f'{option} inferred rank', column=None)

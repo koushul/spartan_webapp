@@ -26,7 +26,7 @@ def display_protein_expressions(option: str, ds: DatasetDesc, cell_type: str, di
             bad = groups[1]
         
         
-        # pval, adj_pval = datacore.name2ds[p_ds].get_protein_pvals(cell_type, option)
+        # pval, adj_pval = ds.get_protein_pvals(cell_type, option)
         # if pval < 0.05:
         #     st.success(f'{good} vs {bad}: p-value = {pval:.3f}')
         # else:
