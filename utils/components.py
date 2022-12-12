@@ -158,7 +158,7 @@ def make_tab(name, desc=''):
 
 def display_ppi_data(option: str, disabled: bool = False) -> Tuple[TextIOWrapper, pd.DataFrame]:
     if not disabled:
-        st.header(f'Protein-Protein Interactions for {option} from StringDB')
+        st.markdown(f'#### Protein-Protein Interactions for {option} from StringDB')
         st.caption('Threshold of significance to include an interaction: 400')
         st.caption('Learn more: https://string-db.org/help/api/')
         left_col, right_col = st.columns(2)
@@ -190,11 +190,11 @@ def display_ppi_data(option: str, disabled: bool = False) -> Tuple[TextIOWrapper
         
     HtmlFile = open("./utils/ppi.html", 'r', encoding='utf-8')
     source_code = HtmlFile.read()
-    if not disabled: components.html(source_code, height = 700, width=1000)
+    if not disabled: components.html(source_code, height = 650)
     
     
     if not disabled: 
-        st.markdown(f'### Pathways & drugs associated with {option} derived from Wiki-CORONA')
+        st.markdown(f'#### Pathways & drugs associated with {option} derived from Wiki-CORONA')
     
     try:
         df = pd.read_html(f'http://severus.dbmi.pitt.edu/corona/index.php/search?q={option}')[0]

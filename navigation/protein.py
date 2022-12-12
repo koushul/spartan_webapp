@@ -106,7 +106,10 @@ def protein_page(datacore):
         _drugs_df = drugs_df[drugs_df.target.apply(lambda x: selected_protein in x.split('|'))]
         if len(_drugs_df) > 0:
             # st.title(selected_protein)
-            st.table(_drugs_df.drop('target', axis=1))            
+            st.table(_drugs_df.drop('target', axis=1))     
+            
+        else:
+            st.warning(f'No drugs found for {selected_protein}.')       
 
             
     elif 'Literature references' in chosen_subtab:

@@ -101,7 +101,7 @@ def tf_page(datacore):
         if len(targets) > 0:
             st.table(targets.drop(['master regulators'], axis=1))
         else:
-            st.warning('No drug targets found.')
+            st.warning(f'No drugs found for {selected_tf}.')
         
     elif 'Literature references' in chosen_subtab:
         display_litcovid_data(litcovdf, selected_tf)
