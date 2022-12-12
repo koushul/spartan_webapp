@@ -16,7 +16,7 @@ def generate_color():
     hex_number = str(hex(random_number))
     hex_number ='#'+ hex_number[2:]
     return hex_number
-        
+   
 
 
 protein_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blue'}
@@ -92,7 +92,22 @@ def protein_page(datacore):
         display_protein_tf_corr_data(selected_protein, cell_type, datacore.name2ds[p_ds])
         
     elif chosen_subtab == 'Drugs':
-        st.image('./assets/images/under_construction.png')
+        drugs_df = pd.read_csv('/tmp/repurposing_drugs_20180907.txt', sep='\t')
+        drugs_df = drugs_df.dropna(subset=['target'], axis=0)
+        st.caption('Examples: CD44, CD38...')
+        # for p in s_proteins:
+        #     _drugs_df = drugs_df[drugs_df.target.apply(lambda x: p in x.split('|'))]
+        #     if len(_drugs_df) > 0:
+        #         st.title(p)
+        #         # st.table(_drugs_df)
+        #         st.write(_drugs_df.to_dict())
+        
+                    
+        _drugs_df = drugs_df[drugs_df.target.apply(lambda x: selected_protein in x.split('|'))]
+        if len(_drugs_df) > 0:
+            # st.title(selected_protein)
+            st.table(_drugs_df.drop('target', axis=1))            
+
             
     elif 'Literature references' in chosen_subtab:
         display_litcovid_data(litcovdf, selected_protein)

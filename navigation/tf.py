@@ -97,9 +97,9 @@ def tf_page(datacore):
     elif chosen_subtab == 'TF-protein correlation':
         display_tf_protein_corr_data(selected_tf, cell_type, datacore.name2ds[tf_ds])
             
-    elif chosen_subtab == f'Drugs ({len(targets)})':
+    elif 'Drugs' in chosen_subtab:
         if len(targets) > 0:
-            st.table(targets)
+            st.table(targets.drop(['master regulators'], axis=1))
         else:
             st.warning('No drug targets found.')
         
