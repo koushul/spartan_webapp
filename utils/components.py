@@ -170,13 +170,16 @@ def display_ppi_data(option: str, disabled: bool = False) -> Tuple[TextIOWrapper
         
 
     net = Network()
+        
     try:
         caption, pairs = get_ppi_edge_list(option, neighbors, size)
+        preferred_name = caption[caption['queryItem']==option].preferredName.values[0]
+
         for i, j, v in pairs:
             net.add_node(j, label=j)
             
         for n in net.nodes:
-            if n['label'] == option:
+            if n['label'] == preferred_name:
                 n['color'] = 'red'
                  
         for pair in pairs:
