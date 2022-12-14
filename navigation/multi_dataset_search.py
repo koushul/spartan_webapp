@@ -16,10 +16,11 @@ def multi_dataset_page(datacore):
     datasets = st.multiselect('Datasets', names, [names[0], names[1]])
     
     
-    if len(datasets) > 1:
-        run = st.button('Search')
+    if len(datasets) < 1:
+        # run = st.button('Search')
+        st.error('Select at least one datasets')
         
-    if run:
+    else:
         common_celltypes = set.intersection(*[set(datacore.name2ds[ds].celltypes) for ds in datasets])    
         results = {} 
         
