@@ -26,7 +26,7 @@ def dataset_page(ds, datacore):
     st.header(f'Dataset Browser')
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
-    ds2 = ds[['name', 'patients', 'cell count', 'surface proteins', 'transcription factors', 'pmid']]
+    ds2 = ds[['name', 'patients', 'cell_count', 'surface_proteins', 'transcription_factors', 'pmid']]
     
     # ds2.pmid = ds2.pmid.apply(lambda x: f'https://pubmed.ncbi.nlm.nih.gov/{x}/')
     
@@ -79,10 +79,10 @@ def dataset_page(ds, datacore):
         
         st.markdown(
             totags([
-                row_json['cell count'] + ' cells', 
+                row_json['cell_count'] + ' cells', 
                 str(row_json['patients']) + ' patients',
-                str(row_json['surface proteins']) + ' surface proteins',
-                str(row_json['transcription factors']) + ' transcription factors',
+                str(row_json['surface_proteins']) + ' surface proteins',
+                str(row_json['transcription_factors']) + ' transcription factors',
                 
                 ],
             ), 

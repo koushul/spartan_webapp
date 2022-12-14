@@ -1,0 +1,10 @@
+name = "GSE155224"
+organims = "Homo sapiens"
+patients = 20
+assay = "CITE-seq"
+surface_proteins = 188
+transcription_factors = 254
+pmid = 33879890
+cell_count = "559,517"
+url = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155224"
+title = "Single-Cell Omics Reveals Dyssynchrony of the Innate and Adaptive Immune System in Progressive COVID-19"

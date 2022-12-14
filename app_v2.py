@@ -36,10 +36,13 @@ MULTI = "Multi datasets"
 DOC = "Docs"
 STATS = "Usage"
 
-
+import toml
 
 datacore =  make_datacore()()
-ds = Dataset.metadata_df()
+ds = datacore.metadata
+
+
+
 
 hide_menu_style = """
         <style>

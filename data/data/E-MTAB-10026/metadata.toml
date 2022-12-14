@@ -1,0 +1,10 @@
+name = "E-MTAB-10026"
+organims = "Homo sapiens"
+patients = 130
+assay = "CITE-seq"
+surface_proteins = 188
+transcription_factors = 210
+pmid = 33879890
+cell_count = "780,000"
+url = "https://europepmc.org/article/PPR/PPR265323"
+title = "The cellular immune response to COVID-19 deciphered by single cell multi-omics across three UK centres"

@@ -1,0 +1,10 @@
+name = "GSE155673"
+organims = "Homo sapiens"
+patients = 12
+assay = "CITE-seq"
+surface_proteins = 38
+transcription_factors = 206
+pmid = 32788292
+cell_count = "59,664"
+url = "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE155673"
+title = "Systems Biological Assessment Of Immunity To Mild Versus Severe COVID-19 Infection In Humans"
