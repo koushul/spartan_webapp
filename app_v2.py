@@ -1,5 +1,3 @@
-import streamlit as st
-
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
 from navigation.home import home_page
@@ -13,16 +11,17 @@ from utils.components import footer_style
 from utils.dataloaders import make_datacore
 
 from PIL import Image
+import streamlit as st
 
 import hydralit_components as hc
 
 
-st.set_page_config(
-        page_title='COVID-19db of Immune Cell States',
-        page_icon="./assets/logos/spartan.png",
-        # layout="wide",
-        initial_sidebar_state="expanded",
-)
+# st.set_page_config(
+#         page_title='COVID-19db of Immune Cell States',
+#         page_icon="./assets/logos/spartan.png",
+#         # layout="wide",
+#         initial_sidebar_state="expanded",
+# )
 
 
 

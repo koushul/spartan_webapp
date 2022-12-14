@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Tuple
 import pandas as pd
-
+import streamlit as st
 from texts.references import CELL_NAMES, CELL_NAMES_REVERSE
 
 
@@ -54,15 +54,17 @@ class Dataset:
     def get_tf_pvals(self, celltype: str, protein: str) -> Tuple[float, float]:
         celltype = CELL_NAMES_REVERSE[celltype]
         pth =  (self.root / celltype).glob('TFrank_wilcox_pvalues_*.csv')
-        pth = list(pth)[-1]
+        pth = [i for i in pth if 'viral' not in str(i)][0]
         pvals = pd.read_csv(pth)
+        # st.write(pth)
+        
         _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
         return pval, adj_pval
     
     def get_protein_pvals(self, celltype: str, protein: str) -> Tuple[float, float]:
         celltype = CELL_NAMES_REVERSE[celltype]
         pth =  (self.root / celltype).glob('protein_wilcox_pvalues_*.csv')
-        pth = list(pth)[-1]
+        pth = [i for i in pth if 'viral' not in str(i)][0]
         pvals = pd.read_csv(pth)
         _, pval, adj_pval = pvals[pvals.features_all==protein].values[0]
         return pval, adj_pval
