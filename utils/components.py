@@ -63,6 +63,13 @@ palette_mapper = {
     'progressive': colors.to_hex('blueviolet'),
 }
 
+severity_order = [
+    'healthy',
+    'mild',
+    'moderate',
+    'severe',
+    'critical'
+]
 
 def st_url(text, link, tags='######'):
     st.write(tags+f" [{text}]({link})")
@@ -88,7 +95,15 @@ def fig2img(fig):
     return img
 
 def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: str='patient_group'):
-    groups = np.sort(np.unique(df_plt[group].values))
+    groups_ = np.sort(np.unique(df_plt[group].values))
+    groups_ = np.array([i.lower() for i in groups_])
+    
+    ## dirty sorting
+    groups = []
+    for g in severity_order:
+        if g in groups_:
+            groups.append(g)
+                
     if column is not None:
         palette = make_palette(column=column, groups=groups)
     else:

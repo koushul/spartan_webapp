@@ -17,6 +17,7 @@ class Dataset:
         self.root = root
         self.name = self.root.name
         self.celltypes = [CELL_NAMES.get(i.name, i.name) for i in self.root.iterdir()]
+        self.celltypes = list(filter(lambda x: x != "metadata.toml", self.celltypes))
         self.umap = str(Path('./data/umaps/') / f'UMAP_{self.name}.png')
     
     def get_tf_pvals(self, celltype: str, protein: str) -> Tuple[float, float]:
@@ -40,7 +41,7 @@ class Dataset:
         celltype = CELL_NAMES_REVERSE[celltype]
         proteins = (self.root / celltype / 'protein-TFs_highCorr' / 'Figure').iterdir()
         proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
-        proteins = list(filter(lambda x: x != ".gitkeep", proteins))
+        proteins = list(filter(lambda x: x != ".gitkeep" or x!= "metadata.toml", proteins))
         return proteins
     
     @property
@@ -112,7 +113,7 @@ class Dataset:
         celltype = CELL_NAMES_REVERSE[celltype]
         proteins = (self.root / celltype / 'protein-TFs_highCorr_viral' / 'Figure').iterdir()
         proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
-        proteins = list(filter(lambda x: x != ".gitkeep", proteins))
+        proteins = list(filter(lambda x: x != ".gitkeep" or x != "metadata.toml", proteins))
         return list(set(proteins))
     
     
@@ -120,7 +121,7 @@ class Dataset:
         celltype = CELL_NAMES_REVERSE[celltype]
         proteins = (self.root / celltype / 'mRNA-TFs_highCorr_viral' / 'Figure').iterdir()
         proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
-        proteins = list(filter(lambda x: x != ".gitkeep", proteins))
+        proteins = list(filter(lambda x: x != ".gitkeep" or x != "metadata.toml", proteins))
         return list(set(proteins))
     
     
@@ -159,7 +160,8 @@ class Datacore:
     
     def __init__(self):
         self.root_path = Path('./data/')
-        self.datasets = [Dataset(i) for i in (self.root_path / 'data').iterdir()]
+        datasets = list(filter(lambda x: x != ".gitkeep" or x != "metadata.toml", (self.root_path / 'data').iterdir()))
+        self.datasets = [Dataset(i) for i in datasets]
         self.name2ds = dict(zip([ds.name for ds in self.datasets], self.datasets))
         self.metadata = pd.DataFrame([toml.load(ds.root / 'metadata.toml') for ds in self.datasets])
 
