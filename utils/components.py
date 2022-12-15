@@ -98,11 +98,13 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     groups_ = np.sort(np.unique(df_plt[group].values))
     groups_ = np.array([i.lower() for i in groups_])
     
-    ## dirty sorting
-    groups = []
-    for g in severity_order:
-        if g in groups_:
-            groups.append(g)
+    # ## dirty sorting
+    # groups = []
+    # for g in severity_order:
+    #     if g in groups_:
+    #         groups.append(g)
+    
+    groups = groups_
                 
     if column is not None:
         palette = make_palette(column=column, groups=groups)
