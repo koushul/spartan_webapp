@@ -15,7 +15,9 @@ Many COVID-19 related CITE-seq data have been generated for public research. Mos
     
     ds = "For a single CITE-seq dataset, SPaRTAN COVID-19db provides meta information, cell-type annotation, transcription factor activity and surface protein visualization, correlation between transcription factors and surface proteins by each patients, relevant literature, protein-protein interaction results."
     
-    home = "A comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection"
+    # home = "A comprehensive web resource linking surface proteins to transcription factors to delineate cellular heterogeneity of host response during SARS-CoV-2 infection"
+    
+    home = "a toolset linking cell surface proteins with transcription factors"
     
     intro_1 = """COVID-19 requires a permissive cellular environment and host cellular factors for induction 
         of viral transcription. A variety of factors provide a favourable environment for COVID-19 

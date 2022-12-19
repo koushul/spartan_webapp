@@ -27,8 +27,9 @@ def home_page():
     
     with open('./clock.time', 'r') as f:
         last_updated_on = f.readlines()[0]
-    st.caption(last_updated_on)
     st.write(Desc.home)
+    st.caption(last_updated_on)
+    
     # with st.expander('Watch Tutorial'):
     #     st.video('./assets/video/video.webm')
     st.image(img)      
