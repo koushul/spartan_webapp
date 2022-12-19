@@ -88,6 +88,9 @@ def tf_page(datacore):
         horizontal_orientation=True)
     
     
+    
+    
+    
     if chosen_subtab == 'TF activities':  
         display_tf_activities(selected_tf, datacore.name2ds[tf_ds], cell_type)   
         
@@ -97,9 +100,21 @@ def tf_page(datacore):
     elif chosen_subtab == 'TF-protein correlation':
         display_tf_protein_corr_data(selected_tf, cell_type, datacore.name2ds[tf_ds])
             
-    elif 'Drugs' in chosen_subtab:
+    elif 'Drugs' in chosen_subtab:    
+        
+        # for ds in datacore.datasets:
+        #     for ct in ds.celltypes:
+        #         for x in ds.transcription_factors(ct):
+        #             pval, _ = ds.get_tf_pvals(ct, x)
+        #             if pval < 0.05:
+        #                 t = drugs[drugs.Target.apply(lambda z: x in z)]
+        #                 if len(t) > 0 and len(litcovdf) > 2:
+        #                     st.write(f'{x} | {pval} | {ds.name} | {ct}')
+                        
+                        
+            
         if len(targets) > 0:
-            st.table(targets.drop(['master regulators'], axis=1))
+            st.table(targets.drop(['master regulators', 'nTarget', 'ChEMBL'], axis=1))
         else:
             st.warning(f'No drugs found for {selected_tf}.')
         
