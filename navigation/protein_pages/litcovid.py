@@ -5,6 +5,8 @@ from utils.components import local_css, st_url, totags
 
 
 def display_litcovid_data(litcovdf, option):
+    show_abstracts = st.checkbox('Show abstracts')
+    
     st.markdown(f'### 📄 Relevant publications for {option} based on LitCovid')
     
     if len(litcovdf) > 0: 
@@ -13,7 +15,7 @@ def display_litcovid_data(litcovdf, option):
             if article:
                 pmid = article.pubmed_id.split()[0]
                 st_url(text=article.title, link=f"https://pubmed.ncbi.nlm.nih.gov/{pmid}")
-                with st.expander('Abstract'):
+                if show_abstracts:
                     st.write(article.abstract)
                 
                 local_css()
