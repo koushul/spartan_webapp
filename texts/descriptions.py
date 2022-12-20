@@ -19,7 +19,11 @@ Many COVID-19 related CITE-seq data have been generated for public research. Mos
     
     # home = "a toolset linking cell surface proteins with transcription factors"
     
-    home = "linkage maps of cell surface proteins and transcription factors in immune cells"
+    # home = "linkage maps of cell surface proteins and transcription factors in immune cells"
+    
+    home = """
+    
+    """
     
     intro_1 = """COVID-19 requires a permissive cellular environment and host cellular factors for induction 
         of viral transcription. A variety of factors provide a favourable environment for COVID-19 
