@@ -6,7 +6,7 @@ import hydralit_components as hc
 
 
 option_data = [
-   {'icon': "", 'label':i} for i in ['Introduction', 'Usage', 'Database Implementation', 'FAQ']]
+   {'icon': "", 'label':i} for i in ['Introduction', 'Usage', 'Database Implementation']]
 
 # override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'green'}

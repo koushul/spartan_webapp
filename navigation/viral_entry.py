@@ -32,10 +32,10 @@ def viral_entry_page(datacore):
     
 
     
-    show_protein_tf = b.checkbox('Viral protein-TF correlations')
+    show_protein_tf = b.checkbox('Viral factors-TF correlations')
     show_mrna_tf = b.checkbox('Viral mRNA-TF correlations')
     
-    show_protein_density  = a.checkbox('Viral protein distributions')
+    show_protein_density  = a.checkbox('Viral factors distributions')
     show_mrna_density = a.checkbox('Viral mRNA distributions')
     
     
