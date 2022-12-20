@@ -22,7 +22,25 @@ Many COVID-19 related CITE-seq data have been generated for public research. Mos
     # home = "linkage maps of cell surface proteins and transcription factors in immune cells"
     
     home = """
-    
+        The highly contagious SARS-CoV-2 and its associated disease (COVID-19) are a threat to 
+        global public health and economies. To develop effective treatments for COVID-19, we must 
+        understand the host cell types, cell states and regulators associated with infection and 
+        pathogenesis such as dysregulated transcription factors (TFs) and surface proteins, 
+        including signaling receptors. 
+        
+        To link cell surface proteins with TFs, we recently developed 
+        SPaRTAN (Single-cell Proteomic and RNA-based Transcription factor Activity Network) by 
+        integrating parallel single-cell proteomic and transcriptomic data based on Cellular Indexing 
+        of Transcriptomes and Epitopes by sequencing (CITE-seq) and gene cis-regulatory 
+        information. We apply SPaRTAN to CITE-seq datasets from patients with varying degrees of
+        COVID-19 severity and healthy controls to identify the associations between surface proteins
+        and TFs in host immune cells. Here, we present a web server containing cell surface protein expression, 
+        SPaRTAN-inferred TF activities, and their associations with major host immune cell types. 
+        The data include four high-quality COVID-19 CITE-seq datasets with a toolset for user-
+        friendly data analysis and visualization. We provide interactive surface protein and TF 
+        visualizations across major immune cell types for each dataset, allowing comparison 
+        between various patient severity groups for the discovery of potential therapeutic targets and
+        diagnostic biomarkers.
     """
     
     intro_1 = """COVID-19 requires a permissive cellular environment and host cellular factors for induction 

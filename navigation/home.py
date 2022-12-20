@@ -9,7 +9,7 @@ import streamlit_analytics
 def load_home_image():
     return Image.open('./assets/images/home.png')
 
-TITLE = 'COVID-19db of Immune Cell States'
+TITLE = 'COVID-19db linkage maps of cell surface proteins and transcription factors in immune cells'
 
 
 
@@ -27,14 +27,11 @@ def home_page():
     
     with open('./clock.time', 'r') as f:
         last_updated_on = f.readlines()[0]
-    st.write(Desc.home)
-    st.caption(last_updated_on)
     
-    # with st.expander('Watch Tutorial'):
-    #     st.video('./assets/video/video.webm')
+    st.caption(last_updated_on)    
     st.image(img)      
-    # st.write(Desc.intro_1)
-    # st.markdown(Desc.intro_2)
+    st.write(Desc.home)
+    
         
 
     
