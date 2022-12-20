@@ -36,7 +36,6 @@ MULTI = "Multi datasets"
 DOC = "Docs"
 STATS = "Usage"
 
-import toml
 
 datacore =  make_datacore()()
 ds = datacore.metadata
