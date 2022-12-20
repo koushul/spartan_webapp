@@ -70,7 +70,7 @@ def viral_entry_page(datacore):
                 with cols:
                     with hc.HyLoader(f'🎨 Painting {protein}', hc.Loaders.standard_loaders,index=[3]):
                         df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, protein)
-                        img = ridge_plot(df, xlabel=f'{protein}', column=None)
+                        img = ridge_plot(df, xlabel=f'{protein} expression', column=None)
                         xx, yy = img.size
                         dd = 2
                         xx = int(xx/dd)
