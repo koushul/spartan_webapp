@@ -22,7 +22,7 @@ def home_page():
     
     
     streamlit_analytics.start_tracking()    
-    st.title(TITLE) 
+    st.markdown('### ' + TITLE) 
     streamlit_analytics.stop_tracking()
     
     with open('./clock.time', 'r') as f:
