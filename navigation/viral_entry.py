@@ -98,7 +98,7 @@ def viral_entry_page(datacore):
                 with cols:
                     with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                         df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, option_protein)
-                        img = ridge_plot(df, xlabel=f'{option_protein}', column=None)
+                        img = ridge_plot(df, xlabel=f'{option_protein} expression', column=None)
                         xx, yy = img.size
                         dd = 2
                         xx = int(xx/dd)
@@ -122,7 +122,7 @@ def viral_entry_page(datacore):
             for protein in s_proteins:
                 with hc.HyLoader(f'🎨 Painting {protein}', hc.Loaders.standard_loaders,index=[3]):
                     df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, protein)
-                    img = ridge_plot(df, xlabel=f'{protein}', column=None)
+                    img = ridge_plot(df, xlabel=f'{protein} expression', column=None)
                     xx, yy = img.size
                     dd = 2
                     xx = int(xx/dd)
@@ -145,7 +145,7 @@ def viral_entry_page(datacore):
                 with hc.HyLoader(f'🎨 Painting {mrna}', hc.Loaders.standard_loaders,index=[3]):
                     
                     df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, mrna)
-                    img = ridge_plot(df, xlabel=f'{mrna}', column=None)
+                    img = ridge_plot(df, xlabel=f'{mrna} expression', column=None)
                     xx, yy = img.size
                     dd = 2
                     xx = int(xx/dd)
