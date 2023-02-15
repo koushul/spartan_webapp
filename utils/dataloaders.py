@@ -120,8 +120,11 @@ class Dataset:
     def get_viral_mrnas(self, celltype: str) -> list:
         celltype = CELL_NAMES_REVERSE[celltype]
         proteins = (self.root / celltype / 'mRNA-TFs_highCorr_viral' / 'Figure').iterdir()
-        proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
-        proteins = list(filter(lambda x: x != ".gitkeep" or x != "metadata.toml", proteins))
+        try:
+            proteins = [i.name.split('~TFs_highCorr_corrcut_')[0] for i in proteins]
+            proteins = list(filter(lambda x: x != ".gitkeep" or x != "metadata.toml", proteins))
+        except:
+            proteins = []
         return list(set(proteins))
     
     

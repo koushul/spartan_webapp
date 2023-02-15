@@ -45,10 +45,15 @@ def viral_entry_page(datacore):
     if sbs:
         if show_protein_tf or show_mrna_tf:
             st.caption('Click on image corner to enlarge')
+            
+        columns = []
+        columns_2 = []
         
-        columns = st.columns(len(s_proteins))
-        columns_2 = st.columns(len(s_mrna))
+        if len(s_proteins) > 0:
+            columns = st.columns(len(s_proteins))
         
+        if len(s_mrna) > 0:
+            columns_2 = st.columns(len(s_mrna))        
         
         for c, p in zip(columns, s_proteins):
             c.markdown('##### ' + p)
