@@ -71,21 +71,7 @@ hide_menu_style = """
 st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 
-icons = """<div class="footer">
-        <a href="https://scholar.google.com/citations?user=YzCsmdgAAAAJ&hl=en&inst=7044483460239389945"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Scholar_logo.svg/512px-Google_Scholar_logo.svg.png"
-                alt="github" width="60" height="60">
-        </a>
-        <a href="https://www.instagram.com/osmanbeyoglulab/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png"
-                alt="github" width="60" height="60">
-        </a>
-        <a href="https://github.com/osmanbeyoglulab"><img class="image2" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                alt="github" width="60" height="60">
-        </a>
-        <a href="https://twitter.com/hosmanbeyoglu?lang=en"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/292px-Twitter-logo.svg.png"
-            alt="twitter" width="65" height="60"></a>
-</div>
-
-<style>
+icons = """<style>
         img {
             max-width: 100%;
         
@@ -140,35 +126,125 @@ icons = """<div class="footer">
         }
     
         .footer {
-            position: static;
-            left: 0;
-            bottom: 0;
+            position: fixed;
             width: 100%;
             background-color: white;
             color: black;
-            text-align: center;
-        }
-</style>""" ## Footer
-
-
-
-footer_style = f"""
-    <style>
-        MainMenu {{visibility: hidden;}}
-        footer {{visibility: hidden;}}
-        footer:after {{
-            content:''; 
-            visibility: visible;
             display: block;
-            position: relative;
-            # background-color: red;
-            padding: 5px;
-            top: 2px;
-        }}
-    </style>
+            text-align: center;
+            padding: 100px;
+            top: 0px;
+        }
+</style
+<div class="footer">
+        <a href="https://scholar.google.com/citations?user=YzCsmdgAAAAJ&hl=en&inst=7044483460239389945"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Scholar_logo.svg/512px-Google_Scholar_logo.svg.png"
+                alt="github" width="60" height="60">
+        </a>
+        <a href="https://www.instagram.com/osmanbeyoglulab/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png"
+                alt="github" width="60" height="60">
+        </a>
+        <a href="https://github.com/osmanbeyoglulab"><img class="image2" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                alt="github" width="60" height="60">
+        </a>
+        <a href="https://twitter.com/hosmanbeyoglu?lang=en"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/292px-Twitter-logo.svg.png"
+            alt="twitter" width="65" height="60"></a>
+</div>
+""" ## Footer
+footer="""<style>
+img {
+            max-width: 100%;
+        
+        }
+        
+        .headerStyle {
+            transition: transform .2s;
+        }
+        
+        .headerStyle:hover {
+            
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+        .image1 { 
+            padding: 10px;
+             transition: transform .2s;
+        }
+        .image2 
+        { 
+            padding: 10px;
+             transition: transform .2s;
+        }
+        .image1:hover {  
+            ##border: 4px solid green;
+            ##border-radius: 15px;
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+
+        .image2:hover {  
+            ##border: 4px solid green;
+            ##border-radius: 15px;
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+        
+        a:link,
+        a:visited {
+            color: blue;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        a2:hover {
+            border-style: solid;
+            },
+        a:active {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+background-color: white;
+color: black;
+padding: 24px;
+text-align: center;
+}
+</style>
+<div class="footer">
+<p style="font-size:  13px">© 2023 Osmanbeyoglulab.com. All rights reserved.</p>
+<a href="https://hillman.upmc.com/"><img class="image2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7c7pXIkFgMPVM2csVE6MenUFLEsgF5beCeMJzogkPkXPC4xEo9OTHf6nVpqsb3PvisRk&usqp=CAU"alt="github" width="70" height=50"></a>
+<a href="https://www.pitt.edu/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/University_of_Pittsburgh_seal.svg/300px-University_of_Pittsburgh_seal.svg.png"alt="github" width="45" height="45"></a>
+</a><a href="https://github.com/osmanbeyoglulab"><img class="image2" src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="github" width="45" height="45"></a>
+<a href="https://twitter.com/hosmanbeyoglu?lang=en"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/292px-Twitter-logo.svg.png"alt="twitter" width="45" height="40"></a>
+<a href="https://scholar.google.com/citations?user=YzCsmdgAAAAJ&hl=en&inst=7044483460239389945"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Scholar_logo.svg/512px-Google_Scholar_logo.svg.png"alt="github" width="45" height="45"></a>
+<a href="https://www.instagram.com/osmanbeyoglulab/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png"alt="github" width="45" height="45"></a>
+</div>
 """
 
-st.markdown(footer_style, unsafe_allow_html=True) ## Footer
+# """        """
+
+# footer_style = f"""
+#     <style>
+#         MainMenu {{visibility: hidden;}}
+#         footer {{visibility: hidden;}}
+#         footer:after {{
+#             content:''; 
+#             visibility: visible;
+#             display: block;
+#             position: relative;
+#             # background-color: red;
+#             padding: 5px;
+#             top: 2px;
+#         }}
+#     </style>
+# """
+
+# st.markdown(footer_style, unsafe_allow_html=True) ## Footer
 
 
 tabs = [
@@ -254,5 +330,7 @@ elif chosen_tab == DOC:
     
 elif chosen_tab == STATS:
     stats_page()
+
+st.markdown(footer,unsafe_allow_html=True)
         
-st.markdown(icons, unsafe_allow_html=True)
+# st.markdown(icons, unsafe_allow_html=True)

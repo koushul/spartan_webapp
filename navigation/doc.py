@@ -57,16 +57,8 @@ def doc_page():
         st.video(video_bytes)
         
     elif page == 'Model Overview':
-        st.write("""SPaRTAN uses the expression of surface proteins (based on scADT-seq) as a proxy for 
-their activities. Signaling via these proteins converges on TFs that, in turn, 
-regulate the expression of their target genes.
- 
-Here, we use a regularized bilinear regression algorithm called affinity regression (AR), which provides a statistical framework when the observed data can be explained as 
-interactions between two kinds of inputs. As shown below, SPaRTAN establishes an interaction matrix 
-(W) between surface proteins (P) and TFs (D) that predicts target gene expression (Y). The model captures statistical relationships between surface proteins, TFs, and 
-gene expression. 
-
-We can then use the trained interaction matrix (W) to predict TF activity from the surface protein expression profile of a cell.""")
+        st.markdown("#### Cell-type specific SPaRTAN models")
+        st.write(Desc.model_overview)
         
         st.image('./assets/images/spartan_model.png')
         
