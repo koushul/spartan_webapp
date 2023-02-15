@@ -53,7 +53,7 @@ PROTEINS = "Surface proteins"
 VIRAL_ENTRY = "Viral-entry related factors"
 MULTI = "Multi datasets"
 DOC = "Docs"
-CONTACT = "Contact Us"
+CONTACT = "Contact"
 STATS = "Usage"
 
 
@@ -255,3 +255,4 @@ elif chosen_tab == DOC:
 elif chosen_tab == STATS:
     stats_page()
         
+st.markdown(icons, unsafe_allow_html=True)
