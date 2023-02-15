@@ -20,11 +20,11 @@ footer_style = f"""
         MainMenu {{visibility: hidden;}}
         footer {{visibility: hidden;}}
         footer:after {{
-            content:'Created by Koushul using Streamlit'; 
+            content:'Copyright @2023 www.osmanbeyoglulab.com'; 
             visibility: visible;
             display: block;
             position: relative;
-            #background-color: red;
+            # background-color: red;
             padding: 5px;
             top: 2px;
         }}

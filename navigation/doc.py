@@ -6,7 +6,7 @@ import hydralit_components as hc
 
 
 option_data = [
-   {'icon': "", 'label':i} for i in ['Introduction', 'Usage', 'Database Implementation']]
+   {'icon': "", 'label':i} for i in ['Introduction', 'Model Overview', 'Database Implementation']]
 
 # override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'green'}
@@ -27,19 +27,21 @@ def doc_page():
     
     if page == 'Introduction':
         st.header('Introduction')
+        
+        st.image('./assets/images/documentation.png')
+        
         st.write(Desc.manuscript_intro)
         
-        with st.expander("Data Collection and Processing", expanded=True):
-            st.image('./assets/images/documentation.png')
+        # with st.expander("Data Collection and Processing", expanded=True):
         
         
         
         # st.header('SPaRTAN')
         # st.write(Desc.spartan)
         
-        with st.expander("Model Overview"):
-            st.write(Desc.spartan_model)
-            st.image('./assets/images/SPaRTAN_fig.png')
+        # with st.expander("Model Overview"):
+        #     st.write(Desc.spartan_model)
+        #     st.image('./assets/images/SPaRTAN_fig.png')
         
 
     elif page == 'FAQ':
@@ -53,6 +55,21 @@ def doc_page():
         video_file = open('./assets/video/video.webm', 'rb')
         video_bytes = video_file.read()
         st.video(video_bytes)
+        
+    elif page == 'Model Overview':
+        st.write("""SPaRTAN uses the expression of surface proteins (based on scADT-seq) as a proxy for 
+their activities. Signaling via these proteins converges on TFs that, in turn, 
+regulate the expression of their target genes.
+ 
+Here, we use a regularized bilinear regression algorithm called affinity regression (AR), which provides a statistical framework when the observed data can be explained as 
+interactions between two kinds of inputs. As shown below, SPaRTAN establishes an interaction matrix 
+(W) between surface proteins (P) and TFs (D) that predicts target gene expression (Y). The model captures statistical relationships between surface proteins, TFs, and 
+gene expression. 
+
+We can then use the trained interaction matrix (W) to predict TF activity from the surface protein expression profile of a cell.""")
+        
+        st.image('./assets/images/spartan_model.png')
+        
         
     
     elif page == 'Database Implementation':

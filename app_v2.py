@@ -16,13 +16,28 @@ import streamlit as st
 import hydralit_components as hc
 
 
-st.set_page_config(
-        page_title='COVID-19db of Immune Cell States',
-        page_icon="./assets/logos/spartan.png",
-        # layout="wide",
-        initial_sidebar_state="expanded",
-)
+# st.set_page_config(
+#         page_title='COVID-19db of Immune Cell States',
+#         page_icon="./assets/logos/spartan.png",
+#         # layout="wide",
+#         initial_sidebar_state="expanded",
+# )
+max_width_str = f"max-width: {75}%;"
+st.markdown(f"""
+        <style>
+        .appview-container .main .block-container{{{max_width_str}}}
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
+st.markdown("""
+        <style>
+               .block-container {
+                    padding-top: 0rem;
+                }
+        </style>
+        """, unsafe_allow_html=True)
 
 
 Image.MAX_IMAGE_PIXELS = None
@@ -34,6 +49,7 @@ PROTEINS = "Surface proteins"
 VIRAL_ENTRY = "Viral-entry related factors"
 MULTI = "Multi datasets"
 DOC = "Docs"
+CONTACT = "Contact Us"
 STATS = "Usage"
 
 
@@ -58,7 +74,8 @@ tabs = [
     TF,
     VIRAL_ENTRY,
     DOC, 
-    STATS
+    STATS,
+    CONTACT
 ]
 
 option_data = [
@@ -69,6 +86,7 @@ option_data = [
    {'icon': "🔍", 'label':VIRAL_ENTRY},
    {'icon': "💼 💼", 'label':"Multi datasets"},
    {'icon': "📋", 'label':DOC},
+   {'icon': "📩", 'label':CONTACT},
    {'icon': "📈", 'label':STATS},
 ]
 
@@ -82,7 +100,7 @@ chosen_tab = hc.option_bar(
     override_theme=over_theme,
     horizontal_orientation=True)
 
-st.markdown('----')
+# st.markdown('----')
     
 #######--------------------#######
 #######--------------------#######
@@ -90,6 +108,10 @@ st.markdown('----')
 if chosen_tab == HOME:
     home_page()
     
+if chosen_tab == "Contact Us":
+    st.components.v1.iframe('https://www.osmanbeyoglulab.com/team', width=1000, height=900, scrolling=True)
+    
+        
 elif chosen_tab == DATASET:
     dataset_page(ds, datacore)
     

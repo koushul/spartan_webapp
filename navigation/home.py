@@ -25,6 +25,13 @@ def home_page():
     st.markdown('### ' + TITLE) 
     streamlit_analytics.stop_tracking()
     
+    with st.expander('Video Overview'):
+        st.caption(f'Example usage of the {TITLE}')
+        video_file = open('./assets/video/video.webm', 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
+        
+    
     with open('./clock.time', 'r') as f:
         last_updated_on = f.readlines()[0]
     
