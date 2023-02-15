@@ -14,7 +14,9 @@ from PIL import Image
 import streamlit as st
 
 import hydralit_components as hc
-
+from htbuilder import div, ul, li, img, styles, classes, fonts, percent, a, p, br, hr, HtmlElement
+from htbuilder.units import px
+from htbuilder.funcs import rgba, rgb
 
 # st.set_page_config(
 #         page_title='COVID-19db of Immune Cell States',
@@ -35,10 +37,12 @@ st.markdown("""
         <style>
                .block-container {
                     padding-top: 0rem;
+                    
                 }
         </style>
         """, unsafe_allow_html=True)
 
+    
 
 Image.MAX_IMAGE_PIXELS = None
 
@@ -64,8 +68,108 @@ hide_menu_style = """
         #MainMenu {visibility: hidden;}
         </style>
         """
-# st.markdown(hide_menu_style, unsafe_allow_html=True)
+st.markdown(hide_menu_style, unsafe_allow_html=True)
+
+
+icons = """<div class="footer">
+        <a href="https://scholar.google.com/citations?user=YzCsmdgAAAAJ&hl=en&inst=7044483460239389945"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Scholar_logo.svg/512px-Google_Scholar_logo.svg.png"
+                alt="github" width="60" height="60">
+        </a>
+        <a href="https://www.instagram.com/osmanbeyoglulab/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png"
+                alt="github" width="60" height="60">
+        </a>
+        <a href="https://github.com/osmanbeyoglulab"><img class="image2" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                alt="github" width="60" height="60">
+        </a>
+        <a href="https://twitter.com/hosmanbeyoglu?lang=en"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/292px-Twitter-logo.svg.png"
+            alt="twitter" width="65" height="60"></a>
+</div>
+
+<style>
+        img {
+            max-width: 100%;
+        
+        }
+        
+        .headerStyle {
+            transition: transform .2s;
+        }
+        
+        .headerStyle:hover {
+            
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+        .image1 { 
+            padding: 10px;
+             transition: transform .2s;
+        }
+        .image2 
+        { 
+            padding: 10px;
+             transition: transform .2s;
+        }
+        .image1:hover {  
+            ##border: 4px solid green;
+            ##border-radius: 15px;
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+
+        .image2:hover {  
+            ##border: 4px solid green;
+            ##border-radius: 15px;
+             transform: scale(1.5);
+            transition: 0.2s;
+        }
+        
+        a:link,
+        a:visited {
+            color: blue;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+
+        a2:hover {
+            border-style: solid;
+            },
+        a:active {
+            color: red;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+    
+        .footer {
+            position: static;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            color: black;
+            text-align: center;
+        }
+</style>""" ## Footer
+
+
+
+footer_style = f"""
+    <style>
+        MainMenu {{visibility: hidden;}}
+        footer {{visibility: hidden;}}
+        footer:after {{
+            content:''; 
+            visibility: visible;
+            display: block;
+            position: relative;
+            # background-color: red;
+            padding: 5px;
+            top: 2px;
+        }}
+    </style>
+"""
+
 st.markdown(footer_style, unsafe_allow_html=True) ## Footer
+
 
 tabs = [
     HOME,
@@ -108,8 +212,26 @@ chosen_tab = hc.option_bar(
 if chosen_tab == HOME:
     home_page()
     
-if chosen_tab == "Contact Us":
-    st.components.v1.iframe('https://www.osmanbeyoglulab.com/team', width=1000, height=900, scrolling=True)
+    
+if chosen_tab == CONTACT:
+    import numpy as np
+    import pandas as pd
+    data = pd.DataFrame([40.454657, -79.943872], index=['lat', 'lon']).T
+    
+    a, b = st.columns([1, 1.5])
+    b.map(data=data, zoom=13, use_container_width=True)  
+    
+    a.markdown('## Contact Information')  
+    a.markdown('#####  Koushul Ramjattun (Graduate Researcher)')
+    a.markdown('###### kor11@pitt.edu')    
+    a.markdown('##### Xiaojun Ma (Senior Software Engineer)')
+    a.markdown('###### xim33@pitt.edu')
+    
+    a.markdown('---')
+    a.markdown('#### Location')  
+    a.markdown('5051 Centre Avenue Pittsburgh, PA 15213')
+    
+    
     
         
 elif chosen_tab == DATASET:
