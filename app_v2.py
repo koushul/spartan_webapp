@@ -37,6 +37,7 @@ st.markdown("""
         <style>
                .block-container {
                     padding-top: 0rem;
+                    padding-bottom: 0rem;
                     
                 }
         </style>
@@ -203,13 +204,13 @@ img {
             background-color: transparent;
             text-decoration: underline;
         }
-
 .footer {
-position: fixed;
+position: relative;
+width: 100%;
 left: 0;
 bottom: 0;
-width: 100%;
 background-color: white;
+margin-top: auto;
 color: black;
 padding: 24px;
 text-align: center;
@@ -228,23 +229,14 @@ text-align: center;
 
 # """        """
 
-# footer_style = f"""
-#     <style>
-#         MainMenu {{visibility: hidden;}}
-#         footer {{visibility: hidden;}}
-#         footer:after {{
-#             content:''; 
-#             visibility: visible;
-#             display: block;
-#             position: relative;
-#             # background-color: red;
-#             padding: 5px;
-#             top: 2px;
-#         }}
-#     </style>
-# """
+footer_style = """
+    <style>
+        MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
+    </style>
+"""
 
-# st.markdown(footer_style, unsafe_allow_html=True) ## Footer
+st.markdown(footer_style, unsafe_allow_html=True) ## Footer
 
 
 tabs = [
@@ -294,18 +286,19 @@ if chosen_tab == CONTACT:
     import pandas as pd
     data = pd.DataFrame([40.454657, -79.943872], index=['lat', 'lon']).T
     
-    a, b = st.columns([1, 1.5])
+    st.markdown("If you have any questions or feedback, please contact us:")
+    a, b = st.columns([0.5, 1.5])
+    a.markdown('## Contact')  
+    b.markdown('#####  Koushul Ramjattun (Graduate Researcher)')
+    b.markdown('###### ✉️  kor11@pitt.edu')    
+    b.markdown('##### Xiaojun Ma (Senior Software Engineer)')
+    b.markdown('###### ✉️  xim33@pitt.edu')
+    
+    b.markdown('---')
+    b.markdown('📍 The Assembly (UPMC Hillman Cancer Center), 5051 Centre Avenue Pittsburgh, PA 15213')
+    
     b.map(data=data, zoom=13, use_container_width=True)  
     
-    a.markdown('## Contact Information')  
-    a.markdown('#####  Koushul Ramjattun (Graduate Researcher)')
-    a.markdown('###### kor11@pitt.edu')    
-    a.markdown('##### Xiaojun Ma (Senior Software Engineer)')
-    a.markdown('###### xim33@pitt.edu')
-    
-    a.markdown('---')
-    a.markdown('#### Location')  
-    a.markdown('5051 Centre Avenue Pittsburgh, PA 15213')
     
     
     
@@ -331,6 +324,8 @@ elif chosen_tab == DOC:
 elif chosen_tab == STATS:
     stats_page()
 
+for i in range(6):
+    st.markdown('#')
 st.markdown(footer,unsafe_allow_html=True)
         
 # st.markdown(icons, unsafe_allow_html=True)
