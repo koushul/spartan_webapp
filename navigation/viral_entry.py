@@ -3,9 +3,6 @@ import streamlit as st
 from utils.components import ridge_plot
 import hydralit_components as hc
 
-import time
-import pandas as pd
-
 def viral_entry_page(datacore):
     """
     protein-TFs_higCorr_viral/Figure
@@ -15,6 +12,11 @@ def viral_entry_page(datacore):
         some of the data file may not exist sine no viral protein or genes for that dataset or celltype
     
     """
+    
+    st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors.            
+""")
+    
+    
     a, b = st.columns(2)
     
     datasets = datacore.name2ds.keys()
