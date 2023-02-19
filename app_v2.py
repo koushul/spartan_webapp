@@ -16,12 +16,12 @@ import streamlit as st
 import hydralit_components as hc
 
 
-st.set_page_config(
-        page_title='COVID-19db of Immune Cell States',
-        page_icon="./assets/logos/spartan.png",
-        # layout="wide",
-        initial_sidebar_state="expanded",
-)
+# st.set_page_config(
+#         page_title='COVID-19db of Immune Cell States',
+#         page_icon="./assets/logos/spartan.png",
+#         # layout="wide",
+#         initial_sidebar_state="expanded",
+# )
 
 
 max_width_str = f"max-width: {75}%;"
@@ -290,7 +290,7 @@ if chosen_tab == CONTACT:
     a.image('https://images.squarespace-cdn.com/content/v1/60a2b00345921d78f1476b6f/0836bfa9-1dd9-4b79-b604-b411c63c7f9a/TheAssembly_TriggsPhotography_Wexford_Exterior-1.jpg')
     a.markdown("""<span style="font-size:20px;">University of Pittsburgh, UPMC Hillman Cancer Center, Assembly Building</span>""", unsafe_allow_html=True)
 
-    b.markdown("""<div style="width: 100%"><iframe width="100%" height="770" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=5051%20Centre%20Avenue%20Pittsburgh,%20PA%2015213+(My%20Business%20Name)&amp;t=p&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/distance-area-calculator.html">measure distance on map</a></iframe></div>""", unsafe_allow_html=True)
+    b.markdown("""<div style="width: 100%"><iframe width="100%" height="700" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=5051%20Centre%20Avenue%20Pittsburgh,%20PA%2015213+(My%20Business%20Name)&amp;t=p&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/distance-area-calculator.html">measure distance on map</a></iframe></div>""", unsafe_allow_html=True)
     # b.write('Hillman Cancer Center, 5051 Centre Avenue Pittsburgh, PA 15213') 
     
     a.markdown('##### Contacts:')
