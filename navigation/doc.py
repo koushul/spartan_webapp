@@ -28,7 +28,8 @@ def doc_page():
     if page == 'Introduction':
         st.header('Introduction')
         
-        st.image('./assets/images/documentation2.png')
+        _, m, _ = st.columns([0.1, 1, 0.1])
+        m.image('./assets/images/documentation2.png')
         st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.manuscript_intro}</h4>", unsafe_allow_html=True)  
         
         # st.write(Desc.manuscript_intro)
@@ -86,6 +87,18 @@ def doc_page():
         st.write(Desc.doc_spartan)
         
         st.markdown('---')
+        
+        st.subheader("LitCovid")
+        st.write("Literrature reference were downloaded from LitCovid (https://www.ncbi.nlm.nih.gov/research/coronavirus/) and filtered for association with TFs and surface proteins in our datasets. The database currently contains 302,986 articles that grow daily, making it a comprehensive, up-to-date resource for COVID-19 researchers")
+        
+        st.markdown('---')
+        
+        
+        st.subheader("StringDB")
+        st.write("To provide a visual model of high-confidence genes that interact with TFs and surface proteins of interest, the protein-protein interaction (PPI) network derived from the STRING database (StringDB) (confidence score > 400) that contains protein-PPIs from experimental and computational sources. Using the StringDB native application programming interface (API), we queried the database for interactions involving selected TFs or surface proteins using the Python requests library. The number of interactors can be manually set by the user on the PPI tab. The width of the edges corresponds to StringDB  scores. Only connected nodes are plotted.")
+        
+        st.markdown('---')
+        
         
         
         # st.subheader('Data Availability')
