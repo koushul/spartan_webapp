@@ -28,9 +28,10 @@ def doc_page():
     if page == 'Introduction':
         st.header('Introduction')
         
-        st.image('./assets/images/documentation.png')
+        st.image('./assets/images/documentation2.png')
+        st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.manuscript_intro}</h4>", unsafe_allow_html=True)  
         
-        st.write(Desc.manuscript_intro)
+        # st.write(Desc.manuscript_intro)
         
         # with st.expander("Data Collection and Processing", expanded=True):
         
@@ -58,9 +59,11 @@ def doc_page():
         
     elif page == 'Model Overview':
         st.markdown("#### Cell-type specific SPaRTAN models")
-        st.write(Desc.model_overview)
+        # st.write(Desc.model_overview)
+        st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.model_overview}</h4>", unsafe_allow_html=True)  
         
-        st.image('./assets/images/spartan_model.png')
+        
+        st.image('./assets/images/spartan_model2.png')
         
         
     

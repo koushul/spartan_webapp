@@ -17,7 +17,7 @@ def home_page():
     from texts.descriptions import Desc
     img = load_home_image()
     
-    _, middle, _ = st.columns([0.2, 1, 0.2])
+    _, middle, _ = st.columns([0.1, 1, 0.1])
     
     with middle:
         
