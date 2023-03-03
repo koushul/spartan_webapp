@@ -39,7 +39,7 @@ def img_path2buffer(img_path: str):
 
     
 def tf_page(datacore):
-    st.header(f'Analysis by transcription factor')
+    st.markdown(f'### Analysis by transcription factor')
     
     st.info(Desc.tf)
     _, _, edge = st.columns(3)

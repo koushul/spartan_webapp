@@ -12,7 +12,7 @@ def viral_entry_page(datacore):
         some of the data file may not exist sine no viral protein or genes for that dataset or celltype
     
     """
-    st.header(f'Analysis by viral entry related')
+    st.markdown(f'### Analysis by viral entry related')
     
     st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors.            
 """)

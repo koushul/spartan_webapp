@@ -23,7 +23,7 @@ def home_page():
         
         streamlit_analytics.start_tracking()    
         # st.markdown('### ' + TITLE) 
-        st.markdown(f"<h2 style='text-align: center; color: black;'>{TITLE}</h1>", unsafe_allow_html=True)  
+        st.markdown(f"<h3 style='text-align: center; color: black;'>{TITLE}</h1>", unsafe_allow_html=True)  
         
         streamlit_analytics.stop_tracking()
         

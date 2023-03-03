@@ -26,7 +26,7 @@ def doc_page():
         horizontal_orientation=True)
     
     if page == 'Introduction':
-        st.header('Introduction')
+        st.subheader('Introduction')
         
         _, m, _ = st.columns([0.1, 1, 0.1])
         m.image('./assets/images/documentation2.png')

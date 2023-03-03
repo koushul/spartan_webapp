@@ -22,7 +22,7 @@ from st_aggrid import JsCode
 
 def dataset_page(ds, datacore):
         
-    st.header(f'Dataset Browser')
+    st.markdown(f'### Dataset Browser')
     st.info(Desc.ds)
     st.caption('Select one or more datasets')
     ds2 = ds[['name', 'patients', 'cell_count', 'surface_proteins', 'transcription_factors', 'pmid']]
