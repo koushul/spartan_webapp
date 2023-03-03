@@ -9,7 +9,6 @@ from texts.descriptions import DatasetDesc, Desc
 from PIL import Image
 
 
-@st.cache
 def totags(tags):
     t = '<div>'
     for tag, color in zip(tags, ['red', 'blue', 'green', 'orange', 'purple', 'yellow']):

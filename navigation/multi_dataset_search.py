@@ -1,6 +1,8 @@
 import streamlit as st
 
 def multi_dataset_page(datacore):
+    st.header(f'Analysis across multiple datasets')
+    
     st.info("""
         Discover transcription factors that are consistently and significantly different between healthy vs impacted patients
             

@@ -28,7 +28,6 @@ def download_button(desc: str, data, fname: str, label: str = 'Download', format
         
     left_col.write(desc)
 
-@st.cache   
 def img_path2buffer(img_path: str):
     img = Image.open(img_path)
     buf = BytesIO()
@@ -40,6 +39,8 @@ def img_path2buffer(img_path: str):
 
     
 def tf_page(datacore):
+    st.header(f'Analysis by transcription factor')
+    
     st.info(Desc.tf)
     _, _, edge = st.columns(3)
     checkbox = edge.checkbox('Show high correlations only')

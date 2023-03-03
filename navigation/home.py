@@ -5,7 +5,6 @@ import datetime
 import streamlit_analytics
 
 
-@st.cache(allow_output_mutation=True)
 def load_home_image():
     return Image.open('./assets/images/home.png')
 
@@ -15,35 +14,40 @@ TITLE = 'COVID-19db linkage maps of cell surface proteins and transcription fact
 
 def home_page():
 
-    
-
     from texts.descriptions import Desc
     img = load_home_image()
     
+    _, middle, _ = st.columns([0.2, 1, 0.2])
     
-    streamlit_analytics.start_tracking()    
-    st.markdown('### ' + TITLE) 
-    streamlit_analytics.stop_tracking()
-    
-    with st.expander('Video Overview'):
+    with middle:
+        
+        streamlit_analytics.start_tracking()    
+        # st.markdown('### ' + TITLE) 
+        st.markdown(f"<h2 style='text-align: center; color: black;'>{TITLE}</h1>", unsafe_allow_html=True)  
+        
+        streamlit_analytics.stop_tracking()
+        
+        
+        with open('./clock.time', 'r') as f:
+            last_updated_on = f.readlines()[0]
+        
+        st.caption(last_updated_on)    
+        st.image(img)      
+        
+        
+        st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.home}</h4>", unsafe_allow_html=True)  
+        
+        
+        # st.write(Desc.home)
+        
+        st.markdown('---')
+        
         st.caption(f'Example usage of the {TITLE}')
         video_file = open('./assets/video/video.webm', 'rb')
         video_bytes = video_file.read()
         st.video(video_bytes)
-        
-    
-    with open('./clock.time', 'r') as f:
-        last_updated_on = f.readlines()[0]
-    
-    st.caption(last_updated_on)    
-    st.image(img)      
-    st.write(Desc.home)
     
         
-
-    
-    
-    
 if __name__ == '__main__':
     t = datetime.datetime.now()
     with open('./clock.time', 'w') as f:

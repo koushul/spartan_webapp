@@ -27,7 +27,6 @@ Many COVID-19 related CITE-seq data have been generated for public research. Mos
         understand the host cell types, cell states and regulators associated with infection and 
         pathogenesis such as dysregulated transcription factors (TFs) and surface proteins, 
         including signaling receptors. 
-        
         To link cell surface proteins with TFs, we recently developed 
         SPaRTAN (Single-cell Proteomic and RNA-based Transcription factor Activity Network) by 
         integrating parallel single-cell proteomic and transcriptomic data based on Cellular Indexing 

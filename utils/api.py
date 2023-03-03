@@ -20,7 +20,6 @@ def severus_pair(tf, protein):
         return pd.DataFrame([])
 
 
-@st.cache
 def load_tftargets(tf: str) -> pd.DataFrame:
     try:
         return pd.read_csv(f'./data/hTFtarget/{tf}.target.txt', sep='\t')
@@ -28,12 +27,10 @@ def load_tftargets(tf: str) -> pd.DataFrame:
         return pd.DataFrame([])
 
 
-@st.cache
 def load_drug_info():
     drug_info = pd.read_parquet('./data/drugs/drugs_info.parquet')
     return drug_info
 
-@st.experimental_singleton
 def get_pubmed_article(title):
     articles = list(pubmed.query(title, max_results=1))
     if articles:
@@ -43,7 +40,6 @@ def get_pubmed_article(title):
         return None
 
 
-@st.cache
 def litcov_search(search):
     lines = []
     try:
