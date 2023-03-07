@@ -1,5 +1,5 @@
 extra_streamlit_components==0.1.56
-pyvis
+pyvis==0.3.1
 seaborn
 streamlit-aggrid
 stringdb==0.1.5
