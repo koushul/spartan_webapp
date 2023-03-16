@@ -1,19 +1,19 @@
-from navigation.datasets import dataset_page
-from navigation.doc import doc_page
-from navigation.home import home_page
-from navigation.multi_dataset_search import multi_dataset_page
-from navigation.protein import protein_page
-from navigation.stats import stats_page
-from navigation.tf import tf_page
-from navigation.viral_entry import viral_entry_page
-from utils.dataloaders import Dataset
-from utils.components import footer_style
-from utils.dataloaders import make_datacore
+# from navigation.datasets import dataset_page
+# from navigation.doc import doc_page
+# from navigation.home import home_page
+# from navigation.multi_dataset_search import multi_dataset_page
+# from navigation.protein import protein_page
+# from navigation.stats import stats_page
+# from navigation.tf import tf_page
+# from navigation.viral_entry import viral_entry_page
+# from utils.dataloaders import Dataset
+# from utils.components import footer_style
+# from utils.dataloaders import make_datacore
 
-from PIL import Image
+# from PIL import Image
 import streamlit as st
 
-import hydralit_components as hc
+# import hydralit_components as hc
 
 
 # st.set_page_config(
