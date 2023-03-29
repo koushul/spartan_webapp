@@ -98,27 +98,34 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     groups_ = np.sort(np.unique(df_plt[group].values))
     groups_ = np.array([i.lower() for i in groups_])
     
-    # ## dirty sorting
-    # groups = []
-    # for g in severity_order:
-    #     if g in groups_:
-    #         groups.append(g)
+    ## dirty sorting
+    groups = []
+    for g in severity_order:
+        if g in groups_:
+            groups.append(g)
     
-    groups = groups_
-                
+    df_plt['patient_group'] = df_plt['patient_group'].str.lower()
+    df_plt['patient_group'] = pd.Categorical(df_plt['patient_group'], categories=groups, ordered=True)
+    
+    df_plt = pd.concat([group.sort_values('Pair_correlations', ascending=False) for name, group in df_plt.groupby('patient_group')])
+
+                    
     if column is not None:
         palette = make_palette(column=column, groups=groups)
     else:
         palette = sns.color_palette('pastel')
         
+        
     g = sns.FacetGrid(df_plt, 
         palette = palette,
-        row=group, hue=group, aspect=5)
+        row=group, hue=group, 
+        aspect=5)
         
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     g.map(label, group)
     g.fig.subplots_adjust(hspace=-.25)
+    
     g.set_titles("")
     g.set(yticks=[], xlabel=xlabel)
     g.despine( left=True)
@@ -127,7 +134,8 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
 
     plt.xlabel(xlabel, fontsize=36, labelpad=25)
     plt.gcf().subplots_adjust(bottom=0.25)
-    # plt.tight_layout()
+    
+    plt.tight_layout()
     img = fig2img(g.fig)
     
     return img
