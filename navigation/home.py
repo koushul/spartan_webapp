@@ -45,7 +45,7 @@ def home_page():
         st.markdown('---')
         
         st.caption(f'Example usage of the {TITLE}')
-        video_file = open('./assets/video/video.webm', 'rb')
+        video_file = open('./assets/video/video.mp4', 'rb')
         video_bytes = video_file.read()
         st.video(video_bytes)
     
