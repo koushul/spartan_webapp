@@ -65,7 +65,9 @@ palette_mapper = {
 
 severity_order = [
     'healthy',
+    'stable',
     'mild',
+    'progressive',
     'moderate',
     'severe',
     'critical'
@@ -99,6 +101,7 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     group_sizes = df_plt.groupby('patient_group').size() 
     df_plt = df_plt.loc[df_plt['patient_group'].isin(group_sizes[group_sizes > 1].index)]
     
+    
     groups_ = np.sort(np.unique(df_plt[group].values))
     groups_ = np.array([i.lower() for i in groups_])
     
@@ -106,9 +109,9 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     for g in severity_order:
         if g in groups_:
             groups.append(g)
-    
+        
     df_plt['patient_group'] = df_plt['patient_group'].str.lower()
-    df_plt['patient_group'] = pd.Categorical(df_plt['patient_group'], categories=groups, ordered=True)    
+    df_plt['patient_group'] = pd.Categorical(df_plt['patient_group'], categories=groups, ordered=True) 
     df_plt = pd.concat([group.sort_values('Pair_correlations', ascending=False) for name, group in df_plt.groupby('patient_group')])
                     
     if column is not None:
