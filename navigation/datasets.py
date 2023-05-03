@@ -14,7 +14,7 @@ import hydralit_components as hc
 
 from utils.dataloaders import get_umap
 option_data = [
-   {'icon': "", 'label':i} for i in ['Metadata', 'UMAP']]
+   {'icon': "", 'label':i} for i in ['Metadata', 'Visualizations']]
 
 # override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'skyblue'}
@@ -99,8 +99,9 @@ def dataset_page(ds, datacore):
     
 
     
-            elif page == 'UMAP':
+            elif page == 'Visualizations':
                 umap = get_umap(datacore.name2ds[name].name) 
+                st.write()
                 if umap is not None:
                     a, b = st.columns(2)
                     
@@ -112,16 +113,16 @@ def dataset_page(ds, datacore):
                             f"Surface protein of interest ({len(s_proteins)})",
                             s_proteins)
                     f = plt.figure(figsize=(5, 3.5), dpi=80)
-                    norm = plt.Normalize(umap[option].min(), umap[option].max())
-                    sm = plt.cm.ScalarMappable(cmap='plasma', norm=norm)
-                    sm.set_array([])
-                    alpha = [1 if i else 0.2 for i in (umap.celltypes_sub==CELL_NAMES_REVERSE.get(cell_type)).values]
-                    ax = sns.scatterplot(data=umap, x='UMAP_1', y='UMAP_2', hue=option, 
-                                        palette='plasma', legend='brief', alpha=alpha, markers='celltypes_sub')
+                    umap.celltypes_sub = umap.celltypes_sub.astype('category')
+                    # norm = plt.Normalize(umap[option].min(), umap[option].max())
+                    # sm = plt.cm.ScalarMappable(cmap='plasma', norm=norm)
+                    # sm.set_array([])
+                    # alpha = [1 if i else 0.2 for i in (umap.celltypes_sub==CELL_NAMES_REVERSE.get(cell_type)).values]
+                    ax = sns.scatterplot(data=umap, x='UMAP_1', y='UMAP_2', hue='celltypes_sub', size=1)
                     
                     plt.box(False)
                     ax.get_legend().remove()
-                    ax.figure.colorbar(sm)
+                    # ax.figure.colorbar(sm)
                     ax.set_xticks([])
                     ax.set_yticks([])
                     ax.set_title(f'Dataset: {name}', fontsize=9)
