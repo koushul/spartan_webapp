@@ -2,8 +2,13 @@ import streamlit as st
 from texts.descriptions import DatasetDesc
 from texts.references import CELL_NAMES
 from utils.components import resize, ridge_plot
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-def display_tf_activities(option: str, ds: DatasetDesc, cell_type: str, disabled=False):
+CELL_NAMES_R = dict(zip(CELL_NAMES.values(), CELL_NAMES.keys()))
+
+def display_tf_activities(option: str, ds: DatasetDesc, cell_type: str, disabled=False, ):
+    st.write(cell_type)
     with st.spinner('Plotting ridges...'):
         try:
             if not disabled:
@@ -34,15 +39,17 @@ def display_tf_activities(option: str, ds: DatasetDesc, cell_type: str, disabled
                 st.error(f'{good} vs {bad}: p-value = {pval:.3f}')
                 
                 
-            c, d, _ = st.columns([2, 6, 2])
+            d, u = st.columns([6, 1])
             if disabled:
                 img = ridge_plot(df_plt, f'{option} inferred rank', column=None)
             else:
-                img = ridge_plot(df_plt, f'{option} inferred rank', column=c)
+                img = ridge_plot(df_plt, f'{option} inferred rank', column=u)
                 
             img = resize(img)
             if not disabled:
                 d.image(img)
+                
+            
 
             return img
 

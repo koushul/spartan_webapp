@@ -169,6 +169,13 @@ class Datacore:
         self.metadata = pd.DataFrame([toml.load(ds.root / 'metadata.toml') for ds in self.datasets])
 
 
-# @st.experimental_singleton
+@st.experimental_singleton
 def make_datacore():
     return Datacore
+
+@st.experimental_singleton
+def get_umap(name):
+    return pd.read_parquet(f'./data/umap_xy/{name}.parquet.gzip')
+
+    
+

@@ -1,13 +1,24 @@
+from matplotlib import pyplot as plt
 import streamlit as st
 
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
+from texts.references import CELL_NAMES_REVERSE
 
 from utils.components import local_css
 from texts.descriptions import DatasetDesc, Desc
 
 from PIL import Image
+import seaborn as sns
+import hydralit_components as hc
 
+from utils.dataloaders import get_umap
+option_data = [
+   {'icon': "", 'label':i} for i in ['Metadata', 'UMAP']]
+
+# override the theme, else it will use the Streamlit applied theme
+over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'skyblue'}
+font_fmt = {'font-class':'h3','font-size':'50%'}
 
 def totags(tags):
     t = '<div>'
@@ -19,7 +30,6 @@ def totags(tags):
 
 from st_aggrid import JsCode
 
-
 def dataset_page(ds, datacore):
         
     st.markdown(f'### Dataset Browser')
@@ -27,64 +37,89 @@ def dataset_page(ds, datacore):
     st.caption('Select one or more datasets')
     ds2 = ds[['name', 'patients', 'cell_count', 'surface_proteins', 'transcription_factors', 'pmid']]
     
-    # ds2.pmid = ds2.pmid.apply(lambda x: f'https://pubmed.ncbi.nlm.nih.gov/{x}/')
-    
-    gd = GridOptionsBuilder.from_dataframe(ds2)
-    
-    if 'datasets' in st.session_state:
-        pre_selected_rows = [list(ds.name).index(i) for i in st.session_state['datasets']]
-    else:
-        pre_selected_rows = []
-                
-                
-    gd.configure_selection(selection_mode='multiple', use_checkbox=True, pre_selected_rows=pre_selected_rows)
+    box, p, c, pt, tf, pm = st.columns([2, 1, 1, 1, 1, 1])
+    box.markdown('##### Name')
+    p.markdown('##### Patients')
+    c.markdown('##### Cells')
+    pt.markdown('##### Proteins')
+    tf.markdown('##### TFs')
+    pm.markdown('##### PMID')
     
     
-    cell_renderer =  JsCode("""function(params) {return `<a href='https://pubmed.ncbi.nlm.nih.gov/${params.value}/' target="_blank">${params.value}</a>`}""")
     
+    # st.write(ds2)
+    
+    bbox = {}
+    
+    for name, patients, cells, proteins, tfs, pmid in ds2.values:
+        bbox[name] = box.checkbox(f'{name}', key=f'datasets_{name}')  
+        p.write(str(patients))  
+        c.write(cells)
+        pt.write(str(proteins))
+        tf.write(str(tfs))
+        # pm.write(str(pmid))
+        pm.markdown(f'[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)')
+        
 
-    gd.configure_column("pmid", cellRenderer=cell_renderer)
+    st.markdown('---')
+
     
-    grid_table = AgGrid(ds2, 
-        gridOptions=gd.build(),
-        update_mode=GridUpdateMode.SELECTION_CHANGED, 
-        fit_columns_on_grid_load=True,
-        height=175,
-        width='100%',
-        theme="streamlit",
-        allow_unsafe_jscode=True,
+    page = hc.option_bar(
+        option_definition=option_data,
+        title='',
+        override_theme=over_theme,
+        # font_styling=font_fmt,
+        horizontal_orientation=True
     )
-
-        
-    selected_row = grid_table["selected_rows"]
     
-    st.session_state['datasets'] = [x['name'] for x in selected_row]
     
-    for idx, row_json in enumerate(selected_row):
-        
-        st.markdown('#### ' + row_json['name'] + ': ' + ds[ds.name==row_json['name']].title.values[0])
-        st.markdown(DatasetDesc[row_json['name']])
-        st.markdown(ds[ds.name==row_json['name']].url.values[0])
-        
-        exp = st.expander('View UMAP')
-
-        try:
-            umap = Image.open(datacore.name2ds[row_json['name']].umap)
-            exp.image(umap.resize((600, 400)))
-        except:
-            exp.write('No UMAP available.')
-
-        local_css()
-        
-        st.markdown(
-            totags([
-                row_json['cell_count'] + ' cells', 
-                str(row_json['patients']) + ' patients',
-                str(row_json['surface_proteins']) + ' surface proteins',
-                str(row_json['transcription_factors']) + ' transcription factors',
+    for name, is_selected in bbox.items():
+        if is_selected:
+            st.markdown('#### ' + name + ': ' + ds[ds.name==name].title.values[0])
+            st.markdown(DatasetDesc[name])
+            st.markdown(ds[ds.name==name].url.values[0])
+            
+            local_css()
+            if page == 'Metadata':
+                row_json = ds[ds.name==name]
+            
+                st.markdown(
+                    totags([
+                        row_json['cell_count'].values[0] + ' cells', 
+                        str(row_json['patients'].values[0]) + ' patients',
+                        str(row_json['surface_proteins'].values[0]) + ' surface proteins',
+                        str(row_json['transcription_factors'].values[0]) + ' transcription factors',
+                        
+                        ],
+                    ), 
+                    unsafe_allow_html=True)
                 
-                ],
-            ), 
-            unsafe_allow_html=True)
+                st.markdown('---')
+    
+
+    
+            elif page == 'UMAP':
+                st.markdown('## UMAP')
+
+                # umap = get_umap(datacore.name2ds[name].name) 
+                # st.write(umap.head()) 
+    
+                # f = plt.figure(figsize=(5, 3.5), dpi=80)
+                # norm = plt.Normalize(umap[option].min(), umap[option].max())
+                # sm = plt.cm.ScalarMappable(cmap='plasma', norm=norm)
+                # sm.set_array([])
+                # alpha = [1 if i else 0.2 for i in (umap.celltypes_sub==CELL_NAMES_REVERSE.get(cell_type)).values]
+                # ax = sns.scatterplot(data=umap, x='UMAP_1', y='UMAP_2', hue=option, 
+                #                     palette='plasma', legend='brief', alpha=alpha, markers='celltypes_sub')
+                # # ax = sns.scatterplot(data=umap[umap.celltypes_sub==CELL_NAMES_R.get(cell_type)], marker="$\circ$", x='UMAP_1', y='UMAP_2')
+                
+                # plt.box(False)
+                # ax.get_legend().remove()
+                # ax.figure.colorbar(sm)
+                # ax.set_xticks([])
+                # ax.set_yticks([])
+
+                # st.pyplot(f)
+
         
-        st.markdown('---')
+        

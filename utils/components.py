@@ -137,7 +137,7 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     g.despine(bottom=True, left=True)
 
     plt.xlabel(xlabel, fontsize=36, labelpad=25)
-    plt.gcf().subplots_adjust(bottom=0.25)
+    plt.gcf().subplots_adjust(bottom=0.15)
     
     plt.tight_layout()
     img = fig2img(g.fig)

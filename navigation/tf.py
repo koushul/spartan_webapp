@@ -11,10 +11,14 @@ import hydralit_components as hc
 import pandas as pd
 from io import BytesIO
 from PIL import Image
+import seaborn as sns
+import matplotlib.pyplot as plt
+from utils.dataloaders import get_umap
 
 tf_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blueviolet'}
 
 drugs = load_drug_info()
+
 
 
 def download_button(desc: str, data, fname: str, label: str = 'Download', format: str ='text/csv'):
@@ -93,8 +97,11 @@ def tf_page(datacore):
     
     
     if chosen_subtab == 'TF activities':  
-        display_tf_activities(selected_tf, datacore.name2ds[tf_ds], cell_type)   
+        # umap = get_umap(datacore.name2ds[tf_ds].name)  
         
+        display_tf_activities(selected_tf, datacore.name2ds[tf_ds], cell_type) 
+        
+                
     elif chosen_subtab == 'TF-Target gene':
         display_tf_target_data(selected_tf, cell_type, ds=datacore.name2ds[tf_ds])
     
