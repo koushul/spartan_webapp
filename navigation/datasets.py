@@ -99,8 +99,8 @@ def dataset_page(ds, datacore):
     
 
     
-            elif page == 'Visualizations':
-                umap = get_umap(datacore.name2ds[name].name) 
+            # elif page == 'Visualizations':
+            #     umap = get_umap(datacore.name2ds[name].name) 
             #     if umap is not None:
             #         a, b = st.columns(2)
                     
