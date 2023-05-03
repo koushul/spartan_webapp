@@ -8,7 +8,6 @@ import seaborn as sns
 CELL_NAMES_R = dict(zip(CELL_NAMES.values(), CELL_NAMES.keys()))
 
 def display_tf_activities(option: str, ds: DatasetDesc, cell_type: str, disabled=False, ):
-    st.write(cell_type)
     with st.spinner('Plotting ridges...'):
         try:
             if not disabled:
