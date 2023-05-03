@@ -26,7 +26,7 @@ def viral_entry_page(datacore):
     a.markdown('##### &nbsp;')            
     sbs = b.checkbox('Side-by-Side Plots', value=True)    
         
-    p_ds = a.selectbox(f'Dataset ({len(datasets)})', datasets, 0)
+    p_ds = a.selectbox(f'Dataset ({len(datasets)})', filter(lambda x: x!='GSE155673', datasets), 0)
     cell_types = datacore.name2ds[p_ds].celltypes
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
