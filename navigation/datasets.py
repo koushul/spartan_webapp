@@ -100,37 +100,37 @@ def dataset_page(ds, datacore):
 
     
             elif page == 'Visualizations':
-                print(len(datacore.name2ds[name].total_surface_proteins))
-                umap = get_umap(datacore.name2ds[name].name) 
-                if umap is not None:
-                    a, b = st.columns(2)
+                st.image('./assets/images/under_construction.png')
+                # umap = get_umap(datacore.name2ds[name].name) 
+                # if umap is not None:
+                #     a, b = st.columns(2)
                     
-                    cell_types = datacore.name2ds[name].celltypes
-                    cell_type = a.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
+                #     cell_types = datacore.name2ds[name].celltypes
+                #     cell_type = a.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
-                    s_proteins = list(datacore.name2ds[name].surface_proteins(cell_type))
-                    option = b.selectbox(
-                            f"Surface protein of interest ({len(s_proteins)})",
-                            s_proteins)
-                    f = plt.figure(figsize=(5, 3.5), dpi=80)
-                    umap.celltypes_sub = umap.celltypes_sub.astype('category')
-                    # norm = plt.Normalize(umap[option].min(), umap[option].max())
-                    # sm = plt.cm.ScalarMappable(cmap='plasma', norm=norm)
-                    # sm.set_array([])
-                    # alpha = [1 if i else 0.2 for i in (umap.celltypes_sub==CELL_NAMES_REVERSE.get(cell_type)).values]
-                    ax = sns.scatterplot(data=umap, x='UMAP_1', y='UMAP_2', hue='celltypes_sub', size=1)
+                #     s_proteins = list(datacore.name2ds[name].surface_proteins(cell_type))
+                #     option = b.selectbox(
+                #             f"Surface protein of interest ({len(s_proteins)})",
+                #             s_proteins)
+                #     f = plt.figure(figsize=(5, 3.5), dpi=80)
+                #     umap.celltypes_sub = umap.celltypes_sub.astype('category')
+                #     # norm = plt.Normalize(umap[option].min(), umap[option].max())
+                #     # sm = plt.cm.ScalarMappable(cmap='plasma', norm=norm)
+                #     # sm.set_array([])
+                #     # alpha = [1 if i else 0.2 for i in (umap.celltypes_sub==CELL_NAMES_REVERSE.get(cell_type)).values]
+                #     ax = sns.scatterplot(data=umap, x='UMAP_1', y='UMAP_2', hue='celltypes_sub', size=1)
                     
-                    plt.box(False)
-                    ax.get_legend().remove()
-                    # ax.figure.colorbar(sm)
-                    ax.set_xticks([])
-                    ax.set_yticks([])
-                    ax.set_title(f'Dataset: {name}', fontsize=9)
-                    ax.set_xlabel('UMAP_1', fontsize=7)
-                    ax.set_ylabel('UMAP_2', fontsize=7)
+                #     plt.box(False)
+                #     ax.get_legend().remove()
+                #     # ax.figure.colorbar(sm)
+                #     ax.set_xticks([])
+                #     ax.set_yticks([])
+                #     ax.set_title(f'Dataset: {name}', fontsize=9)
+                #     ax.set_xlabel('UMAP_1', fontsize=7)
+                #     ax.set_ylabel('UMAP_2', fontsize=7)
                     
 
-                    st.pyplot(f)
+                #     st.pyplot(f)
 
         
         

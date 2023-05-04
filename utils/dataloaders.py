@@ -175,10 +175,11 @@ def make_datacore():
 
 @st.experimental_singleton
 def get_umap(name):
-    try:
-        return pd.concat([pd.read_parquet(f'./data/umaps_xy/{name}_{i}.parquet.gzip') for i in range(5)])
-    except:
-        return None
+    return None
+    # try:
+    #     return pd.concat([pd.read_parquet(f'./data/umaps_xy/{name}_{i}.parquet.gzip') for i in range(5)])
+    # except:
+    #     return None
 
     
 
