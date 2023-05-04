@@ -72,35 +72,36 @@ def dataset_page(ds, datacore):
         horizontal_orientation=True
     )
     
-    
-    for name, is_selected in bbox.items():
-        if is_selected:
+    if page == 'Visualization':
+        st.image('./assets/images/under_construction.png')
+    else:
+        for name, is_selected in bbox.items():
+            if is_selected:
 
-            if page == 'Metadata':
-                st.markdown('#### ' + name + ': ' + ds[ds.name==name].title.values[0])
-                st.markdown(DatasetDesc[name])
-                st.markdown(ds[ds.name==name].url.values[0])
+                if page == 'Metadata':
+                    st.markdown('#### ' + name + ': ' + ds[ds.name==name].title.values[0])
+                    st.markdown(DatasetDesc[name])
+                    st.markdown(ds[ds.name==name].url.values[0])
+                    
+                    local_css()
+                    row_json = ds[ds.name==name]
                 
-                local_css()
-                row_json = ds[ds.name==name]
-            
-                st.markdown(
-                    totags([
-                        row_json['cell_count'].values[0] + ' cells', 
-                        str(row_json['patients'].values[0]) + ' patients',
-                        str(row_json['surface_proteins'].values[0]) + ' surface proteins',
-                        str(row_json['transcription_factors'].values[0]) + ' transcription factors',
-                        
-                        ],
-                    ), 
-                    unsafe_allow_html=True)
-                
-                st.markdown('---')
-    
+                    st.markdown(
+                        totags([
+                            row_json['cell_count'].values[0] + ' cells', 
+                            str(row_json['patients'].values[0]) + ' patients',
+                            str(row_json['surface_proteins'].values[0]) + ' surface proteins',
+                            str(row_json['transcription_factors'].values[0]) + ' transcription factors',
+                            
+                            ],
+                        ), 
+                        unsafe_allow_html=True)
+                    
+                    st.markdown('---')
+        
 
     
-            elif page == 'Visualization':
-                st.image('./assets/images/under_construction.png')
+
                 # umap = get_umap(datacore.name2ds[name].name) 
                 # if umap is not None:
                 #     a, b = st.columns(2)
