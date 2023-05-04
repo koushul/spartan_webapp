@@ -14,7 +14,7 @@ import hydralit_components as hc
 
 from utils.dataloaders import get_umap
 option_data = [
-   {'icon': "", 'label':i} for i in ['Metadata', 'Visualizations']]
+   {'icon': "", 'label':i} for i in ['Metadata', 'Visualization']]
 
 # override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'skyblue'}
@@ -99,7 +99,7 @@ def dataset_page(ds, datacore):
     
 
     
-            elif page == 'Visualizations':
+            elif page == 'Visualization':
                 st.image('./assets/images/under_construction.png')
                 # umap = get_umap(datacore.name2ds[name].name) 
                 # if umap is not None:
