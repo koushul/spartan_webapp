@@ -1,3 +1,4 @@
+from navigation.contact import contact_page
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
 from navigation.home import home_page
@@ -6,7 +7,6 @@ from navigation.protein import protein_page
 from navigation.stats import stats_page
 from navigation.tf import tf_page
 from navigation.viral_entry import viral_entry_page
-from utils.dataloaders import Dataset
 from utils.components import footer_style
 from utils.dataloaders import make_datacore
 
@@ -43,7 +43,6 @@ st.markdown("""
         </style>
         """, unsafe_allow_html=True)
 
-    
 
 Image.MAX_IMAGE_PIXELS = None
 
@@ -61,16 +60,12 @@ STATS = "Usage"
 datacore =  make_datacore()()
 ds = datacore.metadata
 
-
-
-
 hide_menu_style = """
         <style>
         #MainMenu {visibility: hidden;}
         </style>
         """
 # st.markdown(hide_menu_style, unsafe_allow_html=True)
-
 
 icons = """<style>
         img {
@@ -280,26 +275,9 @@ chosen_tab = hc.option_bar(
 if chosen_tab == HOME:
     home_page()
     
+elif chosen_tab == CONTACT:
+    contact_page()
     
-
-if chosen_tab == CONTACT:
-    st.markdown("<h2 style='text-align: center; color: black;'>Contact Us</h1>", unsafe_allow_html=True)  
-    
-    a, b = st.columns([0.8, 1.5])
-    a.image('https://images.squarespace-cdn.com/content/v1/60a2b00345921d78f1476b6f/0836bfa9-1dd9-4b79-b604-b411c63c7f9a/TheAssembly_TriggsPhotography_Wexford_Exterior-1.jpg')
-    a.markdown("""<span style="font-size:20px;">University of Pittsburgh, UPMC Hillman Cancer Center, Assembly Building</span>""", unsafe_allow_html=True)
-
-    b.markdown("""<div style="width: 100%"><iframe width="100%" height="700" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=5051%20Centre%20Avenue%20Pittsburgh,%20PA%2015213+(My%20Business%20Name)&amp;t=p&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/distance-area-calculator.html">measure distance on map</a></iframe></div>""", unsafe_allow_html=True)
-    # b.write('Hillman Cancer Center, 5051 Centre Avenue Pittsburgh, PA 15213') 
-    
-    a.markdown('##### If you have any questions or feedback, please feel free to contact us:')
-    a.markdown("""<span style="font-size:18px;">Hatice Osmanbeyoglu<br>Principal Investigator<br>✉️ osmanbeyogluhu@pitt.edu</span>""", unsafe_allow_html=True)
-    a.markdown("""<span style="font-size:18px;">Koushul Ramjattun<br>Graduate Researcher<br>✉️ kor11@pitt.edu</span>""", unsafe_allow_html=True)
-    a.markdown("""<span style="font-size:18px;">Xiaojun Ma<br>Senior Software Engineer<br>✉️ xim33@pitt.edu</span>""", unsafe_allow_html=True)
-    
-    
-    
-        
 elif chosen_tab == DATASET:
     dataset_page(ds, datacore)
     

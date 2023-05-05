@@ -1,16 +1,9 @@
-from matplotlib import pyplot as plt
 import streamlit as st
-
-from st_aggrid import AgGrid, GridUpdateMode
-from st_aggrid.grid_options_builder import GridOptionsBuilder
-from texts.references import CELL_NAMES_REVERSE
 
 from utils.components import local_css
 from texts.descriptions import DatasetDesc, Desc
 
 import os
-from PIL import Image
-import seaborn as sns
 import hydralit_components as hc
 
 option_data = [
@@ -28,8 +21,6 @@ def totags(tags):
     return t
 
 
-from st_aggrid import JsCode
-
 def dataset_page(ds, datacore):
         
     st.markdown(f'### Dataset Browser')
@@ -44,11 +35,7 @@ def dataset_page(ds, datacore):
     pt.markdown('##### Proteins')
     tf.markdown('##### TFs')
     pm.markdown('##### PMID')
-    
-    
-    
-    # st.write(ds2)
-    
+
     bbox = {}
     
     for name, patients, cells, proteins, tfs, pmid in ds2.values:
@@ -57,7 +44,6 @@ def dataset_page(ds, datacore):
         c.write(cells)
         pt.write(str(proteins))
         tf.write(str(tfs))
-        # pm.write(str(pmid))
         pm.markdown(f'[{pmid}](https://pubmed.ncbi.nlm.nih.gov/{pmid}/)')
         
 
@@ -68,13 +54,9 @@ def dataset_page(ds, datacore):
         option_definition=option_data,
         title='',
         override_theme=over_theme,
-        # font_styling=font_fmt,
         horizontal_orientation=True
     )
     
-    # if page == 'Visualization':
-    #     st.image('./assets/images/under_construction.png')
-
     for name, is_selected in bbox.items():
         if is_selected:
 
