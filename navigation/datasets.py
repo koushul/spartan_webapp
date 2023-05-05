@@ -106,31 +106,30 @@ def dataset_page(ds, datacore):
 
                 st.markdown(f'#### {name}')
                 
-                # try:
-                umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
-                st.write(os.path.isfile(umap_img))
-                st.write(os.path.isfile(severity_img))
-                
-                
-                # umap, sev = st.columns(2)
-                
-                # umap.caption('UMAP by Celltype')
-                # umap.image(umap_img)
-                # sev.caption('UMAP by Severity')
-                # sev.image(severity_img)
-                
-                # selected_protein = st.selectbox(
-                #         f"Surface protein of interest ({len(s_proteins)})",
-                #         s_proteins)
-                
-                    # st.image(datacore.name2ds[name].get_feature_plots(selected_protein))
+                try:
+                    umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
+                    umap, sev = st.columns(2)
+                    
+                    if os.path.isfile(umap_img):
+                        umap.caption('UMAP by Celltype')
+                        with st.spinner('Coloring by Celltype...'):
+                            umap.image(umap_img)
+                        
+                    if os.path.isfile(severity_img):
+                        sev.caption('UMAP by Severity')
+                        with st.spinner('Coloring by Severity...'):
+                            sev.image(severity_img)
+                    
+                    selected_protein = st.selectbox(
+                            f"Surface protein of interest ({len(s_proteins)})",
+                            s_proteins)
+                    
+                    st.image(datacore.name2ds[name].get_feature_plots(selected_protein))
                 
                     
-
                     
-                    
-                # except:
-                #     st.error('No UMAPs available for this dataset')
+                except:
+                    st.error('No UMAPs available for this dataset')
                 
                 st.markdown('---')
                 
