@@ -8,6 +8,7 @@ from texts.references import CELL_NAMES_REVERSE
 from utils.components import local_css
 from texts.descriptions import DatasetDesc, Desc
 
+import os
 from PIL import Image
 import seaborn as sns
 import hydralit_components as hc
@@ -107,19 +108,22 @@ def dataset_page(ds, datacore):
                 
                 # try:
                 umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
+                st.write(os.path.isfile(umap_img))
+                st.write(os.path.isfile(severity_img))
                 
-                umap, sev = st.columns(2)
                 
-                umap.caption('UMAP by Celltype')
-                umap.image(umap_img)
-                sev.caption('UMAP by Severity')
-                sev.image(severity_img)
+                # umap, sev = st.columns(2)
                 
-                selected_protein = st.selectbox(
-                        f"Surface protein of interest ({len(s_proteins)})",
-                        s_proteins)
+                # umap.caption('UMAP by Celltype')
+                # umap.image(umap_img)
+                # sev.caption('UMAP by Severity')
+                # sev.image(severity_img)
                 
-                st.image(datacore.name2ds[name].get_feature_plots(selected_protein))
+                # selected_protein = st.selectbox(
+                #         f"Surface protein of interest ({len(s_proteins)})",
+                #         s_proteins)
+                
+                    # st.image(datacore.name2ds[name].get_feature_plots(selected_protein))
                 
                     
 
