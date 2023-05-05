@@ -12,12 +12,11 @@ from PIL import Image
 import seaborn as sns
 import hydralit_components as hc
 
-from utils.dataloaders import get_umap
 option_data = [
    {'icon': "", 'label':i} for i in ['Metadata', 'Visualization']]
 
 # override the theme, else it will use the Streamlit applied theme
-over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'skyblue'}
+over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'darkviolet'}
 font_fmt = {'font-class':'h3','font-size':'50%'}
 
 def totags(tags):
@@ -72,66 +71,65 @@ def dataset_page(ds, datacore):
         horizontal_orientation=True
     )
     
-    if page == 'Visualization':
-        st.image('./assets/images/under_construction.png')
-    else:
-        for name, is_selected in bbox.items():
-            if is_selected:
+    # if page == 'Visualization':
+    #     st.image('./assets/images/under_construction.png')
 
-                if page == 'Metadata':
-                    st.markdown('#### ' + name + ': ' + ds[ds.name==name].title.values[0])
-                    st.markdown(DatasetDesc[name])
-                    st.markdown(ds[ds.name==name].url.values[0])
-                    
-                    local_css()
-                    row_json = ds[ds.name==name]
+    for name, is_selected in bbox.items():
+        if is_selected:
+
+            if page == 'Metadata':
+                st.markdown('#### ' + name + ': ' + ds[ds.name==name].title.values[0])
+                st.markdown(DatasetDesc[name])
+                st.markdown(ds[ds.name==name].url.values[0])
                 
-                    st.markdown(
-                        totags([
-                            row_json['cell_count'].values[0] + ' cells', 
-                            str(row_json['patients'].values[0]) + ' patients',
-                            str(row_json['surface_proteins'].values[0]) + ' surface proteins',
-                            str(row_json['transcription_factors'].values[0]) + ' transcription factors',
-                            
-                            ],
-                        ), 
-                        unsafe_allow_html=True)
-                    
-                    st.markdown('---')
-        
+                local_css()
+                row_json = ds[ds.name==name]
+            
+                st.markdown(
+                    totags([
+                        row_json['cell_count'].values[0] + ' cells', 
+                        str(row_json['patients'].values[0]) + ' patients',
+                        str(row_json['surface_proteins'].values[0]) + ' surface proteins',
+                        str(row_json['transcription_factors'].values[0]) + ' transcription factors',
+                        
+                        ],
+                    ), 
+                    unsafe_allow_html=True)
+                
+                st.markdown('---')
+                
+                
+            elif page == 'Visualization':
+                                    
+                s_proteins = list(datacore.name2ds[name].total_surface_proteins)
 
-    
-
-                # umap = get_umap(datacore.name2ds[name].name) 
-                # if umap is not None:
-                #     a, b = st.columns(2)
+                st.markdown(f'#### {name}')
+                
+                try:
+                    umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
                     
-                #     cell_types = datacore.name2ds[name].celltypes
-                #     cell_type = a.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
-    
-                #     s_proteins = list(datacore.name2ds[name].surface_proteins(cell_type))
-                #     option = b.selectbox(
-                #             f"Surface protein of interest ({len(s_proteins)})",
-                #             s_proteins)
-                #     f = plt.figure(figsize=(5, 3.5), dpi=80)
-                #     umap.celltypes_sub = umap.celltypes_sub.astype('category')
-                #     # norm = plt.Normalize(umap[option].min(), umap[option].max())
-                #     # sm = plt.cm.ScalarMappable(cmap='plasma', norm=norm)
-                #     # sm.set_array([])
-                #     # alpha = [1 if i else 0.2 for i in (umap.celltypes_sub==CELL_NAMES_REVERSE.get(cell_type)).values]
-                #     ax = sns.scatterplot(data=umap, x='UMAP_1', y='UMAP_2', hue='celltypes_sub', size=1)
+                    umap, sev = st.columns(2)
                     
-                #     plt.box(False)
-                #     ax.get_legend().remove()
-                #     # ax.figure.colorbar(sm)
-                #     ax.set_xticks([])
-                #     ax.set_yticks([])
-                #     ax.set_title(f'Dataset: {name}', fontsize=9)
-                #     ax.set_xlabel('UMAP_1', fontsize=7)
-                #     ax.set_ylabel('UMAP_2', fontsize=7)
+                    umap.caption('UMAP by Celltype')
+                    umap.image(umap_img)
+                    sev.caption('UMAP by Severity')
+                    sev.image(severity_img)
+                    
+                    selected_protein = st.selectbox(
+                            f"Surface protein of interest ({len(s_proteins)})",
+                            s_proteins)
+                    
+                    st.image(datacore.name2ds[name].get_feature_plots(selected_protein))
+                
                     
 
-                #     st.pyplot(f)
+                    
+                    
+                except:
+                    st.error('No UMAPs available for this dataset')
+                
+                st.markdown('---')
+                
 
         
         

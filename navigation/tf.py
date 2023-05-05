@@ -13,7 +13,6 @@ from io import BytesIO
 from PIL import Image
 import seaborn as sns
 import matplotlib.pyplot as plt
-from utils.dataloaders import get_umap
 
 tf_bar = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'blueviolet'}
 

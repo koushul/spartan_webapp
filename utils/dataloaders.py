@@ -10,6 +10,13 @@ cutsize_to = 10000
 
 fuzzy_match = lambda root, fname: list(root.glob(fname))[0]
 
+gse2auth = {
+    'GSE161918' : 'LIU',
+    'E-MTAB-9357' : 'SU',
+    'GSE155673' : 'AR',
+    'GSE155224' : 'UN',
+    'E-MTAB-10026' : 'ST'
+}
 
 class Dataset:
 
@@ -18,6 +25,8 @@ class Dataset:
         self.name = self.root.name
         self.celltypes = [CELL_NAMES.get(i.name, i.name) for i in self.root.iterdir()]
         self.celltypes = list(filter(lambda x: x != "metadata.toml", self.celltypes))
+        self.celltypes = list(filter(lambda x: x != "featurePlots", self.celltypes))
+        
         self.umap = str(Path('./data/umaps/') / f'UMAP_{self.name}.png')
     
     def get_tf_pvals(self, celltype: str, protein: str) -> Tuple[float, float]:
@@ -92,6 +101,16 @@ class Dataset:
         csv = list((base).glob(f"{tf}~proteins_highCorr_corrcut_*.csv"))[0]
         return (str(csv), str(img))
     
+    
+    def get_feature_plots(self, protein: str) -> str:
+        img = self.root / 'featurePlots' / f'{gse2auth[self.name]}_featurePlot_{protein}.png'
+        return str(img)
+        
+    def get_umap_severity(self) -> Tuple[str, str]:
+        umap = self.root / 'featurePlots' / f'{gse2auth[self.name]}_UMAP.png'
+        severity = self.root / 'featurePlots' / f'{gse2auth[self.name]}_severityPlot.png'
+        return str(umap), str(severity)
+        
     
     def get_tf_df(self, celltype: str, protein: str) -> pd.DataFrame:
         celltype = CELL_NAMES_REVERSE[celltype]
@@ -169,17 +188,7 @@ class Datacore:
         self.metadata = pd.DataFrame([toml.load(ds.root / 'metadata.toml') for ds in self.datasets])
 
 
-@st.experimental_singleton
+# @st.experimental_singleton
 def make_datacore():
     return Datacore
-
-@st.experimental_singleton
-def get_umap(name):
-    return None
-    # try:
-    #     return pd.concat([pd.read_parquet(f'./data/umaps_xy/{name}_{i}.parquet.gzip') for i in range(5)])
-    # except:
-    #     return None
-
-    
 
