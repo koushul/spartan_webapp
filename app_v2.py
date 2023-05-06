@@ -7,7 +7,7 @@ from navigation.protein import protein_page
 from navigation.stats import stats_page
 from navigation.tf import tf_page
 from navigation.viral_entry import viral_entry_page
-from utils.components import footer_style, footer, icons
+from utils.components import footer_style, footer
 from utils.dataloaders import make_datacore
 from PIL import Image
 
