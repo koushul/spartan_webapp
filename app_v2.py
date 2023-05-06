@@ -7,19 +7,16 @@ from navigation.protein import protein_page
 from navigation.stats import stats_page
 from navigation.tf import tf_page
 from navigation.viral_entry import viral_entry_page
-from utils.components import footer_style
+from utils.components import footer_style, footer, icons
 from utils.dataloaders import make_datacore
-
 from PIL import Image
+
 import streamlit as st
-
 import hydralit_components as hc
-
 
 st.set_page_config(
         page_title='COVID-19db of Immune Cell States',
         page_icon="./assets/logos/spartan.png",
-        # layout="wide",
         initial_sidebar_state="expanded",
 )
 
@@ -56,183 +53,10 @@ DOC = "Docs"
 CONTACT = "Contact"
 STATS = "Usage"
 
-
 datacore =  make_datacore()()
 ds = datacore.metadata
 
-hide_menu_style = """
-        <style>
-        #MainMenu {visibility: hidden;}
-        </style>
-        """
-# st.markdown(hide_menu_style, unsafe_allow_html=True)
-
-icons = """<style>
-        img {
-            max-width: 100%;
-        
-        }
-        
-        .headerStyle {
-            transition: transform .2s;
-        }
-        
-        .headerStyle:hover {
-            
-             transform: scale(1.5);
-            transition: 0.2s;
-        }
-        .image1 { 
-            padding: 10px;
-             transition: transform .2s;
-        }
-        .image2 
-        { 
-            padding: 10px;
-             transition: transform .2s;
-        }
-        .image1:hover {  
-            ##border: 4px solid green;
-            ##border-radius: 15px;
-             transform: scale(1.5);
-            transition: 0.2s;
-        }
-
-        .image2:hover {  
-            ##border: 4px solid green;
-            ##border-radius: 15px;
-             transform: scale(1.5);
-            transition: 0.2s;
-        }
-        
-        a:link,
-        a:visited {
-            color: blue;
-            background-color: transparent;
-            text-decoration: underline;
-        }
-
-        a2:hover {
-            border-style: solid;
-            },
-        a:active {
-            color: red;
-            background-color: transparent;
-            text-decoration: underline;
-        }
-    
-        .footer {
-            position: fixed;
-            width: 100%;
-            background-color: white;
-            color: black;
-            display: block;
-            text-align: center;
-            padding: 100px;
-            top: 0px;
-        }
-</style
-<div class="footer">
-        <a href="https://scholar.google.com/citations?user=YzCsmdgAAAAJ&hl=en&inst=7044483460239389945"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Scholar_logo.svg/512px-Google_Scholar_logo.svg.png"
-                alt="github" width="60" height="60">
-        </a>
-        <a href="https://www.instagram.com/osmanbeyoglulab/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png"
-                alt="github" width="60" height="60">
-        </a>
-        <a href="https://github.com/osmanbeyoglulab"><img class="image2" src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
-                alt="github" width="60" height="60">
-        </a>
-        <a href="https://twitter.com/hosmanbeyoglu?lang=en"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/f/f2/Logo_Twitter.png"
-            alt="twitter" width="65" height="60"></a>
-</div>
-""" ## Footer
-footer="""<style>
-img {
-            max-width: 100%;
-        
-        }
-        
-        .headerStyle {
-            transition: transform .2s;
-        }
-        
-        .headerStyle:hover {
-            
-             transform: scale(1.5);
-            transition: 0.2s;
-        }
-        .image1 { 
-            padding: 10px;
-             transition: transform .2s;
-        }
-        .image2 
-        { 
-            padding: 10px;
-             transition: transform .2s;
-        }
-        .image1:hover {  
-            ##border: 4px solid green;
-            ##border-radius: 15px;
-             transform: scale(1.5);
-            transition: 0.2s;
-        }
-
-        .image2:hover {  
-            ##border: 4px solid green;
-            ##border-radius: 15px;
-             transform: scale(1.5);
-            transition: 0.2s;
-        }
-        
-        a:link,
-        a:visited {
-            color: blue;
-            background-color: transparent;
-            text-decoration: underline;
-        }
-
-        a2:hover {
-            border-style: solid;
-            },
-        a:active {
-            color: red;
-            background-color: transparent;
-            text-decoration: underline;
-        }
-.footer {
-position: relative;
-width: 100%;
-left: 0;
-bottom: 0;
-background-color: white;
-margin-top: auto;
-color: black;
-padding: 24px;
-text-align: center;
-}
-</style>
-<div class="footer">
-<p style="font-size:  13px">© 2023 Osmanbeyoglulab.com. All rights reserved.</p>
-<a href="https://hillman.upmc.com/"><img class="image2" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7c7pXIkFgMPVM2csVE6MenUFLEsgF5beCeMJzogkPkXPC4xEo9OTHf6nVpqsb3PvisRk&usqp=CAU"alt="github" width="70" height=50"></a>
-<a href="https://www.pitt.edu/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/en/thumb/f/fb/University_of_Pittsburgh_seal.svg/300px-University_of_Pittsburgh_seal.svg.png"alt="github" width="45" height="45"></a>
-</a><a href="https://github.com/osmanbeyoglulab"><img class="image2" src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="github" width="45" height="45"></a>
-<a href="https://twitter.com/hosmanbeyoglu?lang=en"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg"alt="twitter" width="45" height="40"></a>
-<a href="https://scholar.google.com/citations?user=YzCsmdgAAAAJ&hl=en&inst=7044483460239389945"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Scholar_logo.svg/512px-Google_Scholar_logo.svg.png"alt="github" width="45" height="45"></a>
-<a href="https://www.instagram.com/osmanbeyoglulab/"><img class="image2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/132px-Instagram_logo_2016.svg.png"alt="github" width="45" height="45"></a>
-</div>
-"""
-
-# """        """
-
-footer_style = """
-    <style>
-        MainMenu {visibility: hidden;}
-        footer {visibility: hidden;}
-    </style>
-"""
-
 st.markdown(footer_style, unsafe_allow_html=True) ## Footer
-
 
 tabs = [
     HOME,
@@ -267,10 +91,6 @@ chosen_tab = hc.option_bar(
     override_theme=over_theme,
     horizontal_orientation=True)
 
-# st.markdown('----')
-    
-#######--------------------#######
-#######--------------------#######
 
 if chosen_tab == HOME:
     home_page()
@@ -298,6 +118,7 @@ elif chosen_tab == DOC:
     
 elif chosen_tab == STATS:
     stats_page()
+
 
 for i in range(6):
     st.markdown('#')

@@ -9,7 +9,6 @@ import hydralit_components as hc
 option_data = [
    {'icon': "", 'label':i} for i in ['Metadata', 'Visualization']]
 
-# override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'darkviolet'}
 font_fmt = {'font-class':'h3','font-size':'50%'}
 
@@ -85,12 +84,14 @@ def dataset_page(ds, datacore):
             elif page == 'Visualization':
                                     
                 s_proteins = list(datacore.name2ds[name].total_surface_proteins)
-
                 st.markdown(f'#### {name}')
+                selected_protein = st.selectbox(
+                    f"Surface protein of interest ({len(s_proteins)})",
+                    s_proteins)
                 
                 try:
                     umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
-                    umap, sev = st.columns(2)
+                    umap, sev, prot = st.columns(3)
                     
                     if os.path.isfile(umap_img):
                         umap.caption('UMAP by Celltype')
@@ -101,15 +102,11 @@ def dataset_page(ds, datacore):
                         sev.caption('UMAP by Severity')
                         with st.spinner('Coloring by Severity...'):
                             sev.image(severity_img)
-                    
-                    selected_protein = st.selectbox(
-                            f"Surface protein of interest ({len(s_proteins)})",
-                            s_proteins)
-                    
-                    st.image(datacore.name2ds[name].get_feature_plots(selected_protein))
-                
-                    
-                    
+                            
+                    prot.caption('UMAP by Protein Expression')
+                    with st.spinner('Coloring by Protein...'):                    
+                        prot.image(datacore.name2ds[name].get_feature_plots(selected_protein))
+            
                 except:
                     st.error('No UMAPs available for this dataset')
                 
