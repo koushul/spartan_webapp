@@ -80,32 +80,39 @@ def dataset_page(ds, datacore):
                 
                 st.markdown('---')
                 
-                
             elif page == 'Visualization':
-                                    
-                s_proteins = list(datacore.name2ds[name].total_surface_proteins)
-                st.markdown(f'#### {name}')
-                selected_protein = st.selectbox(
-                    f"Surface protein of interest ({len(s_proteins)})",
-                    s_proteins)
-                
                 try:
                     umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
+                    
+                    f, _, sa = st.columns(3)          
+                    s_proteins = list(datacore.name2ds[name].total_surface_proteins)
+                    f.markdown(f'### {name}')
+                    if os.path.isfile(umap_img):
+                        selected_protein = sa.selectbox(
+                            f"Surface protein of interest ({len(s_proteins)})",
+                            s_proteins)
+                        
                     umap, sev, prot = st.columns(3)
                     
                     if os.path.isfile(umap_img):
-                        umap.caption('UMAP by Celltype')
-                        with st.spinner('Coloring by Celltype...'):
-                            umap.image(umap_img)
+                        with umap:
+                            with st.spinner('🎨 Coloring by Celltype...'):
+                                umap.image(umap_img)
+                                umap.caption('UMAP by Celltype')
+                                
                         
                     if os.path.isfile(severity_img):
-                        sev.caption('UMAP by Severity')
-                        with st.spinner('Coloring by Severity...'):
-                            sev.image(severity_img)
+                        with sev:
+                            with st.spinner('🎨 Coloring by Severity...'):
+                                sev.image(severity_img)
+                                sev.caption('UMAP by Severity')
+                                
                             
-                    prot.caption('UMAP by Protein Expression')
-                    with st.spinner('Coloring by Protein...'):                    
-                        prot.image(datacore.name2ds[name].get_feature_plots(selected_protein))
+                    with prot:
+                        with st.spinner('🎨 Coloring by Protein...'):                    
+                            prot.image(datacore.name2ds[name].get_feature_plots(selected_protein))
+                            prot.caption('UMAP by Protein Expression')
+                            
             
                 except:
                     st.error('No UMAPs available for this dataset')
