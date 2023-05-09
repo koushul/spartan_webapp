@@ -4,14 +4,6 @@ from utils.components import ridge_plot
 import hydralit_components as hc
 
 def viral_entry_page(datacore):
-    """
-    protein-TFs_higCorr_viral/Figure
-    mRNA-TFs_higCorr_viral/Figure
-    generate density plots for mRNA(viral entry) from mRNAs_all_…viral.csv and get pvalue from mRNA_wilcox…_viral.csv
-    generate density plots for protein(viral entry) from proteinss_all_…viral.csv and get pvalue from protein_wilcox…_viral.csv
-        some of the data file may not exist sine no viral protein or genes for that dataset or celltype
-    
-    """
     st.markdown(f'### Analysis by viral entry related factors')
     
     st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors.            
@@ -41,9 +33,8 @@ def viral_entry_page(datacore):
     show_protein_density  = a.checkbox('Viral-entry related factors protein distributions')
     show_mrna_density = a.checkbox('Viral-entry related factors mRNA expression distributions')
     
-    
-    
     st.markdown('---')  
+    st.caption('Note: Only viral entry related factors present in each dataset is shown.\n')
 
     if sbs:
         if show_protein_tf or show_mrna_tf:
@@ -70,7 +61,7 @@ def viral_entry_page(datacore):
                         csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
                         st.image(img)
                         
-        st.markdown('---')
+        # st.markdown('---')
             
             
         if show_protein_density:
@@ -78,13 +69,13 @@ def viral_entry_page(datacore):
                 with cols:
                     with hc.HyLoader(f'🎨 Painting {protein}', hc.Loaders.standard_loaders,index=[3]):
                         df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, protein)
-                        img = ridge_plot(df, xlabel=f'{protein} expression', column=None)
+                        img = ridge_plot(df, xlabel=f'{protein} surface protein expression', column=None)
                         xx, yy = img.size
                         dd = 2
                         xx = int(xx/dd)
                         yy = int(yy/dd)
                         st.image(img.resize((xx, yy)))
-        st.markdown('---')
+        # st.markdown('---')
         
         if show_mrna_tf:
             # st.markdown('#### Viral protein-TF correlations')
@@ -97,7 +88,7 @@ def viral_entry_page(datacore):
                         csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
                         st.image(img)
                         
-        st.markdown('---')
+        # st.markdown('---')
             
 
             
@@ -106,7 +97,7 @@ def viral_entry_page(datacore):
                 with cols:
                     with hc.HyLoader(f'🎨 Painting {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                         df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, option_protein)
-                        img = ridge_plot(df, xlabel=f'{option_protein} expression', column=None)
+                        img = ridge_plot(df, xlabel=f'{option_protein} mRNA expression', column=None)
                         xx, yy = img.size
                         dd = 2
                         xx = int(xx/dd)

@@ -81,6 +81,7 @@ def dataset_page(ds, datacore):
                 st.markdown('---')
                 
             elif page == 'Visualization':
+                st.caption('Note: UMAPs were generated using mRNA expression data.')
                 try:
                     umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
                     
@@ -98,20 +99,20 @@ def dataset_page(ds, datacore):
                         with umap:
                             with st.spinner('🎨 Coloring by Celltype...'):
                                 umap.image(umap_img)
-                                umap.caption('UMAP by Celltype')
+                                umap.caption('Color by Celltype')
                                 
                         
                     if os.path.isfile(severity_img):
                         with sev:
                             with st.spinner('🎨 Coloring by Severity...'):
                                 sev.image(severity_img)
-                                sev.caption('UMAP by Severity')
+                                sev.caption('Color by Severity')
                                 
                             
                     with prot:
                         with st.spinner('🎨 Coloring by Protein...'):                    
                             prot.image(datacore.name2ds[name].get_feature_plots(selected_protein))
-                            prot.caption('UMAP by Protein Expression')
+                            prot.caption('Color by Protein Expression')
                             
             
                 except:
