@@ -17,7 +17,6 @@ def viral_entry_page(datacore):
     datasets = datacore.name2ds.keys()
     aa.caption('Select a dataset, the cell type and either viral entry related surface proteins or mRNAs.')
 #     ba.caption('Note: Only viral entry related factors present in each dataset and cell type are shown.')
-    ba.caption('Note: Number of cells present per cell type is shown in parenthesis.')
         
     p_ds = a.selectbox(f'Dataset ({len(datasets)-1})', filter(lambda x: x!='GSE155673', datasets), 0)
     dss = datacore.name2ds[p_ds]
