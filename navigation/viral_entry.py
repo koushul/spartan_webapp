@@ -49,7 +49,7 @@ def viral_entry_page(datacore):
                 df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, option_protein)
                 img = ridge_plot(df, xlabel=f'{option_protein} surface protein expression', column=None)
                 xx, yy = img.size
-                dd = 4
+                dd = 3
                 xx = int(xx/dd)
                 yy = int(yy/dd)
                 st.image(img.resize((xx, yy)))
@@ -57,11 +57,7 @@ def viral_entry_page(datacore):
         with b:
             with hc.HyLoader(f'🎨 Correlating {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                 csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
-                xx, yy = img.size
-                dd = 4
-                xx = int(xx/dd)
-                yy = int(yy/dd)
-                st.image(img.resize((xx, yy)))
+                st.image(img)
                 
             
         
@@ -76,7 +72,7 @@ def viral_entry_page(datacore):
                 df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, option_protein)
                 img = ridge_plot(df, xlabel=f'{option_protein} mRNA expression', column=None)
                 xx, yy = img.size
-                dd = 4
+                dd = 3
                 xx = int(xx/dd)
                 yy = int(yy/dd)
                 st.image(img.resize((xx, yy)))
@@ -85,11 +81,7 @@ def viral_entry_page(datacore):
         with b:
             with hc.HyLoader(f'🎨 Correlating {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                 csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
-                xx, yy = img.size
-                dd = 4
-                xx = int(xx/dd)
-                yy = int(yy/dd)
-                st.image(img.resize((xx, yy)))
+                st.image(img)
         
 
     else:
