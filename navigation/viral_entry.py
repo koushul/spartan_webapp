@@ -23,7 +23,7 @@ def viral_entry_page(datacore):
     cell_types = dss.celltypes
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     
-    st.write(f'Plots for viral entry related surface proteins in {cell_type}')
+    st.write(f'Plots for viral entry related factors in {cell_type}')
     
     
     with ca:
