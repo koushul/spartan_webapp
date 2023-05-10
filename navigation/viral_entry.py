@@ -6,7 +6,7 @@ import hydralit_components as hc
 def viral_entry_page(datacore):
     st.markdown(f'### Analysis by viral entry related factors')
     
-    st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors.            
+    st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors. Users can explore the protein or mRNA expresson distribution patterns for select genes for a particular cell type, depending on availability.            
 """)
     
     st.caption('Click on any image to enlarge it.')
@@ -16,7 +16,7 @@ def viral_entry_page(datacore):
     
     datasets = datacore.name2ds.keys()
     aa.caption('Select a dataset, the cell type and either viral entry related surface proteins or mRNAs.')
-    ba.caption('Note: Only viral entry related factors present in each dataset and cell type are shown.')
+#     ba.caption('Note: Only viral entry related factors present in each dataset and cell type are shown.')
         
     p_ds = a.selectbox(f'Dataset ({len(datasets)-1})', filter(lambda x: x!='GSE155673', datasets), 0)
     dss = datacore.name2ds[p_ds]
