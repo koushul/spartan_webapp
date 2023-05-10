@@ -2,7 +2,6 @@ import streamlit as st
 
 from utils.components import ridge_plot
 import hydralit_components as hc
-import  streamlit_toggle as tog
 
 def viral_entry_page(datacore):
     st.markdown(f'### Analysis by viral entry related factors')
