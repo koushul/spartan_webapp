@@ -49,7 +49,7 @@ def viral_entry_page(datacore):
                 df = datacore.name2ds[p_ds].get_viral_protein_df(cell_type, option_protein)
                 img = ridge_plot(df, xlabel=f'{option_protein} surface protein expression', column=None)
                 xx, yy = img.size
-                dd = 2
+                dd = 4
                 xx = int(xx/dd)
                 yy = int(yy/dd)
                 st.image(img.resize((xx, yy)))
@@ -72,7 +72,7 @@ def viral_entry_page(datacore):
                 df = datacore.name2ds[p_ds].get_viral_mrna_df(cell_type, option_protein)
                 img = ridge_plot(df, xlabel=f'{option_protein} mRNA expression', column=None)
                 xx, yy = img.size
-                dd = 2
+                dd = 4
                 xx = int(xx/dd)
                 yy = int(yy/dd)
                 st.image(img.resize((xx, yy)))
