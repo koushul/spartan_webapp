@@ -6,7 +6,7 @@ import hydralit_components as hc
 def viral_entry_page(datacore):
     st.markdown(f'### Analysis by viral entry related factors')
     
-    st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors. Users can explore the protein or mRNA expresson distribution patterns for select genes for a particular cell type, depending on availability.            
+    st.info("""Search for viral entry related factors by cell type. COVID-19db supports exploring the proteins, TFs, mRNAs and mRNA-TF profiles for different viral entry related factors. Users can explore the protein or mRNA expression distribution patterns for select genes for a particular cell type, depending on availability.            
 """)
     
     st.caption('Click on any image to enlarge it.')
