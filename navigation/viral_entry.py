@@ -34,7 +34,7 @@ def viral_entry_page(datacore):
     
     a, b = st.columns(2)
     
-    if protein_only and option_protein:
+    if protein_only == 'Surface Proteins' and option_protein:
         a.caption('protein distributions')
         b.caption('protein-TF correlations')
         
@@ -56,7 +56,7 @@ def viral_entry_page(datacore):
             
         
         
-    elif option_protein:
+    elif protein_only == 'mRNAs' and option_protein:
         a.caption('mRNA expression distributions')
         b.caption('mRNA-TF correlations')
         
