@@ -74,10 +74,10 @@ option_data = [
    {'icon':"💾",'label':DATASET},
    {'icon': "🔎", 'label':PROTEINS},
    {'icon': "🔎", 'label':TF},
-   {'icon': "🔍", 'label':VIRAL_ENTRY},
-   {'icon': "💼 💼", 'label':"Multi datasets"},
-   {'icon': "📋", 'label':DOC},
-   {'icon': "📩", 'label':CONTACT},
+   {'icon': "🌡", 'label':VIRAL_ENTRY},
+   {'icon': "🎛", 'label':"Multi datasets"},
+   {'icon': "📑", 'label':DOC},
+   {'icon': "📞", 'label':CONTACT},
    {'icon': "📈", 'label':STATS},
 ]
 
