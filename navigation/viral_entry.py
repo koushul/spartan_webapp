@@ -57,7 +57,11 @@ def viral_entry_page(datacore):
         with b:
             with hc.HyLoader(f'🎨 Correlating {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                 csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
-                st.image(img)
+                xx, yy = img.size
+                dd = 4
+                xx = int(xx/dd)
+                yy = int(yy/dd)
+                st.image(img.resize((xx, yy)))
                 
             
         
@@ -81,7 +85,11 @@ def viral_entry_page(datacore):
         with b:
             with hc.HyLoader(f'🎨 Correlating {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                 csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
-                st.image(img)
+                xx, yy = img.size
+                dd = 4
+                xx = int(xx/dd)
+                yy = int(yy/dd)
+                st.image(img.resize((xx, yy)))
         
 
     else:
