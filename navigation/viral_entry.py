@@ -59,10 +59,8 @@ def viral_entry_page(datacore):
             with hc.HyLoader(f'🎨 Correlating {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                 csv, img = datacore.name2ds[p_ds].get_viral_protein_data(cell_type, option_protein)
                 st.image(img)
-                st.write(csv)
                 
-            
-        
+         
         
     elif protein_only == 'mRNAs' and option_protein:
         a.caption('mRNA expression distributions')
