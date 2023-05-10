@@ -24,16 +24,9 @@ def viral_entry_page(datacore):
     cell_types = dss.celltypes
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
     with ca:
-        protein_only = tog.st_toggle_switch(label=f'Protein | mRNAs',
-                    key="Key1", 
-                    default_value=True, 
-                    label_after = False, 
-                    inactive_color = '#D3D3D3', 
-                    active_color="#11567f", 
-                    track_color="#29B5E8"
-                    )
+        protein_only = st.radio(f'Viral entry related factors', options=['Surface Proteins', 'mRNAs'])
     
-    if protein_only:
+    if protein_only == 'Surface Proteins':
         option_protein = c.selectbox('Proteins', dss.get_viral_proteins(cell_type))
     else:
         option_protein = c.selectbox('mRNAs', dss.get_viral_mrnas(cell_type))
