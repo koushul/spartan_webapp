@@ -23,6 +23,10 @@ def viral_entry_page(datacore):
     dss = datacore.name2ds[p_ds]
     cell_types = dss.celltypes
     cell_type = b.selectbox(f'Cell Type ({len(cell_types)})', cell_types, 0)
+    
+    st.write(f'Plots for viral entry related surface proteins in {cell_type}')
+    
+    
     with ca:
         protein_only = st.radio(f'Viral entry related factors', options=['Surface Proteins', 'mRNAs'])
     
@@ -34,7 +38,10 @@ def viral_entry_page(datacore):
     
     a, b = st.columns(2)
     
+    
     if protein_only == 'Surface Proteins' and option_protein:
+        
+        
         a.caption('protein distributions')
         b.caption('protein-TF correlations')
         
