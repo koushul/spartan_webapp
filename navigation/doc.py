@@ -35,6 +35,20 @@ def doc_page():
         
         m.image('./assets/images/documentation2.png')
         
+        st.markdown('---')
+        st.markdown('#### Example usage - Studying HOX6A in Dendritic Cells')
+        
+        st.write("""To demonstrate an example of exploring the transcription factor module, we queried the transcription factor HOX6A by cell type 'Dendritic Cells' and focused on the E-MTAB-9357, E-MTAB-10026 and GSE155673 datasets. We observed that HOX6A activity is significantly increased in infected patients across severity groups. (P<0.037) Dendritic cells are antigen-presenting cells that are critical for initiating and modulating immune responses [1]. HOXA6 transcription factor is a critical regulator of cellular differentiation and plays an essential role in immune responses, particularly in dendritic cell where it regulates cell maturation and enhances antigen-presenting capabilities [2]. We used the Protein-Protein-Interaction submodule to find possible druggable targets that could help modulate immune responses in COVID19 patients. We found that HOXA6 interacts with other transcription factors such as HOXA5/6/7, FOS, JUN, ETS1/2. Using the drug submodule we then identified the drug 'Ephedrine' that targets both JUN and FOS. Ephedrine has been previously shown to be an active ingredient in Ephedra sinica, a medicinal plant with potent anti-Covid effects [3]. Hence, the transcription factor module enables quick and interactive visualization between of transcription factor activity across severity groups. The PPI and drugs submodule can then be used to identify drug-able targets and existing compounds that may help modulate immune responses in COVID19 patients. 
+                                  
+(1) https://pubmed.ncbi.nlm.nih.gov/29620285 
+
+(2) https://www.proteinatlas.org/ENSG00000106006-HOXA6 
+
+(3) https://pubmed.ncbi.nlm.nih.gov/34102269/""")
+        
+        
+        
+        
         # st.write(Desc.manuscript_intro)
         
         # with st.expander("Data Collection and Processing", expanded=True):
