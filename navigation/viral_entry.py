@@ -1,7 +1,9 @@
 import streamlit as st
 
-from utils.components import ridge_plot
+from utils.components import ridge_plot, severity_order
 import hydralit_components as hc
+import pandas as pd
+import numpy as np
 
 def viral_entry_page(datacore):
     st.markdown(f'### Analysis by viral entry related factors')
@@ -33,11 +35,9 @@ def viral_entry_page(datacore):
         option_protein = c.selectbox('Proteins', dss.get_viral_proteins(cell_type))
     else:
         option_protein = c.selectbox('mRNAs', dss.get_viral_mrnas(cell_type))
-    
-    
+            
     a, b = st.columns(2)
-    
-    
+
     if protein_only == 'Surface Proteins' and option_protein:
         
         
@@ -81,7 +81,12 @@ def viral_entry_page(datacore):
             with hc.HyLoader(f'🎨 Correlating {option_protein}', hc.Loaders.standard_loaders,index=[3]):
                 csv, img = datacore.name2ds[p_ds].get_viral_mrna_data(cell_type, option_protein)
                 st.image(img)
-        
-
+    
     else:
         st.error(f'No viral entry related factors found in dataset {dss.name} for cell type {cell_type}', icon='❌')
+
+    
+    df = pd.DataFrame(pd.read_csv(csv).group.value_counts()).T
+    df.index = ['severity group']
+    a.caption('Number of patients in each severity group:')
+    a.dataframe(df[np.intersect1d(df.columns, severity_order)])

@@ -28,7 +28,20 @@ class Dataset:
         self.celltypes = list(filter(lambda x: x != "featurePlots", self.celltypes))
         
         self.umap = str(Path('./data/umaps/') / f'UMAP_{self.name}.png')
+        
     
+    def counts(self, option_protein, is_protein):
+        self.celltype2counts = {}
+        for cell_type in self.celltypes:
+            try:
+                if is_protein:
+                    csv, img = self.get_viral_protein_data(cell_type, option_protein)
+                else:
+                    csv, img = self.get_viral_mrna_data(cell_type, option_protein)
+                return pd.read_csv(csv).group.value_counts()
+            except:
+                return pd.DataFrame()
+                    
     def get_tf_pvals(self, celltype: str, protein: str) -> Tuple[float, float]:
         celltype = CELL_NAMES_REVERSE[celltype]
         pth =  (self.root / celltype).glob('TFrank_wilcox_pvalues_*.csv')
@@ -176,6 +189,12 @@ class Dataset:
         df_plt = pd.DataFrame([df_data.group, df_data[protein]]).T
         df_plt.columns = ['patient_group', 'Pair_correlations']
         return df_plt
+    
+      
+      
+
+        
+        
     
 
 class Datacore:
