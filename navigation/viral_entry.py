@@ -86,7 +86,7 @@ def viral_entry_page(datacore):
         st.error(f'No viral entry related factors found in dataset {dss.name} for cell type {cell_type}', icon='❌')
 
     
-    df = pd.DataFrame(pd.read_csv(csv).group.value_counts()).T
-    df.index = ['severity group']
-    a.caption('Number of patients in each severity group:')
-    a.dataframe(df[np.intersect1d(df.columns, severity_order)])
+    # df = pd.DataFrame(pd.read_csv(csv).group.value_counts()).T
+    # df.index = ['severity group']
+    # a.caption('Number of patients in each severity group:')
+    # a.dataframe(df[np.intersect1d(df.columns, severity_order)])

@@ -44,7 +44,7 @@ def img_path2buffer(img_path: str):
 def protein_page(datacore):
     st.markdown(f'### Analysis by surface protein')
     
-    st.info('Search surface protein across COVID-19 patients and health individuals. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
+    st.info('Search surface protein across COVID-19 patients and health individuals, depending on availability. For a single surface protein, SPaRTAN COVID-19db supports exploring its expression for each cell type, correlated transcription factors, protein-protein interactions and relevant literature.')
     
     _, _, edge = st.columns(3)
     

@@ -284,6 +284,8 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     df_plt['patient_group'] = df_plt['patient_group'].str.lower()
     df_plt['patient_group'] = pd.Categorical(df_plt['patient_group'], categories=groups, ordered=True) 
     df_plt = pd.concat([group.sort_values('Pair_correlations', ascending=False) for name, group in df_plt.groupby('patient_group')])
+    
+    df_plt['y'] = 0
                     
     if column is not None:
         palette = make_palette(column=column, groups=groups)
@@ -298,6 +300,9 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
         
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
+    
+    g.map_dataframe(sns.scatterplot, y='y', x="Pair_correlations", color='black', s=150, marker='o')
+    
     g.map(label, group)
     g.fig.subplots_adjust(hspace=-.25)
     
