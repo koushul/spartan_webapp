@@ -25,7 +25,7 @@ class Dataset:
         self.name = self.root.name
         self.celltypes = [CELL_NAMES.get(i.name, i.name) for i in self.root.iterdir()]
         self.celltypes = list(filter(lambda x: x != "metadata.toml", self.celltypes))
-        self.celltypes = list(filter(lambda x: x != "featurePlots", self.celltypes))
+        self.celltypes = list(filter(lambda x: "featurePlot" not in x, self.celltypes))
         
         self.umap = str(Path('./data/umaps/') / f'UMAP_{self.name}.png')
         
@@ -116,12 +116,12 @@ class Dataset:
     
     
     def get_feature_plots(self, protein: str) -> str:
-        img = self.root / 'featurePlots' / f'{gse2auth[self.name]}_featurePlot_{protein}.png'
+        img = self.root / 'featurePlot_protein' / f'{gse2auth[self.name]}_featurePlot_{protein}.png'
         return str(img)
         
     def get_umap_severity(self) -> Tuple[str, str]:
-        umap = self.root / 'featurePlots' / f'{gse2auth[self.name]}_UMAP.png'
-        severity = self.root / 'featurePlots' / f'{gse2auth[self.name]}_severityPlot.png'
+        umap = self.root / 'featurePlot_protein' / f'{gse2auth[self.name]}_UMAP.png'
+        severity = self.root / 'featurePlot_protein' / f'{gse2auth[self.name]}_severityPlot.png'
         return str(umap), str(severity)
         
     

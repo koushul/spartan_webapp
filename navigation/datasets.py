@@ -84,7 +84,6 @@ def dataset_page(ds, datacore):
                 st.caption('Note: UMAPs were generated using mRNA expression data.')
                 try:
                     umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
-                    
                     f, _, sa = st.columns(3)          
                     s_proteins = list(datacore.name2ds[name].total_surface_proteins)
                     f.markdown(f'### {name}')
@@ -115,8 +114,9 @@ def dataset_page(ds, datacore):
                             prot.caption('Color by Protein Expression')
                             
             
-                except:
+                except Exception as e:
                     st.error('No UMAPs available for this dataset')
+                    # st.write(e)
                 
                 st.markdown('---')
                 
