@@ -119,7 +119,7 @@ def dataset_page(ds, datacore):
                     with gene:
                         with st.spinner('🎨 Coloring by Gene...'): 
                             gene.caption('Color by Gene Expression')                   
-                            gene.image(datacore.name2ds[name].get_gene_plots('RNF103'))
+                            gene.image(datacore.name2ds[name].get_gene_plots('AAAS'))
                             
                 except Exception as e:
                     st.error('No UMAPs available for this dataset')
