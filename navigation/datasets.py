@@ -84,39 +84,46 @@ def dataset_page(ds, datacore):
                 st.caption('Note: UMAPs were generated using mRNA expression data.')
                 try:
                     umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
-                    f, _, sa = st.columns(3)          
+                    f, sb, sa = st.columns(3)          
                     s_proteins = list(datacore.name2ds[name].total_surface_proteins)
                     f.markdown(f'### {name}')
+                    
+                        
+                    umap, sev = st.columns(2)
+                    prot, gene = st.columns(2)
+                    
+                    if os.path.isfile(umap_img):
+                        with umap:
+                            with st.spinner('🎨 Coloring by Celltype...'):
+                                umap.caption('Color by Celltype')
+                                umap.image(umap_img)
+                        
+                    if os.path.isfile(severity_img):
+                        with sev:
+                            with st.spinner('🎨 Coloring by Severity...'):
+                                sev.caption('Color by Severity')
+                                sev.image(severity_img)
+                                
+                                
                     if os.path.isfile(umap_img):
                         selected_protein = sa.selectbox(
                             f"Surface protein of interest ({len(s_proteins)})",
                             s_proteins)
                         
-                    umap, sev, prot = st.columns(3)
-                    
-                    if os.path.isfile(umap_img):
-                        with umap:
-                            with st.spinner('🎨 Coloring by Celltype...'):
-                                umap.image(umap_img)
-                                umap.caption('Color by Celltype')
-                                
-                        
-                    if os.path.isfile(severity_img):
-                        with sev:
-                            with st.spinner('🎨 Coloring by Severity...'):
-                                sev.image(severity_img)
-                                sev.caption('Color by Severity')
-                                
-                            
+                             
                     with prot:
                         with st.spinner('🎨 Coloring by Protein...'):                    
-                            prot.image(datacore.name2ds[name].get_feature_plots(selected_protein))
                             prot.caption('Color by Protein Expression')
+                            prot.image(datacore.name2ds[name].get_feature_plots(selected_protein))
                             
-            
+                    with gene:
+                        with st.spinner('🎨 Coloring by Gene...'): 
+                            gene.caption('Color by Gene Expression')                   
+                            gene.image(datacore.name2ds[name].get_gene_plots('RNF103'))
+                            
                 except Exception as e:
                     st.error('No UMAPs available for this dataset')
-                    # st.write(e)
+                    st.write(e)
                 
                 st.markdown('---')
                 

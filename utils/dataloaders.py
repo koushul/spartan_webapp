@@ -118,6 +118,10 @@ class Dataset:
     def get_feature_plots(self, protein: str) -> str:
         img = self.root / 'featurePlot_protein' / f'{gse2auth[self.name]}_featurePlot_{protein}.png'
         return str(img)
+    
+    def get_gene_plots(self, gene: str) -> str:
+        img = self.root / 'featurePlot_gene' / f'{gse2auth[self.name]}_gene_featurePlot_{gene}.png'
+        return str(img)
         
     def get_umap_severity(self) -> Tuple[str, str]:
         umap = self.root / 'featurePlot_protein' / f'{gse2auth[self.name]}_UMAP.png'
