@@ -84,9 +84,9 @@ def dataset_page(ds, datacore):
                 st.caption('Note: UMAPs were generated using mRNA expression data.')
                 try:
                     umap_img, severity_img = datacore.name2ds[name].get_umap_severity()
-                    f, sb, sa = st.columns(3)          
+                    f, sa, sb = st.columns(3)          
                     s_proteins = list(datacore.name2ds[name].total_surface_proteins)
-                    f.markdown(f'### {name}')
+                    f.markdown(f'## {name}')
                     
                         
                     umap, sev = st.columns(2)
@@ -106,9 +106,16 @@ def dataset_page(ds, datacore):
                                 
                                 
                     if os.path.isfile(umap_img):
+                        
+                        s_genes = [i.name.split('_featurePlot_')[-1][:-4] for i in (datacore.name2ds[name].root / 'featurePlot_gene').glob('*.png')]
+                                                
                         selected_protein = sa.selectbox(
                             f"Surface protein of interest ({len(s_proteins)})",
                             s_proteins)
+                        
+                        selected_gene = sb.selectbox(
+                            f"Gene of interest ({len(s_genes)})",
+                            s_genes)
                         
                              
                     with prot:
@@ -119,7 +126,7 @@ def dataset_page(ds, datacore):
                     with gene:
                         with st.spinner('🎨 Coloring by Gene...'): 
                             gene.caption('Color by Gene Expression')                   
-                            gene.image(datacore.name2ds[name].get_gene_plots('AAAS'))
+                            gene.image(datacore.name2ds[name].get_gene_plots(selected_gene))
                             
                 except Exception as e:
                     st.error('No UMAPs available for this dataset')
