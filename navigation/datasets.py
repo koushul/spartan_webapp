@@ -130,7 +130,7 @@ def dataset_page(ds, datacore):
                             
                 except Exception as e:
                     st.error('No UMAPs available for this dataset')
-                    st.write(e)
+                    # st.write(e)
                 
                 st.markdown('---')
                 

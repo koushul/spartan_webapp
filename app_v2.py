@@ -52,6 +52,8 @@ MULTI = "Multi datasets"
 DOC = "Docs"
 CONTACT = "Contact"
 STATS = "Usage"
+DOWNLOAD = "Download"
+
 
 datacore =  make_datacore()()
 ds = datacore.metadata
@@ -66,7 +68,8 @@ tabs = [
     VIRAL_ENTRY,
     DOC, 
     STATS,
-    CONTACT
+    CONTACT,
+    DOWNLOAD
 ]
 
 option_data = [
@@ -79,6 +82,8 @@ option_data = [
    {'icon': "📑", 'label':DOC},
    {'icon': "📞", 'label':CONTACT},
    {'icon': "📈", 'label':STATS},
+   {'icon': "📥", 'label':DOWNLOAD},
+   
 ]
 
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'red'}
