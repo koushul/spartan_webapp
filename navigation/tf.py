@@ -97,8 +97,9 @@ def tf_page(datacore):
     
     if chosen_subtab == 'TF activities':  
         # umap = get_umap(datacore.name2ds[tf_ds].name)  
-        
         display_tf_activities(selected_tf, datacore.name2ds[tf_ds], cell_type) 
+        st.caption('Note: Density plots were generated using the mean of the TF activity scores across cells.')
+        
         
                 
     elif chosen_subtab == 'TF-Target gene':

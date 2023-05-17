@@ -89,6 +89,8 @@ def protein_page(datacore):
         
     if chosen_subtab == 'Protein expression':
         display_protein_expressions(selected_protein, datacore.name2ds[p_ds], cell_type)
+        st.caption('Note: Density plots were generated using the mean of the protein expression across cells.')
+        
         
     elif chosen_subtab == 'Protein-TF correlation':
         display_protein_tf_corr_data(selected_protein, cell_type, datacore.name2ds[p_ds])

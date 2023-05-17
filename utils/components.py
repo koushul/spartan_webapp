@@ -301,7 +301,7 @@ def ridge_plot(df_plt: pd.DataFrame, xlabel: str, column: st.container, group: s
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", fill=True, alpha=1)
     g.map_dataframe(sns.kdeplot, x="Pair_correlations", color='black')
     
-    g.map_dataframe(sns.scatterplot, y='y', x="Pair_correlations", color='black', s=150, marker='o')
+    # g.map_dataframe(sns.scatterplot, y='y', x="Pair_correlations", color='black', s=150, marker='o')
     
     g.map(label, group)
     g.fig.subplots_adjust(hspace=-.25)
