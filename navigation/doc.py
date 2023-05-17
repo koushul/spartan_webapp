@@ -8,13 +8,8 @@ import hydralit_components as hc
 option_data = [
    {'icon': "", 'label':i} for i in ['Introduction', 'Model Overview', 'Database Implementation', 'Case Study']]
 
-# override the theme, else it will use the Streamlit applied theme
 over_theme = {'txc_inactive': 'black','menu_background':'white','txc_active':'white','option_active':'green'}
 font_fmt = {'font-class':'h3','font-size':'50%'}
-
-
-# display a horizontal version of the option bar
-
 
 
 def doc_page():
@@ -27,52 +22,16 @@ def doc_page():
     
     if page == 'Introduction':
         st.markdown('#### Overview of the COVID-19db linkage maps of cell surface proteins and transcription factors in immune cells workflow and features')
-        
         st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.manuscript_intro}</h4>", unsafe_allow_html=True)  
-        
-        
         _, m, _ = st.columns([0.1, 1, 0.1])
-        
         m.image('./assets/images/documentation2.png')
-        
-#         st.markdown('---')
-#         st.markdown('#### Example usage - Studying HOX6A in Dendritic Cells')
-        
-#         st.write("""To demonstrate an example of exploring the transcription factor module, we queried the transcription factor HOX6A by cell type 'Dendritic Cells' and focused on the E-MTAB-9357, E-MTAB-10026 and GSE155673 datasets. We observed that HOX6A activity is significantly increased in infected patients across severity groups. (P<0.037) Dendritic cells are antigen-presenting cells that are critical for initiating and modulating immune responses [1]. HOXA6 transcription factor is a critical regulator of cellular differentiation and plays an essential role in immune responses, particularly in dendritic cell where it regulates cell maturation and enhances antigen-presenting capabilities [2]. We used the Protein-Protein-Interaction submodule to find possible druggable targets that could help modulate immune responses in COVID19 patients. We found that HOXA6 interacts with other transcription factors such as HOXA5/6/7, FOS, JUN, ETS1/2. Using the drug submodule we then identified the drug 'Ephedrine' that targets both JUN and FOS. Ephedrine has been previously shown to be an active ingredient in Ephedra sinica, a medicinal plant with potent anti-Covid effects [3]. Hence, the transcription factor module enables quick and interactive visualization between of transcription factor activity across severity groups. The PPI and drugs submodule can then be used to identify drug-able targets and existing compounds that may help modulate immune responses in COVID19 patients. 
-                                  
-# (1) https://pubmed.ncbi.nlm.nih.gov/29620285 
-
-# (2) https://www.proteinatlas.org/ENSG00000106006-HOXA6 
-
-# (3) https://pubmed.ncbi.nlm.nih.gov/34102269/""")
-        
-        
-        
-        
-        # st.write(Desc.manuscript_intro)
-        
-        # with st.expander("Data Collection and Processing", expanded=True):
-        
-        
-        
-        # st.header('SPaRTAN')
-        # st.write(Desc.spartan)
-        
-        # with st.expander("Model Overview"):
-        #     st.write(Desc.spartan_model)
-        #     st.image('./assets/images/SPaRTAN_fig.png')
-        
 
     elif page == 'FAQ':
-        # st.header('How to cite')
         st.image('./assets/images/under_construction.png')        
-        
-        
-    
+            
     elif page == 'Case Study':
         st.image('./assets/images/under_construction.png')  
-            
-            
+                
     elif page == 'Usage':
         st.caption(f'Example usage of the {TITLE}')
         video_file = open('./assets/video/video.mp4', 'rb')
@@ -81,16 +40,10 @@ def doc_page():
         
     elif page == 'Model Overview':
         st.markdown("#### Cell-type specific SPaRTAN models")
-        # st.write(Desc.model_overview)
-        st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.model_overview}</h4>", unsafe_allow_html=True)  
-        
-        
+        st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.model_overview}</h4>", unsafe_allow_html=True)          
         st.image('./assets/images/spartan_model2.png')
         
-        
-    
     elif page == 'Database Implementation':
-        # st.header(f'Detailed implementation of the {TITLE}')
         st.image('./assets/logos/tech.png')
         st.markdown('#### Backend implementation')
         st.write("""
@@ -98,31 +51,22 @@ def doc_page():
         """)
         
         st.markdown('---')
-        
         st.markdown("#### Statistical analysis and visualization")
         st.write(Desc.analysis)
         
         st.markdown('---')
-        
         st.markdown("#### Cell-type specific SPaRTAN models")
         st.write(Desc.doc_spartan)
         
         st.markdown('---')
-        
         st.markdown("#### LitCovid")
         st.write("Literrature reference were downloaded from LitCovid (https://www.ncbi.nlm.nih.gov/research/coronavirus/) and filtered for association with TFs and surface proteins in our datasets. The database currently contains 302,986 articles that grow daily, making it a comprehensive, up-to-date resource for COVID-19 researchers")
         
         st.markdown('---')
-        
-        
         st.markdown("#### StringDB")
         st.write("To provide a visual model of high-confidence genes that interact with TFs and surface proteins of interest, the protein-protein interaction (PPI) network derived from the STRING database (StringDB) (confidence score > 400) that contains protein-PPIs from experimental and computational sources. Using the StringDB native application programming interface (API), we queried the database for interactions involving selected TFs or surface proteins using the Python requests library. The number of interactors can be manually set by the user on the PPI tab. The width of the edges corresponds to StringDB  scores. Only connected nodes are plotted.")
         
-        st.markdown('---')
-        
-        
-        
-        # st.subheader('Data Availability')
+        st.markdown('---')        
         st.markdown('#### Code Availability')
         st.write('All the code for the database are available at https://github.com/osmanbeyoglulab/covid19_webapp')
         st.write("""Apache License 2.0""")
