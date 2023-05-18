@@ -2,6 +2,7 @@ from navigation.contact import contact_page
 from navigation.datasets import dataset_page
 from navigation.doc import doc_page
 from navigation.home import home_page
+from navigation.download import download_page
 from navigation.multi_dataset_search import multi_dataset_page
 from navigation.protein import protein_page
 from navigation.stats import stats_page
@@ -123,6 +124,9 @@ elif chosen_tab == DOC:
     
 elif chosen_tab == STATS:
     stats_page()
+    
+elif chosen_tab == DOWNLOAD:
+    download_page()
 
 
 for i in range(6):
