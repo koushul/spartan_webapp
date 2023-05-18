@@ -40,6 +40,7 @@ def doc_page():
         st.markdown("#### Cell-type specific SPaRTAN models")
         st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.model_overview}</h4>", unsafe_allow_html=True)          
         st.image('./assets/images/spartan_model2.png')
+        st.write('We also have a book chapter to explain and demo how to use SPaRTAN framework at https://link.springer.com/protocol/10.1007/978-1-0716-3163-8_11')
         
     elif page == 'Database Implementation':
         st.image('./assets/logos/tech.png')
