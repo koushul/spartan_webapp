@@ -26,9 +26,7 @@ def doc_page():
         _, m, _ = st.columns([0.1, 1, 0.1])
         m.image('./assets/images/documentation2.png')
 
-    elif page == 'FAQ':
-        st.image('./assets/images/under_construction.png')        
-            
+
     elif page == 'Case Study':
         st.image('./assets/images/under_construction.png')  
                 
