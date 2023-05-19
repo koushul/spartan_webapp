@@ -1,6 +1,7 @@
 import streamlit as st
 
 from texts.descriptions import Desc
+from texts.case_study import CaseStudy
 from .home import TITLE
 import hydralit_components as hc
 
@@ -28,7 +29,8 @@ def doc_page():
 
 
     elif page == 'Case Study':
-        st.image('./assets/images/under_construction.png')  
+        # st.image('./assets/images/under_construction.png')  
+        CaseStudy()
                 
     elif page == 'Usage':
         st.caption(f'Example usage of the {TITLE}')
