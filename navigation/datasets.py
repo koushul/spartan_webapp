@@ -27,6 +27,8 @@ def dataset_page(ds, datacore):
     st.caption('Select one or more datasets')
     ds2 = ds[['name', 'patients', 'cell_count', 'surface_proteins', 'transcription_factors', 'pmid']]
     
+    
+    
     box, p, c, pt, tf, pm = st.columns([2, 1, 1, 1, 1, 1])
     box.markdown('##### Name')
     p.markdown('##### Patients')
@@ -107,7 +109,8 @@ def dataset_page(ds, datacore):
                                 
                     if os.path.isfile(umap_img):
                         
-                        s_genes = [i.name.split('_featurePlot_')[-1][:-4] for i in (datacore.name2ds[name].root / 'featurePlot_gene').glob('*.png')]
+                        # s_genes = [i.name.split('_featurePlot_')[-1][:-4] for i in (datacore.name2ds[name].root / 'featurePlot_gene').glob('*.png')]
+                        s_genes = ds[ds.name==name].genes.values[0].split()
                                                 
                         selected_protein = sa.selectbox(
                             f"Surface protein of interest ({len(s_proteins)})",

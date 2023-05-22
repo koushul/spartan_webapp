@@ -18,6 +18,8 @@ gse2auth = {
     'E-MTAB-10026' : 'ST'
 }
 
+IMG_REPO = 'https://raw.githubusercontent.com/osmanbeyoglulab/covid19_webapp/main/data/'
+
 class Dataset:
 
     def __init__(self, root):
@@ -120,7 +122,8 @@ class Dataset:
         return str(img)
     
     def get_gene_plots(self, gene: str) -> str:
-        img = self.root / 'featurePlot_gene' / f'{gse2auth[self.name]}_gene_featurePlot_{gene}.png'
+        # img = self.root / 'featurePlot_gene' / f'{gse2auth[self.name]}_gene_featurePlot_{gene}.png'
+        img = f'{IMG_REPO}/{self.name}/featurePlot_gene/{gse2auth[self.name]}_gene_featurePlot_{gene}.png'
         return str(img)
         
     def get_umap_severity(self) -> Tuple[str, str]:
@@ -209,7 +212,6 @@ class Datacore:
         self.datasets = [Dataset(i) for i in datasets]
         self.name2ds = dict(zip([ds.name for ds in self.datasets], self.datasets))
         self.metadata = pd.DataFrame([toml.load(ds.root / 'metadata.toml') for ds in self.datasets])
-
 
 # @st.experimental_singleton
 def make_datacore():
