@@ -4,7 +4,7 @@ def multi_dataset_page(datacore):
     st.markdown(f'### Analysis across multiple datasets')
     
     st.info("""
-        Discover transcription factors that are consistently and significantly different between healthy vs impacted patients
+        Discover surface proteins or transcription factors that are consistently and significantly different between healthy vs impacted patients
             
     """)
     
