@@ -30,7 +30,7 @@ def CaseStudy():
     st.write('Similarly, the Drugs subtab allows users to quickly identify drugs that target specific surface proteins or transcription factors. The method of action as well as clinical phase of each drug is also shown.')
     st.image('./assets/case_study/ano8.PNG')
     
-    st.write('Under the Litterature references subtab, all the relevant publications from LitCovid are aggegated and displayed.')
+    st.write('Under the Literature references subtab, all the relevant publications from LitCovid are aggegated and displayed.')
     st.image('./assets/case_study/ano9.jpg')
     
     
