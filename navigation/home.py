@@ -34,7 +34,7 @@ def home_page():
         st.caption(last_updated_on)    
         st.image(img)  
         
-        st.markdown('👉 Read our paper here: https://www.biorxiv.org/content/10.1101/2022.12.14.520411v1')    
+        st.markdown('👉 Read our paper from the Journal of Medical Virology here: https://onlinelibrary.wiley.com/doi/10.1002/jmv.28887')    
         
         
         st.markdown(f"<p style='text-align: justify; color: black;'>{Desc.home}</h4>", unsafe_allow_html=True)  
