@@ -42,12 +42,12 @@ def home_page():
         
         # st.write(Desc.home)
         
-        # st.markdown('---')
+        st.markdown('---')
         
-        # st.caption(f'Example usage of the {TITLE}')
-        # video_file = open('./assets/video/video.mp4', 'rb')
-        # video_bytes = video_file.read()
-        # st.video(video_bytes)
+        st.caption(f'Example usage of the {TITLE}')
+        video_file = open('./assets/video/video.mp4', 'rb')
+        video_bytes = video_file.read()
+        st.video(video_bytes)
     
         
 if __name__ == '__main__':
