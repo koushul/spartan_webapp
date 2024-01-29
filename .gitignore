@@ -135,3 +135,6 @@ move.sh
 .vscode
 ppi.html
 utils/ppi.html
+data/data/GSE161918/*
+data/data/GSE155224/*
+
